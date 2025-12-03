@@ -1,0 +1,133 @@
+@import "../../mixins.scss";
+
+.GeckoUIDateInput {
+  @include base-reset;
+
+  @apply relative flex min-h-10 items-center gap-3 rounded-md border border-border-secondary px-3;
+
+  &--disabled {
+    @apply cursor-not-allowed bg-surface-disabled text-text-disabled;
+
+    .GeckoUIDateInput__segment {
+      @apply cursor-not-allowed;
+    }
+  }
+
+  &--readOnly {
+    .GeckoUIDateInput__segment {
+      &:focus-within {
+        @apply bg-transparent hover:bg-transparent;
+      }
+
+      &--empty {
+        @apply text-text-placeholder;
+      }
+
+      &:hover {
+        @apply bg-transparent;
+      }
+    }
+  }
+
+  &--enabled {
+    @apply cursor-text;
+  }
+
+  &--enabled:focus-within {
+    @apply border-primary-500;
+  }
+
+  &--enabled:hover {
+    @apply border-primary-300;
+  }
+
+  &--error {
+    @apply border-red-500 hover:border-red-600;
+  }
+
+  &--empty &__display-container {
+    @apply w-0 flex-[0] overflow-hidden;
+  }
+
+  &--enabled:focus-within &__display-container {
+    @apply flex-1 overflow-visible;
+  }
+
+  &__placeholder {
+    @apply line-clamp-1 flex-1 text-sm text-text-placeholder;
+  }
+
+  &--enabled:focus-within &__placeholder {
+    @apply hidden;
+  }
+
+  &__hidden-input {
+    @apply pointer-events-none absolute left-0 top-0 -z-10 h-full w-full border-none bg-transparent opacity-0 outline-none;
+  }
+
+  &__display-container {
+    @apply ml-[1px] flex flex-1 items-center text-sm;
+  }
+
+  &__segment {
+    @apply cursor-text rounded py-0.5 text-center text-sm transition-colors duration-150 ease-in-out;
+
+    &:focus-within {
+      @apply bg-surface-hover-strong hover:bg-surface-hover-strong;
+    }
+
+    &--empty {
+      @apply text-text-placeholder;
+    }
+
+    &:hover {
+      @apply bg-surface-hover;
+    }
+  }
+
+  &__separator {
+    @apply select-none text-text-muted;
+  }
+
+  &--disabled &__separator {
+    @apply text-text-disabled;
+  }
+
+  &--readOnly &__separator {
+    @apply text-text-secondary;
+  }
+
+  &__prefix,
+  &__suffix {
+    @apply flex items-center;
+  }
+
+  &__icons {
+    @apply flex items-center;
+  }
+
+  &__clear-button {
+    @include button-reset;
+
+    @apply flex cursor-pointer items-center justify-center p-1;
+  }
+
+  &__clear-button:hover .GeckoUI-icon__clear {
+    @apply bg-text-secondary;
+  }
+
+  &__calendar-icon {
+    @include icon;
+
+    mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>');
+    -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-calendar" aria-hidden="true"><path d="M8 2v4"></path><path d="M16 2v4"></path><rect width="18" height="18" x="3" y="4" rx="2"></rect><path d="M3 10h18"></path></svg>');
+  }
+
+  &--disabled &__calendar-icon {
+    @apply cursor-not-allowed;
+  }
+
+  &__calendar {
+    @apply z-10 bg-surface-primary;
+  }
+}

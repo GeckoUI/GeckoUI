@@ -1,0 +1,137 @@
+---
+title: Mermaid Diagram
+description: Render interactive diagrams from Mermaid syntax with automatic loading and error states
+---
+
+import { MermaidDiagram } from '@geckoui/geckoui';
+import { FlowchartExample } from '@/components/examples/mermaid-diagram-examples';
+
+# Mermaid Diagram
+
+Renders diagrams from Mermaid syntax with automatic loading and error state management. Supports flowcharts, sequence diagrams, class diagrams, state diagrams, Gantt charts, and all other Mermaid diagram types.
+
+## Installation
+
+```tsx
+import { MermaidDiagram } from '@geckoui/geckoui';
+```
+
+## Basic Usage
+
+<Preview>
+  <FlowchartExample />
+</Preview>
+
+```tsx
+'use client';
+
+import { MermaidDiagram, Spinner } from '@geckoui/geckoui';
+
+function Example() {
+  const diagram = `
+flowchart LR
+    Start[User Login] --> Auth{Authenticated?}
+    Auth -->|Yes| Dashboard[Show Dashboard]
+    Auth -->|No| Login[Login Page]
+    Login --> Auth
+  `;
+
+  return <MermaidDiagram placeholder={<Spinner />}>{diagram}</MermaidDiagram>;
+}
+```
+
+## Props API
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `string` | - | Mermaid diagram syntax (required) |
+| `placeholder` | `ReactNode \| FC` | - | Component to show during loading |
+| `renderError` | `ReactNode \| FC<{message: string}>` | `<InputError>` | Custom error component |
+| `className` | `string` | - | Additional CSS classes for SVG |
+| `width` | `string \| number` | - | SVG width (overrides default) |
+| `height` | `string \| number` | - | SVG height (overrides default) |
+
+**Additional**: Accepts all standard SVG props except `id`, `viewBox`, and `dangerouslySetInnerHTML`.
+
+## Performance
+
+The component automatically handles rendering performance:
+
+1. **Async rendering**: Diagrams render without blocking UI
+2. **Loading states**: Shows placeholder during processing
+3. **Error boundaries**: Catches and displays syntax errors
+4. **DOM cleanup**: Removes temporary elements after rendering
+5. **Validation**: Validates syntax before rendering
+
+## Browser Support
+
+Requires browsers that support:
+- SVG rendering
+- ES6+ JavaScript
+- Async/await
+
+Works in all modern browsers (Chrome, Firefox, Safari, Edge).
+
+## Troubleshooting
+
+### Diagram not rendering
+
+1. Check syntax validity
+2. Ensure `children` is a string
+3. Look for console errors
+4. Verify Mermaid version compatibility
+
+### Syntax errors
+
+Use Mermaid's [Live Editor](https://mermaid.live/) to validate syntax.
+
+### Performance issues
+
+For complex diagrams:
+- Simplify node count
+- Split into multiple diagrams
+- Use appropriate diagram type
+
+### Styling issues
+
+The SVG inherits the original Mermaid classes. Use `className` to add custom styles:
+
+```tsx
+<MermaidDiagram className="my-custom-styles">{diagram}</MermaidDiagram>
+```
+
+## TypeScript
+
+```tsx
+import type { MermaidDiagramProps } from '@geckoui/geckoui';
+
+const MyDiagram: React.FC<{ syntax: string }> = ({ syntax }) => {
+  return <MermaidDiagram placeholder={<Spinner />}>{syntax}</MermaidDiagram>;
+};
+```
+
+## Accessibility
+
+- SVG output is screen reader accessible
+- Use descriptive node labels
+- Provide text alternatives for complex diagrams
+- Ensure sufficient color contrast
+- Add ARIA labels if needed:
+
+```tsx
+<MermaidDiagram aria-label="System architecture diagram">{diagram}</MermaidDiagram>
+```
+
+## Related Components
+
+- [Markdown](/docs/markdown) - Render markdown with embedded diagrams
+
+## Related Hooks
+
+- [useMermaidDiagram](#) - Underlying hook for custom implementations
+
+## Resources
+
+- [Mermaid Documentation](https://mermaid.js.org/)
+- [Mermaid Live Editor](https://mermaid.live/)
+- [Diagram Syntax Examples](https://mermaid.js.org/intro/)

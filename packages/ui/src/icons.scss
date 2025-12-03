@@ -1,0 +1,29 @@
+@import "./mixins.scss";
+
+.GeckoUI-icon__check {
+  @include icon;
+
+  mask-image: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.7045 4.15347C17.034 4.4045 17.0976 4.87509 16.8466 5.20457L8.84657 15.7046C8.71541 15.8767 8.51627 15.9838 8.30033 15.9983C8.08439 16.0129 7.87271 15.9334 7.71967 15.7804L3.21967 11.2804C2.92678 10.9875 2.92678 10.5126 3.21967 10.2197C3.51256 9.92682 3.98744 9.92682 4.28033 10.2197L8.17351 14.1129L15.6534 4.29551C15.9045 3.96603 16.3751 3.90243 16.7045 4.15347Z" fill="%232B7FC6"/></svg>');
+  -webkit-mask-image: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M16.7045 4.15347C17.034 4.4045 17.0976 4.87509 16.8466 5.20457L8.84657 15.7046C8.71541 15.8767 8.51627 15.9838 8.30033 15.9983C8.08439 16.0129 7.87271 15.9334 7.71967 15.7804L3.21967 11.2804C2.92678 10.9875 2.92678 10.5126 3.21967 10.2197C3.51256 9.92682 3.98744 9.92682 4.28033 10.2197L8.17351 14.1129L15.6534 4.29551C15.9045 3.96603 16.3751 3.90243 16.7045 4.15347Z" fill="%232B7FC6"/></svg>');
+}
+
+.GeckoUI-icon__arrow-down {
+  @include icon;
+
+  mask-image: url('data:image/svg+xml,<svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.230169 0.363673C0.528748 0.076578 1.00353 0.0858874 1.29063 0.384466L5 4.32222L8.70938 0.384466C8.99647 0.0858875 9.47125 0.076578 9.76983 0.363673C10.0684 0.650768 10.0777 1.12555 9.79063 1.42413L5.54063 5.92413C5.39922 6.07119 5.20401 6.1543 5 6.1543C4.79599 6.1543 4.60078 6.07119 4.45938 5.92413L0.209376 1.42413C-0.0777189 1.12555 -0.0684095 0.650768 0.230169 0.363673Z" fill="currentColor"/></svg>');
+  -webkit-mask-image: url('data:image/svg+xml,<svg width="10" height="7" viewBox="0 0 10 7" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M0.230169 0.363673C0.528748 0.076578 1.00353 0.0858874 1.29063 0.384466L5 4.32222L8.70938 0.384466C8.99647 0.0858875 9.47125 0.076578 9.76983 0.363673C10.0684 0.650768 10.0777 1.12555 9.79063 1.42413L5.54063 5.92413C5.39922 6.07119 5.20401 6.1543 5 6.1543C4.79599 6.1543 4.60078 6.07119 4.45938 5.92413L0.209376 1.42413C-0.0777189 1.12555 -0.0684095 0.650768 0.230169 0.363673Z" fill="currentColor"/></svg>');
+}
+
+.GeckoUI-icon__arrow-right {
+  @include icon;
+
+  mask-image: url('data:image/svg+xml,<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.23017 7.36367C5.52875 7.07658 6.00353 7.08589 6.29063 7.38447L10 11.3222L13.7094 7.38447C13.9965 7.08589 14.4713 7.07658 14.7698 7.36367C15.0684 7.65077 15.0777 8.12555 14.7906 8.42413L10.5406 12.9241C10.3992 13.0712 10.204 13.1543 10 13.1543C9.79599 13.1543 9.60078 13.0712 9.45938 12.9241L5.20938 8.42413C4.92228 8.12555 4.93159 7.65077 5.23017 7.36367Z" fill="%236B7280"/></svg>');
+  -webkit-mask-image: url('data:image/svg+xml,<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M5.23017 7.36367C5.52875 7.07658 6.00353 7.08589 6.29063 7.38447L10 11.3222L13.7094 7.38447C13.9965 7.08589 14.4713 7.07658 14.7698 7.36367C15.0684 7.65077 15.0777 8.12555 14.7906 8.42413L10.5406 12.9241C10.3992 13.0712 10.204 13.1543 10 13.1543C9.79599 13.1543 9.60078 13.0712 9.45938 12.9241L5.20938 8.42413C4.92228 8.12555 4.93159 7.65077 5.23017 7.36367Z" fill="%236B7280"/></svg>');
+}
+
+.GeckoUI-icon__clear {
+  @include icon;
+
+  mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M11 4.26025L4 11.2603M4 4.26025L11 11.2603" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M11 4.26025L4 11.2603M4 4.26025L11 11.2603" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+}

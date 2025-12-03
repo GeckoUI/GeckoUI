@@ -1,0 +1,13 @@
+.GeckoUIRHFSelectButton {
+  &--error {
+    @apply border-red-500;
+  }
+
+  &--error:hover {
+    @apply border-red-600;
+  }
+
+  &--error:focus-within {
+    @apply border-red-500;
+  }
+}

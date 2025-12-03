@@ -1,0 +1,11 @@
+@import "../../../mixins.scss";
+
+.GeckoUIRHFFileInput {
+  &--wrapper {
+    @include form-reset;
+  }
+
+  &--custom {
+    @apply hidden;
+  }
+}

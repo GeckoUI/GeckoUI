@@ -1,0 +1,67 @@
+# Changelog
+
+## [1.0.0] - 2025-12-03
+
+- Opensource initial release of GeckoUI React component library
+
+### Added
+
+#### Core Components
+
+- Alert - Display important messages with different severity levels
+- Button - Flexible button with multiple variants, sizes, and colors
+- Calendar - Date picker calendar component
+- Checkbox - Checkbox input with indeterminate state support
+- ConfirmDialog - Confirmation dialog for destructive actions
+- DateInput - Date input with calendar picker
+- DateRangeInput - Date range selection input
+- Dialog - Modal dialog component
+- Drawer - Slide-out panel component
+- Dropdown - Dropdown menu component
+- Input - Text input with various states and addons
+- InputError - Form field error message display
+- Label - Form label component
+- LoadingButton - Button with loading state
+- Markdown - Markdown renderer with syntax highlighting
+- Menu - Navigation menu component
+- MermaidDiagram - Mermaid diagram renderer
+- OTPInput - One-time password input
+- Pagination - Page navigation component
+- Radio - Radio button input
+- Select - Dropdown select with search and multi-select
+- Spinner - Loading spinner indicator
+- Switch - Toggle switch component
+- Textarea - Multi-line text input with auto-resize
+- Toast - Toast notification system (powered by Sonner)
+- Tooltip - Tooltip component
+
+#### React Hook Form Components
+
+- RHFCheckbox - Checkbox with React Hook Form integration
+- RHFController - Generic RHF controller wrapper
+- RHFCurrencyInput - Currency input with RHF integration
+- RHFDateInput - Date input with RHF integration
+- RHFDateRangeInput - Date range input with RHF integration
+- RHFError - Form error display for RHF
+- RHFFileInput - File input with RHF integration
+- RHFFilePicker - File picker with drag & drop and RHF integration
+- RHFInput - Text input with RHF integration
+- RHFInputGroup - Input group with RHF integration
+- RHFNumberInput - Number input with RHF integration
+- RHFOTPInput - OTP input with RHF integration
+- RHFRadio - Radio button with RHF integration
+- RHFSelect - Select with RHF integration
+- RHFSwitch - Switch with RHF integration
+- RHFTextarea - Textarea with RHF integration
+
+#### Utilities
+
+- GeckoUIPortal - Portal container for modals and overlays
+- DynamicComponentRenderer - Render components dynamically from config
+
+#### Features
+
+- Full TypeScript support with module augmentation for custom variants
+- CSS variables for theming (light/dark mode)
+- Accessible components following WAI-ARIA guidelines
+- TailwindCSS integration with customizable styles

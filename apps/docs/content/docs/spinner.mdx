@@ -1,0 +1,307 @@
+---
+title: Spinner
+description: Animated loading indicator for async operations
+---
+
+import { Spinner } from '@geckoui/geckoui';
+
+# Spinner
+
+A loading spinner icon component that displays an animated circular indicator. The spinner uses the current text color (via `currentColor`) for its stroke, making it easy to theme by changing the text color of its parent element.
+
+## Installation
+
+```tsx
+import { Spinner } from '@geckoui/geckoui';
+```
+
+## Basic Usage
+
+<Preview>
+  <Spinner />
+</Preview>
+
+```tsx
+<Spinner />
+```
+
+## Props API
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `stroke` | `string` | `'currentColor'` | SVG stroke color |
+| `className` | `string` | - | CSS class for styling |
+| ...rest | `SVGAttributes` | - | All standard SVG attributes |
+
+## Examples
+
+### Different Sizes
+
+<Preview>
+  <div className="flex items-center gap-4">
+    <Spinner className="size-4" />
+    <Spinner className="size-6" />
+    <Spinner className="size-8" />
+    <Spinner className="size-12" />
+  </div>
+</Preview>
+
+```tsx
+<Spinner className="size-4" />
+<Spinner className="size-6" />
+<Spinner className="size-8" />
+<Spinner className="size-12" />
+```
+
+### Custom Colors
+
+<Preview>
+  <div className="flex items-center gap-4">
+    <div className="text-blue-500">
+      <Spinner className="size-8" />
+    </div>
+    <div className="text-green-500">
+      <Spinner className="size-8" />
+    </div>
+    <div className="text-red-500">
+      <Spinner className="size-8" />
+    </div>
+    <Spinner className="size-8 text-purple-500" />
+  </div>
+</Preview>
+
+```tsx
+<div className="text-blue-500">
+  <Spinner className="size-8" />
+</div>
+
+<Spinner className="size-8 text-purple-500" />
+
+<Spinner stroke="red" className="size-8" />
+```
+
+### Loading States
+
+<Preview>
+  <div className="flex flex-col gap-4">
+    <div className="flex items-center gap-2">
+      <Spinner className="size-4" />
+      <span>Loading...</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <Spinner className="size-4" />
+      <span>Processing your request...</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <Spinner className="size-4" />
+      <span>Saving changes...</span>
+    </div>
+  </div>
+</Preview>
+
+```tsx
+<div className="flex items-center gap-2">
+  <Spinner className="size-4" />
+  <span>Loading...</span>
+</div>
+
+<div className="flex items-center gap-2">
+  <Spinner className="size-4" />
+  <span>Processing your request...</span>
+</div>
+```
+
+### Centered Loading
+
+<Preview>
+  <div className="flex items-center justify-center h-32 border rounded-lg">
+    <Spinner className="size-8" />
+  </div>
+</Preview>
+
+```tsx
+<div className="flex items-center justify-center h-32">
+  <Spinner className="size-8" />
+</div>
+```
+
+### In Buttons
+
+<Preview>
+  <div className="flex gap-3">
+    <button className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center gap-2" disabled>
+      <Spinner className="size-4" />
+      <span>Loading...</span>
+    </button>
+    <button className="px-4 py-2 border rounded-md flex items-center gap-2" disabled>
+      <Spinner className="size-4 text-gray-600" />
+      <span>Processing</span>
+    </button>
+  </div>
+</Preview>
+
+```tsx
+<button disabled>
+  <Spinner className="size-4" />
+  <span>Loading...</span>
+</button>
+```
+
+### Full Page Loading
+
+<Preview>
+  <div className="relative h-48 border rounded-lg">
+    <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-75">
+      <div className="text-center">
+        <Spinner className="size-12 mx-auto mb-2" />
+        <p className="text-gray-600">Loading content...</p>
+      </div>
+    </div>
+  </div>
+</Preview>
+
+```tsx
+function FullPageLoading() {
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-75 z-50">
+      <div className="text-center">
+        <Spinner className="size-12 mx-auto mb-2" />
+        <p>Loading content...</p>
+      </div>
+    </div>
+  );
+}
+```
+
+### With LoadingButton
+
+<Preview>
+  <div className="flex gap-3">
+    <button className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center gap-2" disabled>
+      <Spinner className="w-3.5 h-3.5" />
+      <span>Saving...</span>
+    </button>
+  </div>
+</Preview>
+
+```tsx
+import { LoadingButton } from '@geckoui/geckoui';
+
+<LoadingButton loading={isLoading}>
+  Save Changes
+</LoadingButton>
+```
+
+### Inline with Text
+
+<Preview>
+  <div className="space-y-2">
+    <div className="flex items-center gap-2">
+      <Spinner className="size-4" />
+      <span>Fetching latest data...</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <Spinner className="size-4 text-blue-500" />
+      <span className="text-blue-500">Syncing with server...</span>
+    </div>
+  </div>
+</Preview>
+
+```tsx
+<div className="flex items-center gap-2">
+  <Spinner className="size-4" />
+  <span>Fetching latest data...</span>
+</div>
+```
+
+## Usage Patterns
+
+### Conditional Rendering
+
+```tsx
+function DataComponent() {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState(null);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <Spinner className="size-8" />
+      </div>
+    );
+  }
+
+  return <div>{/* Render data */}</div>;
+}
+```
+
+### With Async Operations
+
+```tsx
+function AsyncButton() {
+  const [loading, setLoading] = useState(false);
+
+  const handleClick = async () => {
+    setLoading(true);
+    await performAsyncOperation();
+    setLoading(false);
+  };
+
+  return (
+    <button onClick={handleClick} disabled={loading}>
+      {loading ? (
+        <>
+          <Spinner className="size-4" />
+          <span>Processing...</span>
+        </>
+      ) : (
+        <span>Click Me</span>
+      )}
+    </button>
+  );
+}
+```
+
+## Accessibility
+
+- Uses semantic SVG with `role="status"`
+- Includes `aria-label="Loading"` for screen readers
+- Animation provides visual feedback
+- Should be accompanied by text for context
+
+## Styling
+
+The component uses the class name `GeckoUISpinnerIcon`. The spinner animation is applied via CSS:
+
+```css
+.GeckoUISpinnerIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+```
+
+## Color Theming
+
+The spinner uses `currentColor` by default, inheriting the text color from its parent:
+
+```tsx
+// Inherits blue color from parent
+<div className="text-blue-500">
+  <Spinner />
+</div>
+
+// Direct color application
+<Spinner className="text-red-500" />
+
+// Via stroke prop
+<Spinner stroke="#3b82f6" />
+```
+
+## Related Components
+
+- [LoadingButton](/docs/loading-button) - Button with built-in spinner
+- [Alert](/docs/alert) - Status messages

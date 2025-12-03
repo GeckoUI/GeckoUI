@@ -1,0 +1,358 @@
+---
+title: Theming
+description: Customize Gecko UI colors and design tokens using CSS variables
+---
+
+# Theming
+
+Gecko UI uses CSS custom properties (variables) for theming. All color values use RGB format without the `rgb()` wrapper, allowing for easy opacity adjustments.
+
+## CSS Variables
+
+The library uses a comprehensive set of CSS variables organized into categories:
+
+### Primary Colors
+
+Primary color scale from 50 (lightest) to 950 (darkest):
+
+```css
+:root {
+  --gecko-ui-primary-50: 255 248 235;
+  --gecko-ui-primary-100: 255 235 204;
+  --gecko-ui-primary-200: 255 214 153;
+  --gecko-ui-primary-300: 255 184 96;
+  --gecko-ui-primary-400: 255 149 51;
+  --gecko-ui-primary-500: 255 115 21;   /* Base primary */
+  --gecko-ui-primary-600: 236 93 14;
+  --gecko-ui-primary-700: 200 70 8;
+  --gecko-ui-primary-800: 150 48 5;
+  --gecko-ui-primary-900: 110 35 3;
+  --gecko-ui-primary-950: 72 24 1;
+}
+```
+
+### Surface Colors
+
+Background colors for various UI surfaces:
+
+```css
+:root {
+  --gecko-ui-surface-primary: 255 255 255;        /* Main background */
+  --gecko-ui-surface-secondary: 250 250 250;      /* Secondary background */
+  --gecko-ui-surface-tertiary: 245 245 245;       /* Tertiary background */
+  --gecko-ui-surface-hover: 245 245 245;          /* Hover state */
+  --gecko-ui-surface-hover-strong: 235 235 235;   /* Strong hover state */
+  --gecko-ui-surface-active: 212 212 212;         /* Active/pressed state */
+  --gecko-ui-surface-disabled: 235 235 235;       /* Disabled state */
+  --gecko-ui-surface-overlay: 0 0 0;              /* Backdrop overlay */
+  --gecko-ui-surface-autofill: 245 245 245;       /* Browser autofill */
+}
+```
+
+### Text Colors
+
+Text colors for different hierarchy levels:
+
+```css
+:root {
+  --gecko-ui-text-primary: 23 23 23;         /* Primary text */
+  --gecko-ui-text-secondary: 64 64 64;       /* Secondary text */
+  --gecko-ui-text-tertiary: 115 115 115;     /* Tertiary text */
+  --gecko-ui-text-disabled: 163 163 163;     /* Disabled text */
+  --gecko-ui-text-placeholder: 163 163 163;  /* Placeholder text */
+  --gecko-ui-text-inverse: 250 250 250;      /* Inverse text (on dark) */
+  --gecko-ui-text-muted: 115 115 115;        /* Muted text */
+}
+```
+
+### Border Colors
+
+Border colors for various states:
+
+```css
+:root {
+  --gecko-ui-border-primary: 235 235 235;    /* Default border */
+  --gecko-ui-border-secondary: 212 212 212;  /* Secondary border */
+  --gecko-ui-border-focus: 163 163 163;      /* Focus state */
+  --gecko-ui-border-hover: 212 212 212;      /* Hover state */
+  --gecko-ui-border-disabled: 235 235 235;   /* Disabled state */
+}
+```
+
+### Scrollbar Colors
+
+Custom scrollbar styling:
+
+```css
+:root {
+  --gecko-ui-scrollbar-track: 0 0 0 / 0;          /* Scrollbar track (transparent) */
+  --gecko-ui-scrollbar-thumb: 209 213 219;        /* Scrollbar thumb */
+  --gecko-ui-scrollbar-thumb-hover: 156 163 175;  /* Scrollbar thumb on hover */
+}
+```
+
+## Dark Mode
+
+Gecko UI includes built-in dark mode support. Apply the `.dark` class to enable dark theme:
+
+```css
+.dark {
+  /* Primary colors remain the same */
+  --gecko-ui-primary-500: 255 115 21;
+
+  /* Surface colors inverted */
+  --gecko-ui-surface-primary: 23 23 23;
+  --gecko-ui-surface-secondary: 32 32 32;
+  --gecko-ui-surface-tertiary: 45 45 45;
+  --gecko-ui-surface-hover: 45 45 45;
+  --gecko-ui-surface-hover-strong: 64 64 64;
+  --gecko-ui-surface-active: 115 115 115;
+  --gecko-ui-surface-disabled: 45 45 45;
+  --gecko-ui-surface-overlay: 0 0 0;
+  --gecko-ui-surface-autofill: 32 32 32;
+
+  /* Text colors inverted */
+  --gecko-ui-text-primary: 250 250 250;
+  --gecko-ui-text-secondary: 212 212 212;
+  --gecko-ui-text-tertiary: 163 163 163;
+  --gecko-ui-text-disabled: 115 115 115;
+  --gecko-ui-text-placeholder: 115 115 115;
+  --gecko-ui-text-inverse: 23 23 23;
+  --gecko-ui-text-muted: 163 163 163;
+
+  /* Borders with opacity for dark mode */
+  --gecko-ui-border-primary: 255 255 255 / 0.1;
+  --gecko-ui-border-secondary: 255 255 255 / 0.15;
+  --gecko-ui-border-focus: 115 115 115;
+  --gecko-ui-border-hover: 163 163 163;
+  --gecko-ui-border-disabled: 255 255 255 / 0.1;
+
+  /* Scrollbar colors for dark mode */
+  --gecko-ui-scrollbar-track: 0 0 0 / 0;
+  --gecko-ui-scrollbar-thumb: 75 85 99;
+  --gecko-ui-scrollbar-thumb-hover: 107 114 128;
+}
+```
+
+### Implementing Dark Mode
+
+Add the `dark` class to your root element:
+
+```tsx
+import { useState } from 'react';
+
+function App() {
+  const [isDark, setIsDark] = useState(false);
+
+  return (
+    <div className={isDark ? 'dark' : ''}>
+      <button onClick={() => setIsDark(!isDark)}>
+        Toggle Dark Mode
+      </button>
+      {/* Your app content */}
+    </div>
+  );
+}
+```
+
+Or apply it to the `<html>` element:
+
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+
+  useEffect(() => {
+    // Apply theme to html element
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  }, [theme]);
+
+  return <>{children}</>;
+}
+```
+
+## Customizing Colors
+
+### Changing Primary Color
+
+Override the primary color scale to match your brand:
+
+```css
+:root {
+  /* Blue primary color */
+  --gecko-ui-primary-50: 239 246 255;
+  --gecko-ui-primary-100: 219 234 254;
+  --gecko-ui-primary-200: 191 219 254;
+  --gecko-ui-primary-300: 147 197 253;
+  --gecko-ui-primary-400: 96 165 250;
+  --gecko-ui-primary-500: 59 130 246;   /* Base primary */
+  --gecko-ui-primary-600: 37 99 235;
+  --gecko-ui-primary-700: 29 78 216;
+  --gecko-ui-primary-800: 30 64 175;
+  --gecko-ui-primary-900: 30 58 138;
+  --gecko-ui-primary-950: 23 37 84;
+}
+```
+
+### Customizing Specific Colors
+
+Override individual tokens:
+
+```css
+:root {
+  /* Make borders more prominent */
+  --gecko-ui-border-primary: 200 200 200;
+
+  /* Adjust text hierarchy */
+  --gecko-ui-text-secondary: 80 80 80;
+
+  /* Custom hover states */
+  --gecko-ui-surface-hover: 240 240 240;
+}
+```
+
+## Using RGB Values
+
+All colors use RGB format (space-separated values) to enable easy opacity adjustments:
+
+```css
+/* Use with rgb() */
+color: rgb(var(--gecko-ui-text-primary));
+
+/* Use with opacity */
+color: rgb(var(--gecko-ui-text-primary) / 0.5);
+background: rgb(var(--gecko-ui-surface-primary) / 0.8);
+
+/* Use in Tailwind arbitrary values */
+className="text-[rgb(var(--gecko-ui-text-primary))]"
+className="bg-[rgb(var(--gecko-ui-surface-hover)/0.5)]"
+```
+
+## Component-Specific Styling
+
+Components use their own class names for targeted styling:
+
+```css
+/* Style all inputs */
+.GeckoUIInput {
+  --gecko-ui-border-primary: 180 180 180;
+}
+
+/* Style all buttons */
+.GeckoUIButton {
+  border-radius: 0.5rem;
+}
+
+/* Style specific button variant */
+.GeckoUIButton--filled {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+```
+
+## Customizing Icons
+
+Gecko UI uses CSS `mask-image` with inline SVGs for icons. This approach allows icons to inherit color from parent elements and be styled with CSS.
+
+To find an icon's class name, use your browser's DevTools to inspect the element. All icon classes follow the BEM naming convention (e.g., `.GeckoUI-icon__check`, `.GeckoUIAlert__icon--error`).
+
+### Overriding an Icon
+
+To replace an icon, override the `mask-image` property with your custom SVG:
+
+```css
+.GeckoUI-icon__check {
+  mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>');
+  -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>');
+}
+```
+
+### Overriding Alert Icons
+
+Alert icons are variant-specific. Override them by targeting the variant modifier:
+
+```css
+.GeckoUIAlert__icon--error {
+  @apply bg-red-600;
+  mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>');
+  -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-4V7h2v6h-2z"/></svg>');
+}
+```
+
+### Icon Styling Properties
+
+Icons use these CSS properties which you can also customize:
+
+```css
+.GeckoUI-icon__check {
+  mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+}
+```
+
+### Using External Icon Libraries
+
+You can also use icons from external libraries by converting them to data URLs:
+
+```css
+/* Using a Lucide icon */
+.GeckoUI-icon__arrow-down {
+  mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>');
+  -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>');
+}
+```
+
+## Best Practices
+
+1. **Use RGB Format**: All custom colors should use RGB values (e.g., `255 255 255`) for opacity support
+2. **Maintain Consistency**: Keep color scales consistent with 50-950 range
+3. **Test Contrast**: Ensure text colors meet WCAG contrast requirements
+4. **Dark Mode Parity**: When customizing light mode, also update dark mode tokens
+5. **Component Overrides**: Use component-specific classes (`.GeckoUIButton`) rather than global tokens when possible
+
+## Example: Complete Custom Theme
+
+```css
+/* custom-theme.css */
+:root {
+  /* Brand primary color (Purple) */
+  --gecko-ui-primary-50: 250 245 255;
+  --gecko-ui-primary-100: 243 232 255;
+  --gecko-ui-primary-200: 233 213 255;
+  --gecko-ui-primary-300: 216 180 254;
+  --gecko-ui-primary-400: 192 132 252;
+  --gecko-ui-primary-500: 168 85 247;   /* Base */
+  --gecko-ui-primary-600: 147 51 234;
+  --gecko-ui-primary-700: 126 34 206;
+  --gecko-ui-primary-800: 107 33 168;
+  --gecko-ui-primary-900: 88 28 135;
+  --gecko-ui-primary-950: 59 7 100;
+
+  /* Custom border radius */
+  --gecko-ui-border-radius: 0.75rem;
+}
+
+/* Apply to components */
+.GeckoUIInput,
+.GeckoUITextarea,
+.GeckoUIButton {
+  border-radius: var(--gecko-ui-border-radius);
+}
+```
+
+Import after the base styles:
+
+```tsx
+import '@geckoui/geckoui/styles.css';
+import './custom-theme.css';
+```
+
+## Next Steps
+
+- [Installation](/docs/installation) - Setup guide

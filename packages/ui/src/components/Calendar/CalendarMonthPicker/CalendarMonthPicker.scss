@@ -1,0 +1,17 @@
+@import "../../../mixins.scss";
+
+.GeckoUICalendar {
+  &__month-picker {
+    @apply grid grid-cols-4 place-items-center gap-1;
+
+    &__button {
+      @include button-reset;
+
+      @apply w-full rounded-md p-5 hover:bg-surface-hover-strong;
+
+      &--selected {
+        @apply bg-surface-hover-strong;
+      }
+    }
+  }
+}

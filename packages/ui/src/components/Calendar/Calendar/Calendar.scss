@@ -1,0 +1,24 @@
+@import "../../../mixins.scss";
+
+.GeckoUICalendar {
+  @include base-reset;
+
+  @apply mt-px min-w-[320px] max-w-[320px] rounded-md border border-border-primary px-3 py-4 text-sm;
+
+  &--calendars-2 {
+    @apply min-w-fit max-w-fit;
+  }
+
+  &__dual {
+    @apply flex gap-4;
+
+    &--first,
+    &--second {
+      @apply min-w-[296px] max-w-[296px];
+    }
+
+    &--second {
+      @apply hidden md:block;
+    }
+  }
+}

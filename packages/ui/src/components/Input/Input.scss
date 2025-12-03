@@ -1,0 +1,33 @@
+@import "../../mixins.scss";
+
+.GeckoUIInput {
+  @include base-reset;
+
+  @apply border-border-secondary relative flex min-h-10 w-full items-center gap-2 rounded-md border px-3;
+
+  &:has(input:-webkit-autofill) {
+    background: rgb(var(--gecko-ui-surface-autofill)) !important;
+  }
+
+  &--disabled {
+    @apply bg-surface-disabled cursor-not-allowed;
+  }
+
+  &--enabled {
+    @apply cursor-text;
+  }
+
+  &--enabled:focus-within {
+    @apply border-primary-400;
+  }
+
+  &--enabled:hover {
+    @apply border-primary-400;
+  }
+
+  &__input {
+    @include form-reset;
+
+    @apply placeholder:text-text-placeholder w-full flex-1 self-stretch bg-transparent text-sm outline-none placeholder:text-sm disabled:cursor-not-allowed;
+  }
+}

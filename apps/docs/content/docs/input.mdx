@@ -1,0 +1,198 @@
+---
+title: Input
+description: Flexible text input component with prefix and suffix support
+---
+
+import { Input } from '@geckoui/geckoui';
+import { SearchIcon, MailIcon } from 'lucide-react';
+
+# Input
+
+A versatile text input component that supports prefix and suffix elements like icons or text labels. The component automatically adjusts element widths based on content.
+
+## Installation
+
+```tsx
+import { Input } from '@geckoui/geckoui';
+```
+
+## Basic Usage
+
+<Preview>
+  <Input placeholder="Enter your name" />
+</Preview>
+
+```tsx
+<Input placeholder="Enter your name" />
+```
+
+## Props API
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `prefix` | `ReactNode \| ((props) => ReactNode)` | - | Element displayed before the input (icon, text, or component) |
+| `suffix` | `ReactNode \| ((props) => ReactNode)` | - | Element displayed after the input (icon, text, or component) |
+| `inputClassName` | `string` | - | CSS class for the input element itself (for placeholder styles, etc.) |
+| `className` | `string` | - | CSS class for the container wrapping prefix, input, and suffix |
+| `disabled` | `boolean` | `false` | Disable the input |
+| `readOnly` | `boolean` | `false` | Make the input read-only |
+| ...rest | `InputHTMLAttributes` | - | All standard HTML input attributes |
+
+## Examples
+
+### With Prefix Icon
+
+<Preview>
+  <Input
+    prefix={<SearchIcon size={16} />}
+    placeholder="Search..."
+  />
+</Preview>
+
+```tsx
+import { SearchIcon } from 'lucide-react';
+
+<Input
+  prefix={<SearchIcon size={16} />}
+  placeholder="Search..."
+/>
+```
+
+### With Suffix Text
+
+<Preview>
+  <Input
+    type="email"
+    suffix="@example.com"
+    placeholder="username"
+  />
+</Preview>
+
+```tsx
+<Input
+  type="email"
+  suffix="@example.com"
+  placeholder="username"
+/>
+```
+
+### With Both Prefix and Suffix
+
+<Preview>
+  <Input
+    prefix="$"
+    suffix=".00"
+    type="number"
+    placeholder="0"
+  />
+</Preview>
+
+```tsx
+<Input
+  prefix="$"
+  suffix=".00"
+  type="number"
+  placeholder="0"
+/>
+```
+
+### Email Input
+
+<Preview>
+  <Input
+    type="email"
+    prefix={<MailIcon size={16} />}
+    placeholder="your.email@example.com"
+  />
+</Preview>
+
+```tsx
+import { MailIcon } from 'lucide-react';
+
+<Input
+  type="email"
+  prefix={<MailIcon size={16} />}
+  placeholder="your.email@example.com"
+/>
+```
+
+### URL Input
+
+<Preview>
+  <Input
+    type="url"
+    prefix="https://"
+    placeholder="example.com"
+    className="gap-0"
+  />
+</Preview>
+
+```tsx
+<Input
+  type="url"
+  prefix="https://"
+  placeholder="example.com"
+  className="gap-0"
+/>
+```
+
+### Disabled State
+
+<Preview>
+  <Input
+    disabled
+    placeholder="This input is disabled"
+    defaultValue="Cannot edit this"
+  />
+</Preview>
+
+```tsx
+<Input
+  disabled
+  placeholder="This input is disabled"
+  value="Cannot edit this"
+/>
+```
+
+### Read-Only State
+
+<Preview>
+  <Input
+    readOnly
+    defaultValue="Read-only content"
+  />
+</Preview>
+
+```tsx
+<Input
+  readOnly
+  value="Read-only content"
+/>
+```
+
+## Accessibility
+
+- Input is wrapped in a `<label>` for better accessibility
+- Automatically generates unique IDs if not provided
+- Supports `aria-disabled` attribute
+- Fully keyboard navigable
+- Works with screen readers
+
+## Styling
+
+The component uses BEM-style class names:
+
+- `GeckoUIInput` - Main container
+- `GeckoUIInput--enabled` - Applied when not disabled
+- `GeckoUIInput--disabled` - Applied when disabled
+- `GeckoUIInput--readonly` - Applied when read-only
+- `GeckoUIInput__input` - The actual input element
+
+Override styles using `className` for the container or `inputClassName` for the input element.
+
+## Related Components
+
+- [Textarea](/docs/textarea) - Multi-line text input
+- [Label](/docs/label) - Form labels with tooltip support
+- [InputError](/docs/input-error) - Error message display
+- [RHFInput](/docs/rhf-input) - React Hook Form integration

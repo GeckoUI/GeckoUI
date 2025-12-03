@@ -1,0 +1,53 @@
+@import "../../mixins.scss";
+
+.GeckoUICheckbox {
+  @include base-reset;
+  @include focus-outline;
+
+  @apply inline-flex items-center justify-center;
+
+  &__input {
+    @apply hidden;
+  }
+
+  &__button {
+    @include button-reset;
+
+    @apply relative cursor-default rounded;
+  }
+
+  &:has(:checked:disabled) &__button {
+    @apply opacity-40;
+  }
+
+  &__box {
+    @include base-reset;
+
+    @apply h-4 w-4 cursor-pointer rounded border border-border-primary;
+
+    &:hover,
+    &:has(:hover) {
+      @apply border-primary-400;
+    }
+  }
+
+  &:has(:disabled) &__box {
+    @apply cursor-not-allowed border-border-disabled bg-surface-disabled;
+  }
+
+  &:has(:checked) &__box {
+    @apply border-primary-600 bg-primary-600;
+  }
+
+  &:has(:checked:disabled) &__box {
+    @apply border-primary-600 bg-primary-600;
+  }
+
+  &__icon {
+    @apply pointer-events-none absolute inset-0 z-[1] m-auto hidden stroke-[5px] text-text-on-primary;
+  }
+
+  &:has(:checked) &__icon {
+    @apply block;
+  }
+}

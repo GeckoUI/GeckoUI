@@ -1,0 +1,38 @@
+@import "../../../mixins.scss";
+
+.GeckoUICalendar {
+  &__header {
+    @apply flex items-center justify-between gap-1 pb-4;
+
+    &__title {
+      @include button-reset;
+
+      @apply flex flex-1 cursor-default items-center justify-center rounded-md px-3 py-1.5 font-bold;
+
+      &--clickable {
+        @apply cursor-pointer hover:bg-surface-hover-strong;
+      }
+    }
+
+    &__arrow-button {
+      @include button-reset;
+
+      @apply rounded-md px-3 py-1.5 hover:bg-surface-hover-strong;
+    }
+
+    &__arrow-left-icon,
+    &__arrow-right-icon {
+      @include icon;
+    }
+
+    &__arrow-left-icon {
+      mask-image: url('data:image/svg+xml,<svg aria-hidden="true" data-slot="icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" fill-rule="evenodd"></path></svg>');
+      -webkit-mask-image: url('data:image/svg+xml,<svg aria-hidden="true" data-slot="icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M7.72 12.53a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 1 1 1.06 1.06L9.31 12l6.97 6.97a.75.75 0 1 1-1.06 1.06l-7.5-7.5Z" fill-rule="evenodd"></path></svg>');
+    }
+
+    &__arrow-right-icon {
+      mask-image: url('data:image/svg+xml,<svg aria-hidden="true" data-slot="icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" fill-rule="evenodd"></path></svg>');
+      -webkit-mask-image: url('data:image/svg+xml,<svg aria-hidden="true" data-slot="icon" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" fill-rule="evenodd"></path></svg>');
+    }
+  }
+}

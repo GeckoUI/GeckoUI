@@ -1,0 +1,31 @@
+@import "../../../mixins.scss";
+
+.GeckoUISelectMenu {
+  @include base-reset;
+
+  @apply absolute left-0 z-[10] flex max-h-[240px] w-full min-w-0 flex-col gap-[1px] rounded-md bg-surface-primary shadow-lg ring-1 ring-border-primary;
+
+  &__items {
+    @include base-reset;
+    @include scrollbar;
+
+    scrollbar-gutter: stable;
+    @apply flex flex-col gap-[1px] overflow-y-auto overscroll-contain py-2 pl-2;
+  }
+
+  &--with-dropdown-search {
+    @apply max-h-[260px];
+  }
+
+  &__search-container {
+    @apply rounded-none border-x-0 border-t-0;
+  }
+
+  &__search-container:hover {
+    @apply border-border-primary;
+  }
+
+  &__search-container:focus-within {
+    @apply border-border-primary;
+  }
+}

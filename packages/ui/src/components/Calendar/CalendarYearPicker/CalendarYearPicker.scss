@@ -1,0 +1,21 @@
+@import "../../../mixins.scss";
+
+.GeckoUICalendar {
+  &__year-picker {
+    @apply grid grid-cols-4 place-items-center gap-1;
+
+    &__button {
+      @include button-reset;
+
+      @apply rounded-md p-5 hover:bg-surface-hover-strong;
+
+      &--selected {
+        @apply bg-surface-hover-strong;
+      }
+
+      &--prev-next {
+        @apply opacity-40 hover:opacity-100;
+      }
+    }
+  }
+}

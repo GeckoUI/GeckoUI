@@ -1,0 +1,66 @@
+@mixin base-reset {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: #e5e7eb;
+}
+
+@mixin icon {
+  @include base-reset;
+  @apply inline-block h-4 w-4 bg-text-primary;
+
+  mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+}
+
+@mixin form-reset {
+  @include base-reset;
+
+  font-family: inherit;
+  font-feature-settings: inherit;
+  font-variation-settings: inherit;
+  font-size: 100%;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  text-transform: none;
+}
+
+@mixin button-reset {
+  @include form-reset;
+
+  -webkit-appearance: button;
+  cursor: pointer;
+  background-color: transparent;
+  background-image: none;
+}
+
+@mixin focus-outline {
+  @apply outline-2 outline-offset-2 outline-primary-300;
+}
+
+@mixin scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--gecko-ui-scrollbar-thumb)) transparent;
+  scrollbar-gutter: auto;
+
+  -webkit-scrollbar {
+    width: 6px;
+  }
+
+  -webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  -webkit-scrollbar-thumb {
+    background: rgb(var(--gecko-ui-scrollbar-thumb));
+  }
+
+  -webkit-scrollbar-thumb:hover {
+    background: rgb(var(--gecko-ui-scrollbar-thumb-hover));
+  }
+}

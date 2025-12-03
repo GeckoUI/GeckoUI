@@ -1,0 +1,34 @@
+.GeckoUIDialog {
+  @apply fixed inset-0 z-[1000] w-screen overflow-y-auto;
+
+  &__backdrop {
+    @apply flex min-h-full items-center justify-center bg-surface-overlay bg-opacity-50 px-3 text-center;
+    @apply transition-opacity duration-300 ease-out;
+  }
+
+  &__dialog {
+    @apply relative w-full max-w-[400px] overflow-hidden rounded-md bg-surface-primary p-6 text-left shadow-xl;
+    @apply transition-all duration-300 ease-out;
+  }
+
+  &[data-state="entering"],
+  &[data-state="closing"] {
+    .GeckoUIDialog__backdrop {
+      @apply opacity-0;
+    }
+
+    .GeckoUIDialog__dialog {
+      @apply scale-95 opacity-0;
+    }
+  }
+
+  &[data-state="open"] {
+    .GeckoUIDialog__backdrop {
+      @apply opacity-100;
+    }
+
+    .GeckoUIDialog__dialog {
+      @apply scale-100 opacity-100;
+    }
+  }
+}

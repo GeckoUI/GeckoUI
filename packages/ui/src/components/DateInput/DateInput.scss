@@ -1,0 +1,9 @@
+@import "../../mixins.scss";
+
+.GeckoUIDateInputWrapper {
+  @apply w-full;
+}
+
+.GeckoUIDateInput__calendar {
+  @apply bg-surface-primary;
+}

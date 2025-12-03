@@ -1,0 +1,13 @@
+.GeckoUIDateRangeInputWrapper {
+  @apply w-full;
+}
+
+.GeckoUIDateRangeInput {
+  &__range-separator {
+    @apply pb-[1px] mx-1 select-none whitespace-nowrap text-text-secondary;
+  }
+}
+
+.GeckoUIDateRangeInput__calendar {
+  @apply bg-surface-primary;
+}

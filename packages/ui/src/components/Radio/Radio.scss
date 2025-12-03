@@ -1,0 +1,43 @@
+@import "../../mixins.scss";
+
+.GeckoUIRadio {
+  @include focus-outline;
+
+  @apply relative inline-flex items-center justify-center;
+  @apply h-4 w-4 cursor-pointer appearance-none rounded-full bg-transparent;
+  @apply border-border-secondary border-[0.1em];
+  @apply transition-colors duration-[120ms] ease-in-out;
+
+  &:disabled {
+    @apply cursor-not-allowed border-border-disabled;
+  }
+
+  &:enabled:hover {
+    @apply border-primary-400;
+  }
+
+  &:checked {
+    @apply border-primary-600 bg-transparent;
+    border-width: 0.1em;
+  }
+
+  &:disabled:checked {
+    @apply border-primary-600/50;
+
+    &:after {
+      box-shadow: inset 1em 1em rgba(var(--gecko-ui-primary-600) / 0.5);
+    }
+  }
+
+  &:after {
+    content: "";
+    @apply absolute h-[0.5em] w-[0.5em] rounded-full;
+    @apply scale-0 transition-transform duration-[120ms] ease-in-out;
+    box-shadow: inset 1em 1em rgb(var(--gecko-ui-primary-600));
+  }
+
+  &:checked:after {
+    @apply scale-100;
+    box-shadow: inset 1em 1em rgb(var(--gecko-ui-primary-600));
+  }
+}

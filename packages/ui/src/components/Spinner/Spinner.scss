@@ -1,0 +1,7 @@
+@import "../../mixins.scss";
+
+.GeckoUISpinnerIcon {
+  @include base-reset;
+
+  @apply aspect-square size-5 shrink-0 animate-spin text-inherit;
+}

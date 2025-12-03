@@ -1,0 +1,359 @@
+---
+title: Tooltip
+description: Contextual information in floating overlays
+---
+
+import { Tooltip, Button } from '@geckoui/geckoui';
+
+# Tooltip
+
+Tooltip displays contextual information in a floating overlay when users hover over or focus on an element. Built on Radix UI, it provides accessible tooltips with customizable positioning, delays, and styling.
+
+## Installation
+
+```tsx
+import { Tooltip } from '@geckoui/geckoui';
+```
+
+## Basic Usage
+
+<Preview>
+  <Tooltip content="This is a tooltip" triggerAsChild>
+    <Button>Hover me</Button>
+  </Tooltip>
+</Preview>
+
+```tsx
+<Tooltip content="This is a tooltip" triggerAsChild>
+  <Button>Hover me</Button>
+</Tooltip>
+```
+
+## Props API
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `content` | `string \| ReactNode \| FC` | - | Tooltip content |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Tooltip position |
+| `delayDuration` | `number` | `700` | Delay before showing (ms) |
+| `sideOffset` | `number` | `5` | Distance from trigger (px) |
+| `backgroundColor` | `string` | `'#4b5563'` | Tooltip background color |
+| `className` | `string` | - | CSS class for tooltip |
+| `triggerClassName` | `string` | - | CSS class for trigger |
+| `triggerAsChild` | `boolean` | `false` | Merge trigger with child |
+| `children` | `ReactNode` | - | Trigger element (required) |
+
+## Examples
+
+### Different Positions
+
+<Preview>
+  <div className="flex items-center justify-center gap-8 p-8">
+    <Tooltip content="Top tooltip" side="top" triggerAsChild>
+      <Button size="sm">Top</Button>
+    </Tooltip>
+    <Tooltip content="Right tooltip" side="right" triggerAsChild>
+      <Button size="sm">Right</Button>
+    </Tooltip>
+    <Tooltip content="Bottom tooltip" side="bottom" triggerAsChild>
+      <Button size="sm">Bottom</Button>
+    </Tooltip>
+    <Tooltip content="Left tooltip" side="left" triggerAsChild>
+      <Button size="sm">Left</Button>
+    </Tooltip>
+  </div>
+</Preview>
+
+```tsx
+<Tooltip content="Top tooltip" side="top" triggerAsChild>
+  <Button>Top</Button>
+</Tooltip>
+
+<Tooltip content="Right tooltip" side="right" triggerAsChild>
+  <Button>Right</Button>
+</Tooltip>
+
+<Tooltip content="Bottom tooltip" side="bottom" triggerAsChild>
+  <Button>Bottom</Button>
+</Tooltip>
+
+<Tooltip content="Left tooltip" side="left" triggerAsChild>
+  <Button>Left</Button>
+</Tooltip>
+```
+
+### Icon Buttons
+
+<Preview>
+  <div className="flex items-center gap-3">
+    <Tooltip content="Add new item" side="right" delayDuration={300} triggerAsChild>
+      <Button variant="icon" size="sm">➕</Button>
+    </Tooltip>
+    <Tooltip content="Edit item" side="right" delayDuration={300} triggerAsChild>
+      <Button variant="icon" size="sm">✏️</Button>
+    </Tooltip>
+    <Tooltip content="Delete item" side="right" delayDuration={300} triggerAsChild>
+      <Button variant="icon" size="sm">🗑️</Button>
+    </Tooltip>
+  </div>
+</Preview>
+
+```tsx
+<Tooltip content="Add new item" side="right" delayDuration={300} triggerAsChild>
+  <Button variant="icon">
+    <PlusIcon />
+  </Button>
+</Tooltip>
+
+<Tooltip content="Edit item" side="right" delayDuration={300} triggerAsChild>
+  <Button variant="icon">
+    <EditIcon />
+  </Button>
+</Tooltip>
+```
+
+### Complex Content
+
+<Preview>
+  <Tooltip
+    content={
+      <div>
+        <div className="font-semibold">Premium Feature</div>
+        <div className="text-sm">Upgrade to access this feature</div>
+      </div>
+    }
+    backgroundColor="#1f2937"
+    sideOffset={10}
+    triggerAsChild
+  >
+    <Button variant="outlined">🔒 Locked Feature</Button>
+  </Tooltip>
+</Preview>
+
+```tsx
+<Tooltip
+  content={
+    <div>
+      <strong>Premium Feature</strong>
+      <p>Upgrade to access this feature</p>
+    </div>
+  }
+  backgroundColor="#1f2937"
+  sideOffset={10}
+  triggerAsChild
+>
+  <Button variant="outlined">
+    <LockIcon />
+    <span>Locked Feature</span>
+  </Button>
+</Tooltip>
+```
+
+### Custom Delay
+
+<Preview>
+  <div className="flex items-center gap-4">
+    <Tooltip content="Instant tooltip" delayDuration={0} triggerAsChild>
+      <Button size="sm">No delay</Button>
+    </Tooltip>
+    <Tooltip content="Quick tooltip" delayDuration={200} triggerAsChild>
+      <Button size="sm">200ms</Button>
+    </Tooltip>
+    <Tooltip content="Standard tooltip" delayDuration={700} triggerAsChild>
+      <Button size="sm">700ms</Button>
+    </Tooltip>
+  </div>
+</Preview>
+
+```tsx
+<Tooltip content="Instant tooltip" delayDuration={0} triggerAsChild>
+  <Button>No delay</Button>
+</Tooltip>
+
+<Tooltip content="Quick tooltip" delayDuration={200} triggerAsChild>
+  <Button>200ms</Button>
+</Tooltip>
+
+<Tooltip content="Standard tooltip" delayDuration={700} triggerAsChild>
+  <Button>700ms (default)</Button>
+</Tooltip>
+```
+
+### Custom Colors
+
+<Preview>
+  <div className="flex items-center gap-4">
+    <Tooltip content="Default gray" backgroundColor="#4b5563" triggerAsChild>
+      <Button size="sm">Gray</Button>
+    </Tooltip>
+    <Tooltip content="Blue tooltip" backgroundColor="#3b82f6" triggerAsChild>
+      <Button size="sm">Blue</Button>
+    </Tooltip>
+    <Tooltip content="Red tooltip" backgroundColor="#ef4444" triggerAsChild>
+      <Button size="sm">Red</Button>
+    </Tooltip>
+    <Tooltip content="Green tooltip" backgroundColor="#10b981" triggerAsChild>
+      <Button size="sm">Green</Button>
+    </Tooltip>
+  </div>
+</Preview>
+
+```tsx
+<Tooltip content="Blue tooltip" backgroundColor="#3b82f6" triggerAsChild>
+  <Button>Blue</Button>
+</Tooltip>
+
+<Tooltip content="Red tooltip" backgroundColor="#ef4444" triggerAsChild>
+  <Button>Red</Button>
+</Tooltip>
+```
+
+### Info Hints
+
+<Preview>
+  <div className="space-y-3">
+    <Tooltip
+      content="Last updated: 2 hours ago"
+      side="bottom"
+      delayDuration={500}
+    >
+      <span className="inline-flex items-center gap-1 cursor-help border-b border-dashed">
+        Status: Active ℹ️
+      </span>
+    </Tooltip>
+    <Tooltip
+      content="This action cannot be undone"
+      side="right"
+      backgroundColor="#ef4444"
+      triggerAsChild
+    >
+      <Button variant="filled" className="bg-red-500">Delete Account</Button>
+    </Tooltip>
+  </div>
+</Preview>
+
+```tsx
+<Tooltip
+  content="Last updated: 2 hours ago"
+  side="bottom"
+  delayDuration={500}
+>
+  <span>Status: Active</span>
+</Tooltip>
+
+<Tooltip
+  content="This action cannot be undone"
+  backgroundColor="#ef4444"
+  triggerAsChild
+>
+  <Button>Delete Account</Button>
+</Tooltip>
+```
+
+### With Offset
+
+<Preview>
+  <div className="flex items-center gap-8 py-8">
+    <Tooltip content="Close to trigger" sideOffset={2} triggerAsChild>
+      <Button size="sm">Offset: 2px</Button>
+    </Tooltip>
+    <Tooltip content="Default distance" sideOffset={5} triggerAsChild>
+      <Button size="sm">Offset: 5px</Button>
+    </Tooltip>
+    <Tooltip content="Far from trigger" sideOffset={15} triggerAsChild>
+      <Button size="sm">Offset: 15px</Button>
+    </Tooltip>
+  </div>
+</Preview>
+
+```tsx
+<Tooltip content="Close to trigger" sideOffset={2} triggerAsChild>
+  <Button>Offset: 2px</Button>
+</Tooltip>
+
+<Tooltip content="Far from trigger" sideOffset={15} triggerAsChild>
+  <Button>Offset: 15px</Button>
+</Tooltip>
+```
+
+### Disabled Buttons
+
+<Preview>
+  <Tooltip content="This feature is currently disabled" triggerAsChild>
+    <Button disabled>Disabled Button</Button>
+  </Tooltip>
+</Preview>
+
+```tsx
+<Tooltip content="This feature is currently disabled" triggerAsChild>
+  <Button disabled>Disabled Button</Button>
+</Tooltip>
+```
+
+## Behavior
+
+### No Content
+
+If no `content` prop is provided, the tooltip returns children unchanged without any wrapper:
+
+```tsx
+<Tooltip>
+  <Button>No tooltip</Button>
+</Tooltip>
+// Renders: <Button>No tooltip</Button>
+```
+
+### Trigger as Child
+
+Use `triggerAsChild={true}` to avoid invalid HTML nesting (like button inside button) and prevent hydration errors in Next.js. This is especially important when using focusable elements like Button:
+
+```tsx
+<Tooltip content="Tooltip text" triggerAsChild>
+  <Button>I am a button</Button>
+</Tooltip>
+```
+
+This prevents the invalid HTML structure:
+```html
+<!-- Without triggerAsChild (incorrect - causes hydration error) -->
+<button type="button">
+  <button>I am a button</button>
+</button>
+
+<!-- With triggerAsChild (correct) -->
+<button>I am a button</button>
+```
+
+**Important**: In Next.js, `<button>` cannot be a descendant of `<button>`. Always use `triggerAsChild` when the child is a focusable element like Button.
+
+### Arrow Display
+
+The tooltip arrow is displayed only for `top` and `bottom` positions. It matches the `backgroundColor` prop.
+
+## Accessibility
+
+- Built on Radix UI for WCAG compliance
+- Proper ARIA attributes automatically applied
+- Keyboard accessible (focus shows tooltip)
+- Works with screen readers
+- `role="tooltip"` on trigger and content
+- Hover and focus both trigger display
+
+## Styling
+
+The component uses BEM-style class names:
+
+- `GeckoUITooltip` - Tooltip content container
+- `GeckoUITooltip__trigger` - Trigger wrapper (when `triggerAsChild={false}`)
+- `GeckoUITooltip__arrow` - Arrow element
+
+Override styles using `className` for content or `triggerClassName` for trigger.
+
+## Dependencies
+
+This component uses `@radix-ui/react-tooltip` for accessibility and behavior.
+
+## Related Components
+
+- [Label](/docs/label) - Labels with built-in tooltips
+- [Alert](/docs/alert) - Page-level messages

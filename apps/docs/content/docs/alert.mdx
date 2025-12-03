@@ -1,0 +1,334 @@
+---
+title: Alert
+description: Display important messages with different severity levels
+---
+
+import { Alert } from '@geckoui/geckoui';
+import { DismissibleAlertExample } from '@/components/examples/dismissible-alert-example';
+import { AlertCustomVariantExample } from '@/components/examples/module-augmentation-examples';
+
+# Alert
+
+An alert component for displaying important messages with different severity levels. Supports multiple variants (error, success, warning, info, default), optional descriptions, custom icons, and dismissal functionality.
+
+## Installation
+
+```tsx
+import { Alert } from '@geckoui/geckoui';
+```
+
+## Basic Usage
+
+<Preview>
+  <Alert title="This is an alert message" />
+</Preview>
+
+```tsx
+<Alert title="This is an alert message" />
+```
+
+## Props API
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `title` | `ReactNode \| FC` | - | Main message (required) |
+| `variant` | `'error' \| 'success' \| 'warning' \| 'info' \| 'default'` | `'default'` | Alert severity level |
+| `description` | `ReactNode \| FC` | - | Additional detailed text |
+| `condensed` | `boolean` | `false` | Reduced vertical padding |
+| `onRemove` | `() => void` | - | Callback for dismiss button |
+| `icon` | `ReactNode \| FC` | - | Custom icon element |
+| `iconClassName` | `string` | - | CSS class for default icon |
+| `className` | `string` | - | CSS class for container |
+
+## Examples
+
+### Variants
+
+<Preview>
+  <div className="flex flex-col gap-3">
+    <Alert variant="default" title="Default alert" />
+    <Alert variant="error" title="Error alert" />
+    <Alert variant="success" title="Success alert" />
+    <Alert variant="warning" title="Warning alert" />
+    <Alert variant="info" title="Info alert" />
+  </div>
+</Preview>
+
+```tsx
+<Alert variant="default" title="Default alert" />
+<Alert variant="error" title="Error alert" />
+<Alert variant="success" title="Success alert" />
+<Alert variant="warning" title="Warning alert" />
+<Alert variant="info" title="Info alert" />
+```
+
+### With Description
+
+<Preview>
+  <div className="flex flex-col gap-3">
+    <Alert
+      variant="error"
+      title="Payment failed"
+      description="Your payment could not be processed. Please try again or contact support."
+    />
+    <Alert
+      variant="success"
+      title="Account created"
+      description="Welcome! Your account has been successfully created and is ready to use."
+    />
+  </div>
+</Preview>
+
+```tsx
+<Alert
+  variant="error"
+  title="Payment failed"
+  description="Your payment could not be processed. Please try again or contact support."
+/>
+
+<Alert
+  variant="success"
+  title="Account created"
+  description="Welcome! Your account has been successfully created and is ready to use."
+/>
+```
+
+### Dismissible Alert
+
+<Preview>
+  <DismissibleAlertExample />
+</Preview>
+
+```tsx
+function DismissibleAlert() {
+  const [show, setShow] = useState(true);
+
+  if (!show) {
+    return (
+      <Button size="sm" onClick={() => setShow(true)}>
+        Show Alert Again
+      </Button>
+    );
+  }
+
+  return (
+    <Alert
+      variant="warning"
+      title="Storage almost full"
+      description="You're using 95% of your storage. Upgrade your plan to avoid interruptions."
+      onRemove={() => setShow(false)}
+    />
+  );
+}
+```
+
+### Condensed Style
+
+<Preview>
+  <div className="flex flex-col gap-3">
+    <Alert variant="success" condensed title="Changes saved successfully" />
+    <Alert variant="info" condensed title="2 new messages" />
+  </div>
+</Preview>
+
+```tsx
+<Alert variant="success" condensed title="Changes saved successfully" />
+<Alert variant="info" condensed title="2 new messages" />
+```
+
+### With Custom Icon
+
+<Preview>
+  <Alert
+    variant="info"
+    title="New feature available"
+    description="Check out our latest feature in the settings panel."
+    icon={<span>🎉</span>}
+  />
+</Preview>
+
+```tsx
+import { RocketIcon } from 'lucide-react';
+
+<Alert
+  variant="info"
+  title="New feature available"
+  description="Check out our latest feature in the settings panel."
+  icon={<RocketIcon className="w-5 h-5" />}
+/>
+```
+
+### Form Validation Errors
+
+<Preview>
+  <div className="space-y-4">
+    <Alert
+      variant="error"
+      title="Form validation failed"
+      description="Please fix the following errors before submitting:"
+    />
+    <div className="ml-6">
+      <ul className="list-disc text-sm text-gray-700">
+        <li>Email is required</li>
+        <li>Password must be at least 8 characters</li>
+        <li>Terms of service must be accepted</li>
+      </ul>
+    </div>
+  </div>
+</Preview>
+
+```tsx
+<Alert
+  variant="error"
+  title="Form validation failed"
+  description="Please fix the errors before submitting."
+/>
+```
+
+### Status Messages
+
+<Preview>
+  <div className="flex flex-col gap-3">
+    <Alert
+      variant="info"
+      condensed
+      title="Your session will expire in 5 minutes"
+    />
+    <Alert
+      variant="warning"
+      condensed
+      title="Background sync in progress"
+    />
+    <Alert
+      variant="success"
+      condensed
+      title="All systems operational"
+    />
+  </div>
+</Preview>
+
+```tsx
+<Alert
+  variant="info"
+  condensed
+  title="Your session will expire in 5 minutes"
+/>
+
+<Alert
+  variant="warning"
+  condensed
+  title="Background sync in progress"
+/>
+
+<Alert
+  variant="success"
+  condensed
+  title="All systems operational"
+/>
+```
+
+## Behavior
+
+### Dismiss Button
+
+When `onRemove` callback is provided, a close button appears in the top-right corner. Clicking it triggers the callback:
+
+```tsx
+<Alert
+  title="Dismissible alert"
+  onRemove={() => {
+    console.log('Alert dismissed');
+    // Hide alert or perform cleanup
+  }}
+/>
+```
+
+### Condensed Mode
+
+The `condensed` prop reduces vertical padding for a more compact appearance, ideal for inline notifications:
+
+```tsx
+<Alert condensed title="Compact notification" />
+```
+
+## Module Augmentation
+
+The Alert component supports TypeScript module augmentation, allowing you to add custom variants with full type safety.
+
+### Live Example
+
+This documentation site demonstrates module augmentation with a custom `critical` variant:
+
+<Preview>
+  <AlertCustomVariantExample />
+</Preview>
+
+### Step 1: TypeScript Declaration
+
+Create a declaration file (e.g., `gecko.d.ts`) in your project:
+
+```typescript
+import "@geckoui/geckoui";
+
+declare module "@geckoui/geckoui" {
+  interface AlertVariantMap {
+    critical: unknown;
+  }
+}
+```
+
+### Step 2: Add CSS Styles
+
+Add the corresponding styles to your global CSS/SCSS file. You need to define both the container variant and the icon styling:
+
+```scss
+.GeckoUIAlert {
+  &--critical {
+    @apply text-purple-600;
+  }
+
+  &__icon {
+    &--critical {
+      @apply bg-purple-600;
+
+      mask-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM8 3C8.41421 3 8.75 3.33579 8.75 3.75V8.25C8.75 8.66421 8.41421 9 8 9C7.58579 9 7.25 8.66421 7.25 8.25V3.75C7.25 3.33579 7.58579 3 8 3ZM8 13C8.55228 13 9 12.5523 9 12C9 11.4477 8.55228 11 8 11C7.44771 11 7 11.4477 7 12C7 12.5523 7.44771 13 8 13Z" fill="currentColor"/></svg>');
+      -webkit-mask-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16ZM8 3C8.41421 3 8.75 3.33579 8.75 3.75V8.25C8.75 8.66421 8.41421 9 8 9C7.58579 9 7.25 8.66421 7.25 8.25V3.75C7.25 3.33579 7.58579 3 8 3ZM8 13C8.55228 13 9 12.5523 9 12C9 11.4477 8.55228 11 8 11C7.44771 11 7 11.4477 7 12C7 12.5523 7.44771 13 8 13Z" fill="currentColor"/></svg>');
+    }
+  }
+}
+```
+
+### Step 3: Use Your Custom Variant
+
+```tsx
+<Alert variant="critical" title="Critical system alert" />
+```
+
+## Accessibility
+
+- Uses semantic HTML with proper ARIA roles
+- Dismiss button is keyboard accessible
+- Color-coded icons indicate severity
+- Works with screen readers
+- Icon provides visual reinforcement of message type
+
+## Styling
+
+The component uses BEM-style class names:
+
+- `GeckoUIAlert` - Main container
+- `GeckoUIAlert--{variant}` - Variant modifier (error, success, warning, info, default)
+- `GeckoUIAlert--condensed` - Applied when condensed
+- `GeckoUIAlert__body` - Content wrapper
+- `GeckoUIAlert__icon` - Icon element
+- `GeckoUIAlert__icon--{variant}` - Variant-specific icon styling
+- `GeckoUIAlert__title` - Title text
+- `GeckoUIAlert__description` - Description text
+- `GeckoUIAlert__remove-button` - Dismiss button
+- `GeckoUIAlert__remove-button__icon` - Dismiss button icon
+
+## Related Components
+
+- [InputError](/docs/input-error) - Form field error messages
+- [ConfirmDialog](/docs/confirm-dialog) - Confirmation prompts
+- [Tooltip](/docs/tooltip) - Contextual hints

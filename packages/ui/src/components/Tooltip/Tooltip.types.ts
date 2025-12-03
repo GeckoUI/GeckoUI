@@ -1,0 +1,53 @@
+import type { FC, PropsWithChildren, ReactNode } from "react";
+
+export interface TooltipProps extends PropsWithChildren {
+  /**
+   * The content of the tooltip
+   * */
+  content?: string | ReactNode | FC;
+
+  /**
+   * The duration of the delay before the tooltip appears
+   * */
+  delayDuration?: number;
+
+  /**
+   * Classname to apply to the tooltip
+   * */
+  className?: string;
+
+  /**
+   * Classname to apply to the tooltip trigger
+   * ie. the element that triggers the tooltip to appear
+   * @example
+   *
+   * ```js
+   * <Tooltip content="hello world">
+   *  <Button>Hover me</Button> // <-- This is the tooltip trigger
+   * </Tooltip>
+   * ```
+   * */
+  triggerClassName?: string;
+
+  /**
+   * Whether consider the trigger as a child
+   * Use this to avoid invalid button nesting errors when using a button as the trigger
+   * If you use custom components as the trigger, you might need to wrap with `forwardRef`
+   * */
+  triggerAsChild?: boolean;
+
+  /**
+   * The background color of the tooltip and the arrow pointing to the target
+   * */
+  backgroundColor?: string;
+
+  /**
+   * The side of the tooltip to display
+   * */
+  side?: "top" | "right" | "bottom" | "left";
+
+  /**
+   * The offset of the tooltip from the trigger
+   * */
+  sideOffset?: number;
+}

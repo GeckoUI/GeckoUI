@@ -1,0 +1,126 @@
+---
+title: Installation
+description: Step-by-step guide to installing and configuring Gecko UI
+---
+
+# Installation
+
+This guide will help you install and configure Gecko UI in your project.
+
+## Prerequisites
+
+Before installing Gecko UI, ensure you have:
+
+- **Node.js** 18.0.0 or higher
+- **React** 19.2.0 or higher
+- **React DOM** 19.2.0 or higher
+
+## Package Installation
+
+Install Gecko UI using your preferred package manager:
+
+```bash
+npm install @geckoui/geckoui
+```
+
+```bash
+pnpm add @geckoui/geckoui
+```
+
+```bash
+yarn add @geckoui/geckoui
+```
+
+## Style Setup
+
+### 1. Import Base Styles
+
+Import the main stylesheet in your root layout or main entry file:
+
+```tsx title="app/layout.tsx"
+import '@geckoui/geckoui/styles.css';
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  );
+}
+```
+
+```tsx title="src/main.tsx"
+import '@geckoui/geckoui/styles.css';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+### 2. Import styles for tailwindcss
+
+If you use `tailwindcss`, make sure to import the css inside `layer` directive to correctly override the styles:
+
+```css title="src/global.css"
+@import "tailwindcss";
+
+@layer components {
+  @import "@geckoui/geckoui/styles.css";
+
+  /* Optional if you use Markdown component */
+  @import "@geckoui/geckoui/markdown.css"; 
+}
+```
+
+### 3. Import Markdown Styles (Optional)
+
+If you're using the Markdown component, also import its stylesheet:
+
+```tsx
+import '@geckoui/geckoui/markdown.css';
+```
+
+## Container Setup
+
+Add `GeckoUIPortal` to your layout. This is **required** for the following components:
+
+- Dialog
+- Drawer
+- ConfirmDialog
+- Toast
+
+```tsx title="app/layout.tsx"
+import { GeckoUIPortal } from '@geckoui/geckoui';
+import '@geckoui/geckoui/styles.css';
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <GeckoUIPortal />
+      </body>
+    </html>
+  );
+}
+```
+
+```tsx title="src/App.tsx"
+import { GeckoUIPortal } from '@geckoui/geckoui';
+
+function App() {
+  return (
+    <div>
+      {/* Your app content */}
+      <GeckoUIPortal />
+    </div>
+  );
+}
+
+export default App;
+```

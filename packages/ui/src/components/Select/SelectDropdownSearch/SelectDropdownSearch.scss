@@ -1,0 +1,8 @@
+.GeckoUISelectDropdownSearch {
+  &__icon {
+    @apply bg-text-muted inline-block h-4 w-4;
+
+    mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none"><path d="M14.3429 13.9995L10.3429 9.99951M11.6762 6.66618C11.6762 9.24351 9.58685 11.3328 7.00952 11.3328C4.4322 11.3328 2.34286 9.24351 2.34286 6.66618C2.34286 4.08885 4.4322 1.99951 7.00952 1.99951C9.58685 1.99951 11.6762 4.08885 11.6762 6.66618Z" stroke="currentColor" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+    -webkit-mask-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none"><path d="M14.3429 13.9995L10.3429 9.99951M11.6762 6.66618C11.6762 9.24351 9.58685 11.3328 7.00952 11.3328C4.4322 11.3328 2.34286 9.24351 2.34286 6.66618C2.34286 4.08885 4.4322 1.99951 7.00952 1.99951C9.58685 1.99951 11.6762 4.08885 11.6762 6.66618Z" stroke="currentColor" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  }
+}

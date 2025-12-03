@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find:*)",
+      "Bash(pnpm tsc:*)",
+      "Bash(pnpm run build:*)",
+      "WebSearch",
+      "WebFetch(domain:mui.com)",
+      "WebFetch(domain:daypicker.dev)",
+      "WebFetch(domain:ant.design)",
+      "Bash(git -C /Users/waiyanphyo/Development/hexpacket/hp-ui log --oneline -15)",
+      "Bash(cat:*)",
+      "Bash(xargs cat:*)",
+      "WebFetch(domain:fumadocs.vercel.app)",
+      "WebFetch(domain:fumadocs.dev)",
+      "Bash(convert:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

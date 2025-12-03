@@ -1,0 +1,11 @@
+.GeckoUIRHFCheckbox {
+  @apply inline-flex items-center;
+
+  &__label {
+    @apply ml-2 cursor-pointer text-sm font-medium text-text-secondary;
+  }
+
+  &:has(:disabled) &__label {
+    @apply cursor-not-allowed text-text-disabled;
+  }
+}

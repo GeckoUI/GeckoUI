@@ -1,0 +1,148 @@
+.GeckoUIMarkdown {
+  h1 {
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  h3 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  h4 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  h6 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-bottom: 8px;
+  }
+
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  a {
+    @apply text-primary-600;
+    text-decoration: underline;
+  }
+
+  ul {
+    list-style-position: inside;
+    padding-left: 8px;
+  }
+
+  ol {
+    list-style-position: inside;
+    padding-left: 8px;
+  }
+
+  ul {
+    list-style-type: disc;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  li {
+    line-height: 1.5;
+    padding-left: 2px;
+    margin-left: 8px;
+    list-style-position: outside;
+  }
+
+  blockquote {
+    @apply border-l-4 border-border-primary pl-4 text-text-muted;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  th {
+    @apply border border-border-primary;
+    padding: 12px;
+    text-align: left;
+  }
+
+  td {
+    @apply border border-border-primary;
+    padding: 12px;
+    text-align: left;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  hr {
+    border: 0;
+    @apply border-t border-border-primary;
+    margin: 16px 0;
+  }
+
+  pre {
+    font-family: monospace;
+    @apply bg-surface-tertiary;
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+
+  code {
+    display: inline-block;
+    font-family: monospace;
+    @apply bg-surface-tertiary;
+    padding: 3.2px 6.4px;
+    border-radius: 4px;
+  }
+
+  pre code {
+    background: transparent;
+  }
+}
+
+.GeckoUIMarkdown p:first-child {
+  margin-top: 0;
+}
+
+.GeckoUIMarkdown li>p:first-of-type {
+  display: inline;
+}

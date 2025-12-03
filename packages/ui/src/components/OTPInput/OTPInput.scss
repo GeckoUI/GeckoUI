@@ -1,0 +1,29 @@
+@import "../../mixins.scss";
+
+.GeckoUIOTPInput {
+  @apply grid max-w-xs gap-2;
+
+  &__input {
+    @include form-reset;
+
+    @apply block h-full w-full rounded-lg border border-border-secondary text-center outline-none enabled:focus-within:border-primary-300 disabled:cursor-not-allowed;
+  }
+
+  &--disabled &__input {
+    @apply bg-surface-disabled text-text-disabled;
+  }
+
+  &:hover &__input:enabled {
+    @apply border-primary-400;
+  }
+
+  &__overlay-button {
+    @include button-reset;
+
+    @apply absolute inset-0 z-10 cursor-text bg-transparent;
+  }
+
+  &--disabled &__overlay-button {
+    @apply cursor-not-allowed;
+  }
+}

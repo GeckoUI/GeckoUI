@@ -1,0 +1,20 @@
+@import "../../mixins.scss";
+
+.GeckoUIMenu {
+  &__button {
+    @include button-reset;
+  }
+
+  &__items {
+    @include base-reset;
+    @include scrollbar;
+
+    @apply border-border-secondary bg-surface-primary z-50 flex flex-col justify-start rounded-md border p-2 shadow-xl;
+  }
+
+  &__item {
+    @include button-reset;
+
+    @apply text-text-secondary hover:bg-surface-hover-strong cursor-pointer rounded px-3 py-2 text-left text-sm;
+  }
+}

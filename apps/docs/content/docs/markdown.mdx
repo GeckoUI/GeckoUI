@@ -1,0 +1,316 @@
+---
+title: Markdown
+description: Render formatted markdown text as HTML with support for GFM, syntax highlighting, and sanitization
+---
+
+import { Markdown } from '@geckoui/geckoui';
+import { BasicMarkdownExample, WithTableExample, WithTaskListExample, AsyncRenderingExample, WithErrorHandlingExample, SanitizedContentExample, CustomElementExample, RichContentExample } from '@/components/examples/markdown-examples';
+
+# Markdown
+
+Renders formatted markdown text as HTML with support for both synchronous and asynchronous rendering. Features GitHub Flavored Markdown (GFM), code syntax highlighting, tables, task lists, and optional HTML sanitization for user-generated content.
+
+## Installation
+
+```tsx
+import { Markdown } from '@geckoui/geckoui';
+```
+
+## Basic Usage
+
+<Preview>
+  <BasicMarkdownExample />
+</Preview>
+
+```tsx
+'use client';
+
+import { Markdown } from '@geckoui/geckoui';
+
+function Example() {
+  const content = `
+## Welcome to Markdown
+
+This is a **bold** statement and this is *italic*.
+
+### Features
+
+- GitHub Flavored Markdown (GFM)
+- Tables, task lists, strikethrough
+- Code syntax highlighting
+
+### Code Example
+
+\`\`\`javascript
+function greet(name) {
+  console.log(\`Hello, \${name}!\`);
+}
+\`\`\`
+  `;
+
+  return <Markdown className="prose prose-sm max-w-none">{content}</Markdown>;
+}
+```
+
+## Props API
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `children` | `string` | - | Markdown content to render (required) |
+| `as` | `keyof JSX.IntrinsicElements` | `"div"` | HTML element to wrap content |
+| `async` | `boolean` | `false` | Enable asynchronous rendering |
+| `sanitize` | `boolean` | `true` | Sanitize HTML to prevent XSS attacks |
+| `renderPlaceholder` | `ReactNode \| FC` | - | Component to show during async loading |
+| `renderError` | `ReactNode \| FC<{message: string}>` | `<InputError>` | Custom error component |
+| `className` | `string` | - | Additional CSS classes |
+
+## Supported Markdown Features
+
+The component uses [unified](https://unifiedjs.com/) with the following plugins:
+
+- **remark-gfm**: GitHub Flavored Markdown (tables, task lists, strikethrough)
+- **remark-math**: Math expressions
+- **remark-directive**: Custom directives
+- **remark-frontmatter**: YAML frontmatter
+- **rehype-raw**: HTML in markdown
+- **rehype-sanitize**: HTML sanitization (when `sanitize={true}`)
+- **rehype-format**: Pretty HTML output
+
+## Examples
+
+### Tables
+
+GFM tables are fully supported:
+
+<Preview>
+  <WithTableExample />
+</Preview>
+
+```tsx
+const content = `
+## Product Comparison
+
+| Feature | Basic | Pro | Enterprise |
+|---------|-------|-----|------------|
+| Users | 5 | 50 | Unlimited |
+| Storage | 10GB | 100GB | 1TB |
+| Support | Email | Priority | 24/7 Phone |
+| Price | $9/mo | $49/mo | Custom |
+`;
+
+<Markdown className="prose">{content}</Markdown>
+```
+
+### Task Lists
+
+Interactive checkbox lists:
+
+<Preview>
+  <WithTaskListExample />
+</Preview>
+
+```tsx
+const content = `
+## Project Checklist
+
+### Phase 1: Design
+- [x] Wireframes
+- [x] Design system
+- [x] User flows
+
+### Phase 2: Development
+- [x] Backend API
+- [x] Frontend components
+- [ ] Integration tests
+- [ ] E2E tests
+`;
+
+<Markdown className="prose">{content}</Markdown>
+```
+
+**When to use `async`**:
+- Processing large markdown files
+- Preventing UI blocking during rendering
+
+**Behavior**:
+- Shows `renderPlaceholder` while processing
+- Updates when `children` changes
+- Handles errors gracefully
+
+### Error Handling
+
+Customize error display:
+
+<Preview>
+  <WithErrorHandlingExample />
+</Preview>
+
+```tsx
+import { Markdown, Alert } from '@geckoui/geckoui';
+
+<Markdown
+  renderError={({ message }) => <Alert variant="error">Error: {message}</Alert>}
+  className="prose"
+>
+  {content}
+</Markdown>
+```
+
+**Default Behavior**:
+- Without `renderError`: Shows `<InputError>` with error message
+- With `renderError`: Renders your custom component
+- Error component receives `message` prop
+
+### Sanitized User Content
+
+Protect against XSS attacks in user-generated content:
+
+<Preview>
+  <SanitizedContentExample />
+</Preview>
+
+```tsx
+<Markdown sanitize className="prose">
+  {userGeneratedMarkdown}
+</Markdown>
+```
+
+**What gets sanitized**:
+- `<script>` tags removed
+- `onclick` and other event handlers removed
+- `javascript:` URLs blocked
+- Potentially dangerous attributes stripped
+- Markdown formatting preserved
+
+**Important**: Always use `sanitize={true}` for user-generated content!
+
+### Custom Wrapper Element
+
+Use semantic HTML elements:
+
+<Preview>
+  <CustomElementExample />
+</Preview>
+
+```tsx
+<Markdown as="article" className="prose">
+  {content}
+</Markdown>
+```
+
+## Performance Considerations
+
+### Sync vs Async
+
+**Synchronous (default)**:
+- Blocks rendering until complete
+- Use for small/medium content
+- No loading state needed
+- Simpler code
+
+**Asynchronous**:
+- Non-blocking rendering
+- Use for large content (>10KB)
+- Requires loading state
+- Better perceived performance
+
+```tsx
+// Small content: use sync (default)
+<Markdown>{smallContent}</Markdown>
+
+// Large content: use async
+<Markdown async renderPlaceholder={<Spinner />}>
+  {largeContent}
+</Markdown>
+```
+
+## Security Best Practices
+
+1. **Always sanitize user content**:
+   ```tsx
+   <Markdown sanitize>{userContent}</Markdown>
+   ```
+
+2. **Validate content sources**:
+   ```tsx
+   // ✅ Safe: Your own content
+   <Markdown>{yourContent}</Markdown>
+
+   // ❌ Unsafe: Untrusted user content without sanitization
+   <Markdown sanitize={false}>{untrustedContent}</Markdown>
+
+   // ✅ Safe: Sanitized user content
+   <Markdown sanitize>{untrustedContent}</Markdown>
+   ```
+
+3. **Content Security Policy**: Add CSP headers to prevent script injection
+
+4. **Rate limiting**: Limit how much content users can submit
+
+## Accessibility
+
+- Semantic HTML structure (headings, lists, tables)
+- Proper heading hierarchy (h1, h2, h3...)
+- Alt text for images (if included in markdown)
+- Table headers for screen readers
+- Focus management for interactive elements
+
+## TypeScript
+
+### Basic Usage
+
+```tsx
+import { Markdown } from '@geckoui/geckoui';
+
+const content: string = '## Hello';
+
+<Markdown>{content}</Markdown>
+```
+
+### With Custom Element
+
+```tsx
+import type { MarkdownProps } from '@geckoui/geckoui';
+
+const MyMarkdown: React.FC<MarkdownProps<'article'>> = (props) => {
+  return <Markdown as="article" {...props} />;
+};
+```
+
+### With Error Handler
+
+```tsx
+const errorHandler: React.FC<{ message: string }> = ({ message }) => (
+  <div className="error">{message}</div>
+);
+
+<Markdown renderError={errorHandler}>{content}</Markdown>
+```
+
+## Styling
+
+The component uses the class name `GeckoUIMarkdown`. You can target it in your CSS to apply custom styles:
+
+```css
+.GeckoUIMarkdown {
+  /* Your custom styles */
+}
+```
+
+
+### Large content performance
+
+For very large markdown files (>100KB):
+1. Use `async={true}`
+2. Consider code splitting
+3. Implement pagination
+4. Use virtual scrolling
+
+## Related Components
+
+- [MermaidDiagram](/docs/mermaid-diagram) - Render diagrams from markdown
+- [Alert](/docs/alert) - Error handling UI
+
+## Related Hooks
+
+- [useMarkdown](#) - Underlying hook for custom implementations

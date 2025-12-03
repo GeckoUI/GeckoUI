@@ -1,0 +1,177 @@
+@import "../../../mixins.scss";
+
+.GeckoUISelectButton {
+  @include button-reset;
+
+  @apply relative flex min-h-10 w-full items-center gap-2 rounded-md border border-border-secondary py-1 pl-3 pr-3 text-text-primary;
+
+  &--enabled {
+    @apply cursor-pointer;
+  }
+
+  &--enabled:focus-within {
+    @apply border-primary-400;
+  }
+
+  &--enabled:hover {
+    @apply border-primary-400;
+  }
+
+  &--disabled {
+    @apply cursor-not-allowed bg-surface-disabled;
+  }
+
+  &--readonly {
+    @apply gap-1;
+  }
+
+  &__content {
+    @apply static flex w-full flex-1 flex-wrap items-center gap-1 overflow-x-scroll;
+
+    scrollbar-width: none;
+    scrollbar-color: transparent transparent;
+    scrollbar-gutter: stable;
+
+    -webkit-scrollbar {
+      width: 0px;
+    }
+
+    -webkit-scrollbar-track {
+      background: transparent;
+    }
+  }
+
+  &__multiselected-chip {
+    @apply inline-flex items-center gap-1 self-center rounded border border-border-secondary/70 bg-surface-tertiary px-2 py-1 text-left text-xs text-text-primary;
+
+    &--disabled {
+      @apply text-text-disabled opacity-70;
+    }
+
+    &__clear-button {
+      @include button-reset;
+
+      @apply flex h-4 w-4 items-center justify-center rounded-sm;
+
+      &__icon {
+        @apply inline-block h-2 w-2 bg-text-secondary;
+
+        mask-image: url('data:image/svg+xml,<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.02426 0.175736C0.78995 -0.0585786 0.41005 -0.0585786 0.175736 0.175736C-0.0585786 0.41005 -0.0585786 0.78995 0.175736 1.02426L3.15147 4L0.175736 6.97574C-0.0585786 7.21005 -0.0585786 7.58995 0.175736 7.82426C0.41005 8.05858 0.78995 8.05858 1.02426 7.82426L4 4.84853L6.97574 7.82426C7.21005 8.05858 7.58995 8.05858 7.82426 7.82426C8.05858 7.58995 8.05858 7.21005 7.82426 6.97574L4.84853 4L7.82426 1.02426C8.05858 0.78995 8.05858 0.41005 7.82426 0.175736C7.58995 -0.0585786 7.21005 -0.0585786 6.97574 0.175736L4 3.15147L1.02426 0.175736Z" fill="currentColor"/></svg>');
+        -webkit-mask-image: url('data:image/svg+xml,<svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.02426 0.175736C0.78995 -0.0585786 0.41005 -0.0585786 0.175736 0.175736C-0.0585786 0.41005 -0.0585786 0.78995 0.175736 1.02426L3.15147 4L0.175736 6.97574C-0.0585786 7.21005 -0.0585786 7.58995 0.175736 7.82426C0.41005 8.05858 0.78995 8.05858 1.02426 7.82426L4 4.84853L6.97574 7.82426C7.21005 8.05858 7.58995 8.05858 7.82426 7.82426C8.05858 7.58995 8.05858 7.21005 7.82426 6.97574L4.84853 4L7.82426 1.02426C8.05858 0.78995 8.05858 0.41005 7.82426 0.175736C7.58995 -0.0585786 7.21005 -0.0585786 6.97574 0.175736L4 3.15147L1.02426 0.175736Z" fill="currentColor"/></svg>');
+      }
+
+      &--disabled {
+        @apply cursor-not-allowed;
+      }
+    }
+
+    &__clear-button:hover {
+      @apply bg-surface-active;
+    }
+
+    &__clear-button--disabled:hover {
+      @apply bg-transparent;
+    }
+  }
+
+  &__value {
+    @apply flex items-center text-text-primary;
+
+    &--placeholder {
+      @apply relative ml-0 text-text-placeholder;
+    }
+
+    &--hidden {
+      @apply hidden;
+    }
+  }
+
+  &__icons {
+    @apply flex items-center gap-1;
+  }
+
+  &--disabled &__value {
+    @apply text-text-disabled;
+  }
+
+  &__clear-button {
+    @apply flex cursor-pointer self-center;
+  }
+
+  &__search {
+    visibility: visible;
+    color: inherit;
+    flex: 1 1 auto;
+    display: inline-grid;
+    grid-area: 1 / 1 / 2 / 3;
+    grid-template-columns: 0px min-content;
+    box-sizing: border-box;
+
+    &--multi-selected {
+      padding: 0 2px;
+    }
+
+    &--focusonly {
+      @apply absolute inset-0 -z-[10];
+    }
+
+    &:after {
+      content: attr(data-keyword) " ";
+      visibility: hidden;
+      white-space: pre;
+      grid-area: 1 / 2;
+      font: inherit;
+      min-width: 2px;
+      border: 0px;
+      margin: 0px;
+      outline: 0px;
+      padding: 0px;
+    }
+
+    &__input {
+      box-sizing: border-box;
+      border-width: 0;
+      border-style: solid;
+      border-color: #e5e7eb;
+      font-family: inherit;
+      font-feature-settings: inherit;
+      font-variation-settings: inherit;
+      font-size: 100%;
+      font-weight: inherit;
+      line-height: inherit;
+      letter-spacing: inherit;
+      color: inherit;
+      margin: 0;
+      padding: 0;
+      text-transform: none;
+      -webkit-appearance: button;
+      background-color: transparent;
+      background-image: none;
+
+      color: inherit;
+      background: 0px center;
+      opacity: 1;
+      width: 100%;
+      grid-area: 1 / 2;
+      font: inherit;
+      min-width: 2px;
+      border: 0px;
+      margin: 0px;
+      outline: 0px;
+      padding: 0px;
+
+      &--initial {
+        @apply absolute left-3;
+      }
+
+      &--readonly {
+        width: 0;
+        z-index: -1;
+        cursor: pointer;
+        color: transparent;
+        position: absolute;
+        left: 0;
+      }
+    }
+  }
+}
