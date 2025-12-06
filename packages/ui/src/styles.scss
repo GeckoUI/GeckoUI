@@ -45,7 +45,7 @@
   --gecko-ui-border-hover: 212 212 212;
   --gecko-ui-border-disabled: 235 235 235;
 
-  --gecko-ui-scrollbar-track: 0 0 0 / 0;
+  --gecko-ui-scrollbar-track: 0 0 0;
   --gecko-ui-scrollbar-thumb: 209 213 219;
   --gecko-ui-scrollbar-thumb-hover: 156 163 175;
 }
@@ -69,13 +69,13 @@
   --gecko-ui-text-inverse: 23 23 23;
   --gecko-ui-text-muted: 163 163 163;
 
-  --gecko-ui-border-primary: 255 255 255 / 0.1;
-  --gecko-ui-border-secondary: 255 255 255 / 0.15;
+  --gecko-ui-border-primary: 90 90 90;
+  --gecko-ui-border-secondary: 90 90 90;
   --gecko-ui-border-focus: 115 115 115;
   --gecko-ui-border-hover: 163 163 163;
-  --gecko-ui-border-disabled: 255 255 255 / 0.1;
+  --gecko-ui-border-disabled: 45 45 45;
 
-  --gecko-ui-scrollbar-track: 0 0 0 / 0;
+  --gecko-ui-scrollbar-track: 0 0 0;
   --gecko-ui-scrollbar-thumb: 75 85 99;
   --gecko-ui-scrollbar-thumb-hover: 107 114 128;
 }
