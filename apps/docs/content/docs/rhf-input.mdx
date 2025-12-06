@@ -257,7 +257,7 @@ RHFInput automatically displays error states with:
 - Red border via `GeckoUIRHFInput--error` CSS class when `fieldState.error` exists
 - No automatic error icon (you must add via suffix prop if desired)
 
-Use [RHFInputGroup](/docs/rhf-input-group) component for label + input + error layout:
+**Recommended**: Use [RHFInputGroup](/docs/rhf-input-group) for label + input + error layouts. It automatically detects the RHF input and displays validation errors:
 
 ```tsx
 <RHFInputGroup label="Username" required>
