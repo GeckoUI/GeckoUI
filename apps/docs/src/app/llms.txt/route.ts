@@ -10,7 +10,6 @@ const content = `# Gecko UI
 
 ## Examples
 
-- [Playground](https://gecko.productionbug.com/playground): Interactive component playground.
 - [GitHub Examples](https://github.com/geckoui/geckoui/tree/main/apps/docs/src/components/examples): Component example files.
 
 ## Components
