@@ -145,3 +145,15 @@ export function PlacementOptionsExample() {
     </div>
   );
 }
+
+export function ClearableSelectExample() {
+  const [value, setValue] = useState<string | null>(null);
+
+  return (
+    <Select value={value} onChange={setValue} clearable placeholder="Select a framework...">
+      <SelectOption value="react" label="React" />
+      <SelectOption value="vue" label="Vue" />
+      <SelectOption value="angular" label="Angular" />
+    </Select>
+  );
+}

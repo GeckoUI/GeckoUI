@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.0] - 2025-12-16
+
+- Added `clearable` prop to Select component for clearing selected value
+
 ## [1.0.0] - 2025-12-03
 
 - Opensource initial release of GeckoUI React component library

@@ -20,6 +20,18 @@ pnpm add @geckoui/geckoui
 yarn add @geckoui/geckoui
 ```
 
+## Install react-hook-form for form components
+
+```bash
+npm install react-hook-form
+
+# or
+pnpm add react-hook-form
+
+# or
+yarn add react-hook-form
+```
+
 ## Quick Start
 
 ### 1. Import Styles
