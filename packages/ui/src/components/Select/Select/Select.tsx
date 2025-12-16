@@ -69,6 +69,7 @@ const Select: SelectOverload = <T,>(props: SelectProps<T>) => {
     closeMenuOnSelect = !multiple,
     placement = "bottom-start",
     floatingStrategy,
+    clearable = false,
     ...rest
   } = props;
 
@@ -179,6 +180,8 @@ const Select: SelectOverload = <T,>(props: SelectProps<T>) => {
         children,
         toggleMenu,
         menuScrollContainerRef,
+        onChange,
+        clearable,
         ...rest
       }}>
       <div
