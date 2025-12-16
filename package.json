@@ -9,7 +9,11 @@
     "typecheck": "turbo run typecheck",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "publish:dry": "pnpm -r publish --dry-run --access public --no-git-checks",
+    "publish:alpha": "pnpm -r publish --access public --tag alpha",
+    "publish:beta": "pnpm -r publish --access public --tag beta",
+    "publish:latest": "pnpm -r publish --access public"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.7",

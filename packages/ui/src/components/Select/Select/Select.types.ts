@@ -66,6 +66,12 @@ export interface BaseSelectProps extends PropsWithChildren, SelectButtonProps {
    * If you pass `SelectEmpty` as children, this will set to true
    * */
   hideDefaultEmptyUI?: boolean;
+
+  /**
+   * If true, a clear button will be shown to clear the selected value
+   * Default is false
+   * */
+  clearable?: boolean;
 }
 
 export interface SingleSelectProps<T> extends BaseSelectProps {
@@ -234,4 +240,9 @@ export interface SelectContextProps<T>
    * Used internally for scrolling focused options into view
    * */
   menuScrollContainerRef: RefObject<HTMLDivElement | null>;
+
+  /**
+   * Callback to be called when the value changes
+   * */
+  onChange?: (value: T | T[]) => void;
 }

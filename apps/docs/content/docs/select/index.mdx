@@ -5,6 +5,7 @@ description: Customizable dropdown select component with single selection mode
 
 import {
   BasicSelectExample,
+  ClearableSelectExample,
   DisabledOptionsExample,
   DisabledSelectExample,
   PlacementOptionsExample,
@@ -77,6 +78,7 @@ function Example() {
 | `inputRef`             | `RefObject`                         | -                | Ref for filter input                       |
 | `prefix`               | `ReactNode`                         | -                | Content before select button               |
 | `suffix`               | `ReactNode`                         | -                | Content after select button                |
+| `clearable`            | `boolean`                           | `false`          | Show a clear button to reset the selection |
 
 ## Examples
 
@@ -123,6 +125,24 @@ const [value, setValue] = useState<string | null>(null);
   <SelectOption value="selected" label="Selected Option" />
   <SelectOption value="other" label="Other Option" />
 </Select>
+```
+
+### Clearable
+
+Enable a clear button to reset the selection by setting `clearable` to `true`.
+
+<Preview>
+  <ClearableSelectExample />
+</Preview>
+
+```tsx
+const [value, setValue] = useState<string | null>(null);
+
+<Select value={value} onChange={setValue} clearable placeholder="Select a framework...">
+  <SelectOption value="react" label="React" />
+  <SelectOption value="vue" label="Vue" />
+  <SelectOption value="angular" label="Angular" />
+</Select>;
 ```
 
 ### Placement Options

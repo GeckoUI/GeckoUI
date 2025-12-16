@@ -30,7 +30,9 @@ function SelectButton({ prefix, suffix, className }: SelectButtonProps) {
     placeholder,
     placeholderClassName,
     children,
-    handleChange
+    handleChange,
+    onChange,
+    clearable
   } = useSelect();
 
   const id = useId();
@@ -44,6 +46,7 @@ function SelectButton({ prefix, suffix, className }: SelectButtonProps) {
     if (disabled) return;
 
     if (multiple) {
+      onChange?.([]);
       return;
     }
 
@@ -132,7 +135,7 @@ function SelectButton({ prefix, suffix, className }: SelectButtonProps) {
       </div>
 
       <div className="GeckoUISelectButton__icons">
-        {!multiple && hasValue && !disabled && (
+        {hasValue && !disabled && clearable && (
           <button className="GeckoUISelectButton__clear-button" type="button" onClick={handleClear}>
             <div className="GeckoUI-icon__clear" />
           </button>
