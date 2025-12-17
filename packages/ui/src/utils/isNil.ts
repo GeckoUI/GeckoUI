@@ -1,3 +1,5 @@
-import isNil from "lodash.isnil";
+const isNil = (value: unknown): boolean => {
+  return value == null;
+};
 
 export default isNil;
