@@ -1,0 +1,20 @@
+.GeckoUIRHFCounterInput--error {
+  .GeckoUICounterInput__button,
+  .GeckoUICounterInput__input {
+    @apply border-red-500;
+  }
+
+  &:hover {
+    .GeckoUICounterInput__button,
+    .GeckoUICounterInput__input {
+      @apply border-red-600;
+    }
+  }
+
+  &:focus-within {
+    .GeckoUICounterInput__button,
+    .GeckoUICounterInput__input {
+      @apply border-red-500;
+    }
+  }
+}
