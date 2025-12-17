@@ -38,6 +38,7 @@
     "rhf-input",
     "rhf-textarea",
     "rhf-checkbox",
+    "rhf-counter-input",
     "rhf-radio",
     "rhf-switch",
     "rhf-select",

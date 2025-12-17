@@ -1,4 +1,5 @@
 export * from "./RHFCheckbox";
+export * from "./RHFCounterInput";
 export * from "./RHFInput";
 export * from "./RHFError";
 export * from "./RHFInputGroup";

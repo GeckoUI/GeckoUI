@@ -1,7 +1,6 @@
 import { forwardRef, useEffect, useState } from "react";
 
 import { classNames } from "../../utils/classNames";
-import "./CounterInput.scss";
 import type { CounterInputProps } from "./CounterInput.types";
 
 /**
