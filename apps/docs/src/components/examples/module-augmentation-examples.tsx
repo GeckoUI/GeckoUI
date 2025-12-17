@@ -1,6 +1,6 @@
 "use client";
 
-import { Alert, Button, Switch } from "@geckoui/geckoui";
+import { Alert, Button, CounterInput, Switch } from "@geckoui/geckoui";
 import { useState } from "react";
 
 export function ButtonCustomColorsExample() {
@@ -53,4 +53,10 @@ export function AlertCustomVariantExample() {
       <Alert variant="critical" title="Critical alert (custom variant)" />
     </div>
   );
+}
+
+export function CounterInputCustomSizeExample() {
+  const [value, setValue] = useState(0);
+
+  return <CounterInput value={value} onChange={setValue} size="xl" />;
 }

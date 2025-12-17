@@ -13,4 +13,8 @@ declare module "@geckoui/geckoui" {
   interface AlertVariantMap {
     critical: unknown;
   }
+
+  interface CounterInputSizeMap {
+    xl: unknown;
+  }
 }

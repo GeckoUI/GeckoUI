@@ -1,9 +1,18 @@
-import { forwardRef, useState, useEffect } from "react";
+import { forwardRef, useEffect, useState } from "react";
 
 import { classNames } from "../../utils/classNames";
-import type { CounterInputProps } from "./CounterInput.types";
 import "./CounterInput.scss";
+import type { CounterInputProps } from "./CounterInput.types";
 
+/**
+ * A numeric input component with increment/decrement buttons.
+ *
+ * @example
+ * ```tsx
+ * const [count, setCount] = useState(0);
+ * <CounterInput value={count} onChange={setCount} min={0} max={10} />
+ * ```
+ */
 const CounterInput = forwardRef<HTMLInputElement, CounterInputProps>(
   (
     {
@@ -94,6 +103,7 @@ const CounterInput = forwardRef<HTMLInputElement, CounterInputProps>(
           disabled={disabled}
           readOnly={readOnly || !editable}
           {...rest}
+          tabIndex={editable ? 0 : -1}
         />
 
         <button
