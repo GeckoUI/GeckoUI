@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.1] - 2025-12-18
+
+- Fixed react and react-dom peer dependency versions in package.json
+
 ## [1.1.0] - 2025-12-16
 
 - Added `clearable` prop to Select component for clearing selected value
