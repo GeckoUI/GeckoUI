@@ -22,6 +22,7 @@ const content = `# Gecko UI
 - [Radio](${RAW_BASE}/radio.mdx): Radio button for single selection
 - [Switch](${RAW_BASE}/switch.mdx): Toggle switch for boolean values
 - [OTPInput](${RAW_BASE}/otp-input.mdx): One-time password input
+- [CounterInput](${RAW_BASE}/counter-input.mdx): Numeric input with increment/decrement buttons
 - [DateInput](${RAW_BASE}/date-input.mdx): Date picker with calendar
 - [DateRangeInput](${RAW_BASE}/date-range-input.mdx): Date range picker
 
@@ -59,6 +60,7 @@ const content = `# Gecko UI
 - [RHFInput](${RAW_BASE}/rhf-input.mdx)
 - [RHFTextarea](${RAW_BASE}/rhf-textarea.mdx)
 - [RHFCheckbox](${RAW_BASE}/rhf-checkbox.mdx)
+- [RHFCounterInput](${RAW_BASE}/rhf-counter-input.mdx)
 - [RHFRadio](${RAW_BASE}/rhf-radio.mdx)
 - [RHFSwitch](${RAW_BASE}/rhf-switch.mdx)
 - [RHFSelect](${RAW_BASE}/rhf-select.mdx)
