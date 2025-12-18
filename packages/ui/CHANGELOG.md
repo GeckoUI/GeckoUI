@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.2] - 2025-12-18
+
+- Add `react-hook-form` as a peer dependency to avoid version conflicts
+
 ## [1.1.1] - 2025-12-18
 
 - Fixed react and react-dom peer dependency versions in package.json
