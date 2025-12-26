@@ -27,6 +27,4 @@ export * from "./Dropdown";
 export * from "./Menu";
 export * from "./Select";
 export * from "./Dialog";
-export * from "./MermaidDiagram";
-export * from "./Markdown";
 export * from "./Spinner";

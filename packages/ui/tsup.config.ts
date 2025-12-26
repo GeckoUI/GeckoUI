@@ -5,20 +5,6 @@ import postcss from "postcss";
 import tailwindcss from "tailwindcss";
 import { defineConfig } from "tsup";
 
-const remarkPlugins = [
-  "rehype-format",
-  "rehype-raw",
-  "rehype-sanitize",
-  "rehype-stringify",
-  "remark-directive",
-  "remark-frontmatter",
-  "remark-gfm",
-  "remark-math",
-  "remark-parse",
-  "remark-rehype",
-  "unified"
-];
-
 const external = [
   "react",
   "react-dom",
@@ -34,9 +20,7 @@ const external = [
   "@radix-ui/react-tooltip",
   "react-textarea-autosize",
   "prop-types",
-  "tailwind-merge",
-  "mermaid",
-  ...remarkPlugins
+  "tailwind-merge"
 ];
 
 const watchFiles = ["./src/**/*.scss"].flatMap((pattern) => {
@@ -47,9 +31,7 @@ export default defineConfig((options) => {
   return {
     entry: [
       "src/index.ts",
-      ...(options.watch
-        ? watchFiles.filter((f) => f !== "src/imports.scss")
-        : ["src/styles.scss", "src/components/Markdown/Markdown.scss"])
+      ...(options.watch ? watchFiles.filter((f) => f !== "src/imports.scss") : ["src/styles.scss"])
     ],
     outDir: "dist",
     external,

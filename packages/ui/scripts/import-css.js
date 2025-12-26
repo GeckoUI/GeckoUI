@@ -10,7 +10,6 @@ const cssImports = glob
     (f) =>
       !f.endsWith("styles.scss") &&
       !f.endsWith("imports.scss") &&
-      !f.endsWith("Markdown.scss") &&
       !f.endsWith("mixins.scss") &&
       !f.endsWith("tailwind-variables.scss") &&
       fs.lstatSync(f).isFile() // Ensure it's a file
