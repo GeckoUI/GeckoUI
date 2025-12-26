@@ -7,7 +7,7 @@ import { Tooltip, Button } from '@geckoui/geckoui';
 
 # Tooltip
 
-Tooltip displays contextual information in a floating overlay when users hover over or focus on an element. Built on Radix UI, it provides accessible tooltips with customizable positioning, delays, and styling.
+Tooltip displays contextual information in a floating overlay when users hover over or focus on an element. Built on Floating UI, it provides accessible tooltips with customizable positioning, delays, and styling.
 
 ## Installation
 
@@ -37,10 +37,11 @@ import { Tooltip } from '@geckoui/geckoui';
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Tooltip position |
 | `delayDuration` | `number` | `700` | Delay before showing (ms) |
 | `sideOffset` | `number` | `5` | Distance from trigger (px) |
-| `backgroundColor` | `string` | `'#4b5563'` | Tooltip background color |
+| `backgroundColor` | `string` | CSS variable `surface-emphasis` | Tooltip background color |
 | `className` | `string` | - | CSS class for tooltip |
 | `triggerClassName` | `string` | - | CSS class for trigger |
 | `triggerAsChild` | `boolean` | `false` | Merge trigger with child |
+| `arrowClassName` | `string` | - | CSS class for arrow |
 | `children` | `ReactNode` | - | Trigger element (required) |
 
 ## Examples
@@ -332,11 +333,11 @@ The tooltip arrow is displayed only for `top` and `bottom` positions. It matches
 
 ## Accessibility
 
-- Built on Radix UI for WCAG compliance
+- Built on Floating UI for positioning
 - Proper ARIA attributes automatically applied
 - Keyboard accessible (focus shows tooltip)
 - Works with screen readers
-- `role="tooltip"` on trigger and content
+- `role="tooltip"` on content
 - Hover and focus both trigger display
 
 ## Styling
@@ -351,7 +352,7 @@ Override styles using `className` for content or `triggerClassName` for trigger.
 
 ## Dependencies
 
-This component uses `@radix-ui/react-tooltip` for accessibility and behavior.
+This component uses `@floating-ui/react` for positioning and behavior.
 
 ## Related Components
 

@@ -17,7 +17,6 @@ const external = [
   "sonner",
   "next-themes",
   "@headlessui/react",
-  "@radix-ui/react-tooltip",
   "react-textarea-autosize",
   "prop-types",
   "tailwind-merge"
