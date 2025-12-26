@@ -16,12 +16,10 @@ import {
   InputError,
   Label,
   LoadingButton,
-  Markdown,
   Menu,
   MenuButton,
   MenuItem,
   MenuItems,
-  MermaidDiagram,
   OTPInput,
   Pagination,
   RHFCheckbox,
@@ -42,7 +40,6 @@ import {
   Tooltip,
   toast
 } from "@geckoui/geckoui";
-import "@geckoui/geckoui/markdown.css";
 import "@geckoui/geckoui/styles.css";
 import { Fragment, useLayoutEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
@@ -766,46 +763,6 @@ export default function Home() {
           {/* Section 8: Content Display Components */}
           <section className="space-y-6  p-8 rounded-lg shadow">
             <h2 className="text-2xl font-bold border-b pb-2">Content Display Components</h2>
-
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold ">Markdown</h3>
-              <div className="max-w-3xl border p-4 rounded">
-                <Markdown>
-                  {`# Markdown Heading
-
-This is a **bold** text and this is *italic*.
-
-## Features
-- List item 1
-- List item 2
-- List item 3
-
-### Code Example
-\`\`\`javascript
-const greeting = "Hello, World!";
-console.log(greeting);
-\`\`\`
-
-> This is a blockquote with some important information.
-
-[Link to documentation](#)`}
-                </Markdown>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold ">Mermaid Diagram</h3>
-              <div className="max-w-3xl border p-4 rounded ">
-                <MermaidDiagram>
-                  {`graph TD
-    A[Start] --> B{Is it working?}
-    B -->|Yes| C[Great!]
-    B -->|No| D[Debug]
-    D --> B
-    C --> E[End]`}
-                </MermaidDiagram>
-              </div>
-            </div>
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold">Pagination</h3>

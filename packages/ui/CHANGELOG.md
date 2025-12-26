@@ -34,9 +34,7 @@
 - InputError - Form field error message display
 - Label - Form label component
 - LoadingButton - Button with loading state
-- Markdown - Markdown renderer with syntax highlighting
 - Menu - Navigation menu component
-- MermaidDiagram - Mermaid diagram renderer
 - OTPInput - One-time password input
 - Pagination - Page navigation component
 - Radio - Radio button input

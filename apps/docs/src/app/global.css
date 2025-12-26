@@ -12,7 +12,6 @@ body {
 
 @layer components {
   @import "@geckoui/geckoui/styles.css";
-  @import "@geckoui/geckoui/markdown.css";
 
   /* Module Augmentation Examples - Custom Button Colors */
   .GeckoUIButton--filled-secondary {

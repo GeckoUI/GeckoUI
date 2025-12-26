@@ -51,8 +51,6 @@ const content = `# Gecko UI
 - [Calendar](${RAW_BASE}/calendar.mdx): Full calendar component
 
 ### Content
-- [Markdown](${RAW_BASE}/markdown.mdx): Markdown renderer
-- [MermaidDiagram](${RAW_BASE}/mermaid-diagram.mdx): Diagram renderer
 - [Pagination](${RAW_BASE}/pagination.mdx): Page navigation
 
 ## React Hook Form
