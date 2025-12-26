@@ -32,7 +32,8 @@ const config: Config = {
           active: "rgb(var(--gecko-ui-surface-active) / <alpha-value>)",
           disabled: "rgb(var(--gecko-ui-surface-disabled) / <alpha-value>)",
           overlay: "rgb(var(--gecko-ui-surface-overlay) / <alpha-value>)",
-          autofill: "rgb(var(--gecko-ui-surface-autofill) / <alpha-value>)"
+          autofill: "rgb(var(--gecko-ui-surface-autofill) / <alpha-value>)",
+          emphasis: "rgb(var(--gecko-ui-surface-emphasis) / <alpha-value>)"
         },
 
         // Semantic text colors

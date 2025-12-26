@@ -1,57 +1,18 @@
-import * as RTooltip from "@radix-ui/react-tooltip";
-import type { FC } from "react";
+import {
+  FloatingArrow,
+  FloatingPortal,
+  arrow,
+  flip,
+  offset,
+  shift,
+  useFloating
+} from "@floating-ui/react";
+import { Children, type FC, cloneElement, isValidElement, useRef, useState } from "react";
 
 import { classNames } from "../../utils/classNames";
 import { DynamicComponentRenderer } from "../DynamicComponentRenderer";
 import type { TooltipProps } from "./Tooltip.types";
 
-/**
- * Tooltip displays contextual information in a floating overlay when users hover over or focus on an element.
- * Built on Radix UI, it provides accessible tooltips with customizable positioning, delays, and styling.
- * Returns children unchanged if no content is provided.
- *
- * @example
- * Icon button with helpful hint:
- *
- * ```tsx
- * <Tooltip content="Add new item" side="right" delayDuration={300}>
- *   <button className="p-2">
- *     <PlusIcon />
- *   </button>
- * </Tooltip>
- * ```
- *
- * @example
- * Complex tooltip content:
- *
- * ```tsx
- * <Tooltip
- *   content={
- *     <div>
- *       <strong>Premium Feature</strong>
- *       <p>Upgrade to access this feature</p>
- *     </div>
- *   }
- *   backgroundColor="#1f2937"
- *   sideOffset={10}
- * >
- *   <LockIcon />
- * </Tooltip>
- * ```
- *
- * @example
- * Bottom-positioned with custom delay:
- *
- * ```tsx
- * <Tooltip
- *   content="Last updated: 2 hours ago"
- *   side="bottom"
- *   delayDuration={500}
- * >
- *   <span>Status: Active</span>
- * </Tooltip>
- * ```
- */
 const Tooltip: FC<TooltipProps> = ({
   children,
   delayDuration = 700,
@@ -59,37 +20,87 @@ const Tooltip: FC<TooltipProps> = ({
   className,
   triggerClassName,
   triggerAsChild = false,
-  backgroundColor = "#4b5563",
+  arrowClassName,
+  backgroundColor,
   side = "top",
-  sideOffset = 5
+  sideOffset = 12
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const arrowRef = useRef(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const { refs, floatingStyles, context } = useFloating({
+    open: isOpen,
+    onOpenChange: setIsOpen,
+    placement: side,
+    middleware: [offset(sideOffset), flip(), shift({ padding: 5 }), arrow({ element: arrowRef })]
+  });
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(true);
+    }, delayDuration);
+  };
+
+  const handleMouseLeave = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setIsOpen(false);
+  };
+
   if (!content) return children;
 
+  const triggerProps = {
+    ref: refs.setReference,
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+    onFocus: handleMouseEnter,
+    onBlur: handleMouseLeave
+  };
+
+  const renderTrigger = () => {
+    if (triggerAsChild) {
+      const child = Children.only(children);
+      if (isValidElement(child)) {
+        return cloneElement(child, {
+          ...triggerProps,
+          className: classNames((child.props as { className?: string }).className, triggerClassName)
+        } as React.HTMLAttributes<HTMLElement>);
+      }
+    }
+
+    return (
+      <span {...triggerProps} className={classNames("GeckoUITooltip__trigger", triggerClassName)}>
+        {children}
+      </span>
+    );
+  };
+
   return (
-    <RTooltip.Provider delayDuration={delayDuration}>
-      <RTooltip.Root>
-        <RTooltip.Trigger
-          asChild={triggerAsChild}
-          className={classNames(!triggerAsChild && "GeckoUITooltip__trigger", triggerClassName)}
-          role="tooltip"
-          type="button">
-          {children}
-        </RTooltip.Trigger>
-        <RTooltip.Portal>
-          <RTooltip.Content
-            side={side}
+    <>
+      {renderTrigger()}
+      {isOpen && (
+        <FloatingPortal>
+          <div
+            ref={refs.setFloating}
+            style={{ ...floatingStyles, backgroundColor }}
             className={classNames("GeckoUITooltip", className)}
-            sideOffset={sideOffset}
-            role="tooltip"
-            style={{ backgroundColor }}>
+            role="tooltip">
             <DynamicComponentRenderer component={content} />
-            {(side === "top" || side === "bottom") && (
-              <RTooltip.Arrow fill={backgroundColor} className="GeckoUITooltip__arrow" />
-            )}
-          </RTooltip.Content>
-        </RTooltip.Portal>
-      </RTooltip.Root>
-    </RTooltip.Provider>
+            <FloatingArrow
+              ref={arrowRef}
+              context={context}
+              className={classNames("GeckoUITooltip__arrow", arrowClassName)}
+              style={{ fill: backgroundColor }}
+            />
+          </div>
+        </FloatingPortal>
+      )}
+    </>
   );
 };
 

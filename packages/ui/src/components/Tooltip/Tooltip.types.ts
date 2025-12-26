@@ -1,3 +1,4 @@
+import { Placement } from "@floating-ui/react";
 import type { FC, PropsWithChildren, ReactNode } from "react";
 
 export interface TooltipProps extends PropsWithChildren {
@@ -30,9 +31,13 @@ export interface TooltipProps extends PropsWithChildren {
   triggerClassName?: string;
 
   /**
-   * Whether consider the trigger as a child
-   * Use this to avoid invalid button nesting errors when using a button as the trigger
-   * If you use custom components as the trigger, you might need to wrap with `forwardRef`
+   * Classname to apply to the tooltip arrow
+   * */
+  arrowClassName?: string;
+
+  /**
+   * Whether to use the child element directly as the trigger.
+   * Use this to avoid invalid button nesting errors when using a button as the trigger.
    * */
   triggerAsChild?: boolean;
 
@@ -44,7 +49,7 @@ export interface TooltipProps extends PropsWithChildren {
   /**
    * The side of the tooltip to display
    * */
-  side?: "top" | "right" | "bottom" | "left";
+  side?: Placement;
 
   /**
    * The offset of the tooltip from the trigger

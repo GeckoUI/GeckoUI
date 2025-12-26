@@ -79,7 +79,6 @@
   "dependencies": {
     "@floating-ui/react": "^0.26.28",
     "@headlessui/react": "^2.2.9",
-    "@radix-ui/react-tooltip": "^1.2.8",
     "lodash.isequal": "^4.5.0",
     "mime": "^4.1.0",
     "react-textarea-autosize": "^8.5.9",

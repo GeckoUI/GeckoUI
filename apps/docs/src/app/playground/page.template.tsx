@@ -604,16 +604,16 @@ export default function Home() {
             <div className="space-y-4">
               <h3 className="text-lg font-semibold ">Tooltip</h3>
               <div className="flex flex-wrap gap-4">
-                <Tooltip content="Tooltip on top" side="top" triggerAsChild>
+                <Tooltip content="Tooltip on top" side="top">
                   <Button variant="outlined">Top</Button>
                 </Tooltip>
-                <Tooltip content="Tooltip on right" side="right" triggerAsChild>
+                <Tooltip content="Tooltip on right" side="right">
                   <Button variant="outlined">Right</Button>
                 </Tooltip>
-                <Tooltip content="Tooltip on bottom" side="bottom" triggerAsChild>
+                <Tooltip content="Tooltip on bottom" side="bottom">
                   <Button variant="outlined">Bottom</Button>
                 </Tooltip>
-                <Tooltip content="Tooltip on left" side="left" triggerAsChild>
+                <Tooltip content="Tooltip on left" side="left">
                   <Button variant="outlined">Left</Button>
                 </Tooltip>
               </div>
