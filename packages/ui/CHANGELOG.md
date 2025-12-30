@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.3] - 2025-12-30
+
+- Fix `disabled` color not applying on `Input` component.
+
 ## [1.1.2] - 2025-12-18
 
 - Add `react-hook-form` as a peer dependency to avoid version conflicts
