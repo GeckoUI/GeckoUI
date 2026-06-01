@@ -3,6 +3,7 @@
   "pages": [
     "index",
     "installation",
+    "gecko-ui-provider",
     "theming",
 
     "---Components---",

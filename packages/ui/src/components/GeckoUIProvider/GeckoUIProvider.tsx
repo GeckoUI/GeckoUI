@@ -63,7 +63,11 @@ function DialogEntryRenderer({ id, options, isTop }: DialogEntryRendererProps) {
     <div className="GeckoUIDialog" data-state={animationState} {...dataAttributes}>
       <div className="GeckoUIDialog__backdrop">
         <div ref={ref} className={classNames("GeckoUIDialog__dialog", className)}>
-          <DynamicComponentRenderer component={content} dismiss={() => overlayStore.dismiss(id)} />
+          <DynamicComponentRenderer
+            component={content}
+            dismiss={() => overlayStore.dismiss(id)}
+            isTop={isTop}
+          />
         </div>
       </div>
     </div>

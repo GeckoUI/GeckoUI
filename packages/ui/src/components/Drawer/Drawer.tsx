@@ -76,8 +76,6 @@ function Drawer({
         data-state={open && !hideBackdrop ? "visible" : "hidden"}
         data-clickthrough={allowClickOutside || undefined}
         className={classNames("GeckoUIDrawer__backdrop", backdropClassName)}
-        onClick={handleDismiss}
-        onKeyDown={handleDismiss}
         role="presentation"
       />
       <div

@@ -35,6 +35,9 @@ const content = `# Gecko UI
 - [Toast](${RAW_BASE}/toast.mdx): Toast notifications
 - [Spinner](${RAW_BASE}/spinner.mdx): Loading spinner
 
+### Setup
+- [GeckoUIProvider](${RAW_BASE}/gecko-ui-provider.mdx): Required app wrapper for overlays and toasts
+
 ### Overlays
 - [Dialog](${RAW_BASE}/dialog.mdx): Modal dialog
 - [ConfirmDialog](${RAW_BASE}/confirm-dialog.mdx): Confirmation modal

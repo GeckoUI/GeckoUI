@@ -17,8 +17,9 @@ function ConfirmDialogContent({
   contentClassName,
   dismiss,
   onConfirm,
-  onCancel
-}: ConfirmDialogContentProps) {
+  onCancel,
+  isTop = true
+}: ConfirmDialogContentProps & { isTop?: boolean }) {
   const [cancelLoading, setCancelLoading] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { preventDefault, attachPreventDefault } = usePreventDefault();
@@ -51,11 +52,12 @@ function ConfirmDialogContent({
   };
 
   useEffect(() => {
+    if (!isTop) return;
+
     const onKeyDown = (e: KeyboardEvent) => {
       const el = document.activeElement;
 
       if (e.key === "Enter") {
-        // Prevent default if the active element is a tabbable a.k.a focusable element
         if (el && el instanceof HTMLElement && el.tabIndex > -1) {
           return;
         }
@@ -71,7 +73,7 @@ function ConfirmDialogContent({
     return () => {
       return document.removeEventListener("keydown", onKeyDown);
     };
-  }, [handleConfirm]);
+  }, [handleConfirm, isTop]);
 
   return (
     <>
