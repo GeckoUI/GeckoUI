@@ -112,7 +112,9 @@ export const show = (options: ConfirmDialogOptions): string => {
     dismissOnOutsideClick: true,
     ...options,
     className: classNames("GeckoUIConfirmDialog__dialog", options.className),
-    content: ({ dismiss }) => <ConfirmDialogContent {...options} dismiss={dismiss} />
+    content: ({ dismiss, isTop }) => (
+      <ConfirmDialogContent {...options} dismiss={dismiss} isTop={isTop} />
+    )
   });
 };
 
