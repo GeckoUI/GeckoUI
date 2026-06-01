@@ -104,8 +104,8 @@ function ConfirmDialogContent({
   );
 }
 
-export const show = (options: ConfirmDialogOptions) => {
-  Dialog.show({
+export const show = (options: ConfirmDialogOptions): string => {
+  return Dialog.show({
     dismissOnEsc: true,
     dismissOnOutsideClick: true,
     ...options,

@@ -1,4 +1,4 @@
-import { GeckoUIPortal } from "@geckoui/geckoui";
+import { GeckoUIProvider } from "@geckoui/geckoui";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -41,8 +41,9 @@ export default function Layout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen">
-        <RootProvider>{children}</RootProvider>
-        <GeckoUIPortal />
+        <RootProvider>
+          <GeckoUIProvider>{children}</GeckoUIProvider>
+        </RootProvider>
       </body>
     </html>
   );
