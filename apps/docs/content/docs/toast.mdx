@@ -13,23 +13,24 @@ Display brief, non-intrusive notification messages to provide feedback on user a
 ## Installation
 
 ```tsx
-import { toast, GeckoUIPortal } from '@geckoui/geckoui';
+import { toast } from '@geckoui/geckoui';
 ```
 
 ## Setup
 
-Add `GeckoUIPortal` to your app root to enable toast notifications:
+Toast is enabled automatically when `GeckoUIProvider` is present in your app. See [GeckoUIProvider](/docs/gecko-ui-provider) for setup instructions.
 
 ```tsx
 // app/layout.tsx or _app.tsx
-import { GeckoUIPortal } from '@geckoui/geckoui';
+import { GeckoUIProvider } from '@geckoui/geckoui';
 
 export default function RootLayout({ children }) {
   return (
     <html>
       <body>
-        {children}
-        <GeckoUIPortal />
+        <GeckoUIProvider>
+          {children}
+        </GeckoUIProvider>
       </body>
     </html>
   );
@@ -302,10 +303,10 @@ toast('Bottom Right', { position: 'bottom-right' });
 
 ## Global Configuration
 
-Configure toast defaults in `GeckoUIPortal`:
+Configure toast defaults via the `toastOptions` prop on `GeckoUIProvider`:
 
 ```tsx
-<GeckoUIPortal
+<GeckoUIProvider
   toastOptions={{
     position: 'top-right',
     duration: 3000,
@@ -317,7 +318,9 @@ Configure toast defaults in `GeckoUIPortal`:
       color: 'black'
     }
   }}
-/>
+>
+  <App />
+</GeckoUIProvider>
 ```
 
 ### Available Global Options
