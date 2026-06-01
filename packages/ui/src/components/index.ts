@@ -21,7 +21,7 @@ export * from "./OTPInput";
 export * from "./Pagination";
 export * from "./ConfirmDialog";
 export * from "./Toast";
-export * from "./GeckoUIPortal";
+export * from "./GeckoUIProvider";
 export * from "./Drawer";
 export * from "./Menu";
 export * from "./Select";

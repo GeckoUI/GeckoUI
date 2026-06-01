@@ -1,11 +1,10 @@
 import type { ReactNode } from "react";
 import { useRef } from "react";
-import { type Root, createRoot } from "react-dom/client";
 
 import { useClickOutside, useEscListener } from "../../hooks";
 import { classNames } from "../../utils/classNames";
+import { overlayStore } from "../GeckoUIProvider/overlay-store";
 import type { DrawerProps } from "./Drawer.types";
-import { DRAWER_CONTAINER_ID } from "./DrawerContainer";
 
 /**
  * Drawer is a slide-out panel component that displays auxiliary content from any edge of the viewport.
@@ -16,14 +15,22 @@ import { DRAWER_CONTAINER_ID } from "./DrawerContainer";
  * optional backdrop overlay, and flexible dismissal behaviors including ESC key and click-outside handling.
  *
  * @example
+ * Controlled usage:
+ *
+ * ```tsx
+ * const [open, setOpen] = useState(false);
+ *
+ * <Button onClick={() => setOpen(true)}>Open</Button>
+ * <Drawer open={open} handleClose={() => setOpen(false)} placement="right" allowClickOutside>
+ *   <div className="p-6">Content here</div>
+ * </Drawer>
+ * ```
+ *
+ * @example
  * Mobile navigation menu:
  *
  * ```tsx
  * const [menuOpen, setMenuOpen] = useState(false);
- *
- * <button onClick={() => setMenuOpen(true)}>
- *   <MenuIcon />
- * </button>
  *
  * <Drawer
  *   open={menuOpen}
@@ -36,87 +43,6 @@ import { DRAWER_CONTAINER_ID } from "./DrawerContainer";
  *   <nav className="p-6">
  *     <NavigationLinks />
  *   </nav>
- * </Drawer>
- * ```
- *
- * @example
- * Filter panel with backdrop:
- *
- * ```tsx
- * const [filtersOpen, setFiltersOpen] = useState(false);
- *
- * <Drawer
- *   open={filtersOpen}
- *   handleClose={() => setFiltersOpen(false)}
- *   placement="right"
- *   allowClickOutside={true}
- *   backdropClassName="bg-black/60"
- *   className="w-96 p-6"
- * >
- *   <FilterPanel
- *     onApply={(filters) => {
- *       applyFilters(filters);
- *       setFiltersOpen(false);
- *     }}
- *   />
- * </Drawer>
- * ```
- *
- * @example
- * Notification center from top:
- *
- * ```tsx
- * <Drawer
- *   open={showNotifications}
- *   handleClose={() => setShowNotifications(false)}
- *   placement="top"
- *   hideBackdrop={false}
- *   allowClickOutside
- *   className="h-96 border-b shadow-lg"
- * >
- *   <NotificationList
- *     notifications={notifications}
- *     onMarkAllRead={handleMarkAllRead}
- *   />
- * </Drawer>
- * ```
- *
- * @example
- * Bottom sheet for mobile actions:
- *
- * ```tsx
- * <Drawer
- *   open={isBottomSheetOpen}
- *   handleClose={() => setBottomSheetOpen(false)}
- *   placement="bottom"
- *   allowClickOutside
- *   dismissOnEscape={false}
- *   backdropClassName="bg-black/40"
- *   className="h-64 rounded-t-2xl"
- * >
- *   <ActionSheet
- *     actions={mobileActions}
- *     onSelect={handleActionSelect}
- *   />
- * </Drawer>
- * ```
- *
- * @example
- * Settings panel without backdrop:
- *
- * ```tsx
- * <Drawer
- *   open={settingsVisible}
- *   handleClose={() => setSettingsVisible(false)}
- *   placement="right"
- *   hideBackdrop
- *   allowClickOutside={false}
- *   className="w-[600px] border-l"
- * >
- *   <SettingsPanel
- *     sections={settingsSections}
- *     onSave={saveSettings}
- *   />
  * </Drawer>
  * ```
  */
@@ -139,7 +65,6 @@ function Drawer({
 
   useClickOutside(() => {
     if (!allowClickOutside) return;
-
     handleDismiss();
   }, [drawerRootRef]);
 
@@ -165,75 +90,39 @@ function Drawer({
   );
 }
 
-let root: Root | null = null;
-
 /**
  * Drawer.show provides an imperative API for displaying drawers without managing React state.
- * This is particularly useful for one-off drawers triggered by user actions or global events.
+ * Each call pushes a new drawer onto the overlay stack and returns an id.
+ * Call `Drawer.dismiss(id)` to close a specific drawer, or `Drawer.dismiss()` for the topmost.
+ *
+ * Requires `<GeckoUIProvider>` to wrap your app.
  *
  * @example
  * Quick action drawer:
  *
  * ```tsx
- * const openQuickActions = () => {
- *   Drawer.show(
- *     <QuickActionsMenu
- *       actions={globalActions}
- *       onActionClick={(action) => {
- *         handleAction(action);
- *         Drawer.dismiss();
- *       }}
- *     />,
- *     {
- *       placement: "bottom",
- *       handleClose: () => Drawer.dismiss(),
- *       className: "h-80 rounded-t-xl"
- *     }
- *   );
- * };
+ * const id = Drawer.show(
+ *   <QuickActionsMenu onActionClick={() => Drawer.dismiss(id)} />,
+ *   { placement: "bottom", className: "h-80 rounded-t-xl" }
+ * );
  * ```
  *
  * @example
  * Contextual help panel:
  *
  * ```tsx
- * // Show help drawer from any component
  * Drawer.show(
  *   <HelpDocumentation topic={currentTopic} />,
- *   {
- *     placement: "right",
- *     handleClose: () => {
- *       logHelpUsage(currentTopic);
- *       Drawer.dismiss();
- *     },
- *     allowClickOutside: true,
- *     className: "w-[500px]"
- *   }
+ *   { placement: "right", allowClickOutside: true, className: "w-[500px]" }
  * );
  * ```
  */
-Drawer.show = (node: ReactNode, options: Omit<DrawerProps, "open" | "children"> = {}) => {
-  const el = document.getElementById(DRAWER_CONTAINER_ID);
-
-  if (!el) {
-    throw new Error("DrawerContainer not found");
-  }
-
-  root = createRoot(el);
-  root.render(
-    <Drawer {...options} open>
-      {node}
-    </Drawer>
-  );
+Drawer.show = (node: ReactNode, options: Omit<DrawerProps, "open" | "children"> = {}): string => {
+  return overlayStore.pushDrawer(node, options);
 };
 
-Drawer.dismiss = () => {
-  if (!root) {
-    console.warn("Drawer is not mounted.");
-    return;
-  }
-
-  root.unmount();
+Drawer.dismiss = (id?: string): void => {
+  overlayStore.dismiss(id);
 };
 
 export default Drawer;

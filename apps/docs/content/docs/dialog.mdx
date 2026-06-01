@@ -10,7 +10,11 @@ import { BasicDialogExample, ImageLightboxExample, FormDialogExample, NoEscapeDi
 
 A lightweight, imperative modal component that renders content in a centered overlay. It serves as the foundational layer for more complex dialog patterns and automatically handles focus management, escape key dismissal, and click-outside behavior.
 
-## Installation
+Multiple dialogs can be stacked — each `show()` returns an id for targeted dismissal.
+
+## Setup
+
+Requires [`<GeckoUIProvider>`](/docs/gecko-ui-provider) to wrap your app.
 
 ```tsx
 import { Dialog } from '@geckoui/geckoui';
@@ -48,26 +52,65 @@ function Example() {
 
 ### Dialog.show(options)
 
-Opens a dialog with the specified options.
+Opens a dialog and returns an `id` string you can pass to `dismiss(id)`.
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `content` | `ReactNode \| FC<{ dismiss: () => void }>` | - | Content to display in the dialog (required) |
-| `className` | `string` | - | CSS class for the dialog container |
+| `content` | `ReactNode \| FC<{ dismiss: () => void }>` | — | Content to display in the dialog |
+| `className` | `string` | — | CSS class for the dialog container |
 | `dismissOnEsc` | `boolean` | `true` | Dismiss dialog on Escape key press |
 | `dismissOnOutsideClick` | `boolean` | `true` | Dismiss dialog on backdrop click |
-| `data-*` | `string` | - | Data attributes for the dialog element |
+| `data-*` | `string` | — | Data attributes for the dialog element |
 
-### Dialog.dismiss()
+**Returns:** `string` — the overlay id.
 
-Programmatically closes the currently open dialog.
+### Dialog.dismiss(id?)
+
+Closes a dialog. Pass the `id` returned by `show()` to close a specific dialog, or call with no argument to close the topmost overlay.
 
 ```tsx
-// Close dialog from anywhere
+const id = Dialog.show({ content: () => <p>Hello</p> });
+
+// Close this specific dialog:
+Dialog.dismiss(id);
+
+// Close whatever is on top:
 Dialog.dismiss();
 ```
 
 ## Examples
+
+### Stacking Dialogs
+
+```tsx
+Dialog.show({
+  content: ({ dismiss }) => (
+    <div>
+      <p>First dialog</p>
+      <Button onClick={() =>
+        Dialog.show({ content: () => <p>Second dialog (stacked on top)</p> })
+      }>
+        Open another
+      </Button>
+      <Button onClick={dismiss}>Close this</Button>
+    </div>
+  )
+});
+```
+
+### Context Consumption
+
+Overlay content can read any React context provided above `GeckoUIProvider`:
+
+```tsx
+// Inside a component where AuthContext is available:
+Dialog.show({
+  content: () => {
+    const { user } = useContext(AuthContext);
+    return <p>Logged in as {user.name}</p>;
+  }
+});
+```
 
 ### Image Lightbox
 
@@ -80,15 +123,8 @@ const openImageViewer = () => {
   Dialog.show({
     content: ({ dismiss }) => (
       <div className="relative">
-        <img
-          src="/large-image.jpg"
-          alt="Preview"
-          className="max-w-4xl rounded-lg"
-        />
-        <button
-          onClick={dismiss}
-          className="absolute top-4 right-4 size-8 flex items-center justify-center bg-black/50 text-white rounded-full"
-        >
+        <img src="/large-image.jpg" alt="Preview" className="max-w-4xl rounded-lg" />
+        <button onClick={dismiss} className="absolute top-4 right-4 size-8 flex items-center justify-center bg-black/50 text-white rounded-full">
           ✕
         </button>
       </div>
@@ -119,10 +155,6 @@ const showUserForm = () => {
             <Label htmlFor="name">Name</Label>
             <Input id="name" type="text" defaultValue="John Doe" />
           </div>
-          <div className="space-y-1">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" defaultValue="john@example.com" />
-          </div>
           <div className="flex gap-2 justify-end">
             <Button variant="ghost" onClick={dismiss}>Cancel</Button>
             <Button onClick={dismiss}>Save Changes</Button>
@@ -148,9 +180,7 @@ Dialog.show({
   content: ({ dismiss }) => (
     <div>
       <h2 className="text-xl font-semibold mb-4">Important Notice</h2>
-      <p className="text-gray-600 mb-6">
-        This dialog can only be closed by clicking the button.
-      </p>
+      <p className="text-gray-600 mb-6">This dialog can only be closed by clicking the button.</p>
       <Button onClick={dismiss}>I Understand</Button>
     </div>
   ),
@@ -162,7 +192,6 @@ Dialog.show({
 ### Loading State
 
 ```tsx
-// Show loading dialog
 Dialog.show({
   content: () => (
     <div className="flex flex-col items-center gap-4">
@@ -174,82 +203,40 @@ Dialog.show({
   dismissOnOutsideClick: false
 });
 
-// Dismiss from anywhere after async operation
 await processPayment();
 Dialog.dismiss();
 ```
 
-## Content Function Pattern
-
-The `content` prop can receive a function that gets access to the `dismiss` callback:
-
-```tsx
-Dialog.show({
-  content: ({ dismiss }) => {
-    const handleSave = async () => {
-      await saveData();
-      dismiss(); // Close after save
-    };
-
-    return (
-      <div>
-        <h2>Edit Item</h2>
-        <Button onClick={handleSave}>Save</Button>
-        <Button onClick={dismiss}>Cancel</Button>
-      </div>
-    );
-  }
-});
-```
-
 ## Behavior
+
+### Stacking
+
+Each `Dialog.show()` pushes onto a shared overlay stack. The topmost dialog captures Esc and click-outside events; lower dialogs ignore them until they become topmost.
 
 ### Focus Management
 
-- Automatically blurs the active element when dialog opens
-- Prevents focus from leaving the dialog while open
-- Restores focus appropriately when closed
+Automatically blurs the active element when a dialog opens.
 
 ### Dismissal
 
-- **Escape Key**: Closes dialog by default (disable with `dismissOnEsc={false}`)
-- **Click Outside**: Closes dialog by default (disable with `dismissOnOutsideClick={false}`)
-- **Programmatic**: Call `Dialog.dismiss()` from anywhere
-
-### Portal Rendering
-
-Dialog requires `<GeckoUIPortal />` to be mounted in your app:
-
-```tsx
-// app/layout.tsx
-import { GeckoUIPortal } from '@geckoui/geckoui';
-
-export default function RootLayout({ children }) {
-  return (
-    <html>
-      <body>
-        {children}
-        <GeckoUIPortal />
-      </body>
-    </html>
-  );
-}
-```
+- **Escape Key**: Closes the topmost dialog by default (disable with `dismissOnEsc: false`)
+- **Click Outside**: Closes the topmost dialog by default (disable with `dismissOnOutsideClick: false`)
+- **Programmatic**: `Dialog.dismiss(id?)` from anywhere
 
 ## Styling
 
-- `GeckoUIDialog` - Main container
-- `GeckoUIDialog__backdrop` - Background overlay
-- `GeckoUIDialog__dialog` - Dialog content wrapper
+- `GeckoUIDialog` — Main container (`data-state="entering" | "open" | "closing"`)
+- `GeckoUIDialog__backdrop` — Background overlay
+- `GeckoUIDialog__dialog` — Dialog content wrapper
 
 ## Accessibility
 
-- Click-outside detection
 - Escape key support
+- Click-outside detection
 - Focus management
-- Backdrop prevents interaction with underlying content
 
 ## Related Components
 
-- [ConfirmDialog](/docs/confirm-dialog) - Pre-styled confirmation dialogs
-- [Drawer](/docs/drawer) - Side panel alternative to centered dialogs
+- [GeckoUIProvider](/docs/gecko-ui-provider) — Required provider
+- [ConfirmDialog](/docs/confirm-dialog) — Pre-styled confirmation dialogs
+- [Drawer](/docs/drawer) — Side panel alternative
