@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.6.0]
+
+- Select: Menu width now matches the trigger with `floatingStrategy="fixed"`, and long labels wrap instead of overflowing.
+- Menu: Panel now has a default `max-h-[240px]` — override with `menuClassName`.
+- SelectOption: Check icon space is now always reserved, preventing layout shift on selection.
+
 ## [1.5.0]
 
 ### Breaking Changes

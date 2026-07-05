@@ -10,6 +10,10 @@
   }
 
   &__check-icon {
-    @apply h-3.5 w-3.5 shrink-0;
+    @apply invisible h-3.5 w-3.5 shrink-0;
+  }
+
+  &[data-state="selected"] &__check-icon {
+    @apply visible;
   }
 }
