@@ -5,6 +5,7 @@
 - Select: Menu width now matches the trigger with `floatingStrategy="fixed"`, and long labels wrap instead of overflowing.
 - Menu: Panel now has a default `max-h-[240px]` — override with `menuClassName`.
 - SelectOption: Check icon space is now always reserved, preventing layout shift on selection.
+- Select: Menu now opens correctly when the component is wrapped in a `<label>` element.
 
 ## [1.5.0]
 
