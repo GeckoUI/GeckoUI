@@ -1,6 +1,5 @@
-import type { MetadataRoute } from "next";
-
 import { source } from "@/lib/source";
+import type { MetadataRoute } from "next";
 
 export const revalidate = false;
 

@@ -1,9 +1,8 @@
+import SearchDialog from "@/components/search";
 import { GeckoUIPortal } from "@geckoui/geckoui";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-
-import SearchDialog from "@/components/search";
 
 import "./global.css";
 

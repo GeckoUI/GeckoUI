@@ -78,17 +78,11 @@ export function NumberOfMonthsExample() {
     <div className="space-y-4">
       <div>
         <p className="text-sm text-gray-600 mb-2">Single month</p>
-        <DateRangeInput
-          value={value1}
-          onChange={(v) => setValue1(v ?? undefined)}
-        />
+        <DateRangeInput value={value1} onChange={(v) => setValue1(v ?? undefined)} />
       </div>
       <div>
         <p className="text-sm text-gray-600 mb-2">Dual months (default)</p>
-        <DateRangeInput
-          value={value2}
-          onChange={(v) => setValue2(v ?? undefined)}
-        />
+        <DateRangeInput value={value2} onChange={(v) => setValue2(v ?? undefined)} />
       </div>
     </div>
   );
