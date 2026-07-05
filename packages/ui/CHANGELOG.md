@@ -7,6 +7,7 @@
 - SelectOption: Check icon space is now always reserved, preventing layout shift on selection.
 - Select: Menu now opens correctly when the component is wrapped in a `<label>` element.
 - Checkbox: Rebuilt as a styled native input (removed inner button/label wrappers, and the `GeckoUICheckbox__button` / `GeckoUICheckbox__box` classes) — toggling now works when wrapped in a `<label>`.
+- Calendar: Year picker now shows the correct decade for years ending in 5-9 (previously rounded to the next decade).
 
 ## [1.5.0]
 
