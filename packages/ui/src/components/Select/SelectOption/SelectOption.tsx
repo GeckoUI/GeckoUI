@@ -189,7 +189,7 @@ const SelectOption = <T,>({ children, ...props }: SelectOptionProps<T>) => {
   useEffect(() => {
     if (!ref.current || !menuScrollContainerRef.current) return;
 
-    if (focusedOption?.focusType !== "mouse" && focused) {
+    if (focusedOption?.focusType === "keyboard" && focused) {
       const scrollContainer = menuScrollContainerRef.current;
       const optionRect = ref.current.getBoundingClientRect();
       const containerRect = scrollContainer.getBoundingClientRect();

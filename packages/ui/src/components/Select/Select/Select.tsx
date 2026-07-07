@@ -120,7 +120,7 @@ const Select: SelectOverload = <T,>(props: SelectProps<T>) => {
     if (disabled || open) return;
 
     const option = options.filter((e) => isEqual(e.value, value))?.[0] ?? options[0];
-    setFocusedOption({ ...option, focusType: "keyboard" });
+    setFocusedOption({ ...option, focusType: "initial" });
     setOpen(true);
     setKeyword("");
   }

@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.1]
+
+- Select: Menu no longer auto-scrolls to the selected option on open; keyboard navigation still scrolls the focused option into view.
+
 ## [1.6.0]
 
 - Select: Menu width now matches the trigger with `floatingStrategy="fixed"`, and long labels wrap instead of overflowing.

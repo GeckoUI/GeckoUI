@@ -118,7 +118,7 @@ export interface SelectOverload {
 }
 
 export interface FocusedOption<T = unknown> extends SelectOptionConfig<T> {
-  focusType?: "keyboard" | "mouse";
+  focusType?: "keyboard" | "mouse" | "initial";
 }
 
 export interface SelectContextProps<T>
