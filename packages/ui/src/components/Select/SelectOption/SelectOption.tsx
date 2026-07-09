@@ -189,7 +189,7 @@ const SelectOption = <T,>({ children, ...props }: SelectOptionProps<T>) => {
   useEffect(() => {
     if (!ref.current || !menuScrollContainerRef.current) return;
 
-    if (focusedOption?.focusType === "keyboard" && focused) {
+    if (focusedOption?.focusType !== "mouse" && focused) {
       const scrollContainer = menuScrollContainerRef.current;
       const optionRect = ref.current.getBoundingClientRect();
       const containerRect = scrollContainer.getBoundingClientRect();
@@ -204,7 +204,7 @@ const SelectOption = <T,>({ children, ...props }: SelectOptionProps<T>) => {
 
         scrollContainer.scrollTo({
           top: optionTop - containerHeight / 2 + optionHeight / 2,
-          behavior: "smooth"
+          behavior: focusedOption?.focusType === "initial" ? "auto" : "smooth"
         });
       }
     }

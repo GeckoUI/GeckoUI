@@ -1,8 +1,12 @@
 # Changelog
 
+## [1.6.2]
+
+- Select: Menu positions to the selected option on open again (removed in 1.6.1), now as an instant jump without the smooth-scroll animation.
+
 ## [1.6.1]
 
-- Select: Menu no longer auto-scrolls to the selected option on open; keyboard navigation still scrolls the focused option into view.
+- Select: Menu no longer auto-scrolls to the selected option on open.
 
 ## [1.6.0]
 
