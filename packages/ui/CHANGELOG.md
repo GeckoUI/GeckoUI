@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.6.3]
+
+- Select: Menu width is now `min-width: trigger` — it grows to fit long option labels (capped to the viewport) instead of being fixed to the trigger width.
+
 ## [1.6.2]
 
 - Select: Menu positions to the selected option on open again (removed in 1.6.1), now as an instant jump without the smooth-scroll animation.
