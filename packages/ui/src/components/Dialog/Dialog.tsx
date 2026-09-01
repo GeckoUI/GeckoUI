@@ -1,43 +1,60 @@
+import { getDataAttributes } from "../../utils";
 import { overlayStore } from "../GeckoUIProvider/overlay-store";
-import type { DialogOptions } from "./Dialog.types";
-
-const show = (options: DialogOptions): string => {
-  (document.activeElement as HTMLElement)?.blur();
-  return overlayStore.pushDialog(options);
-};
-
-const dismiss = (id?: string): void => {
-  overlayStore.dismiss(id);
-};
+import type { DialogOptions, DialogProps } from "./Dialog.types";
+import { DialogSurface } from "./DialogSurface";
 
 /**
- * Dialog is a lightweight, imperative modal component that renders content in a centered overlay.
- * It serves as the foundational layer for more complex dialog patterns like ConfirmDialog.
+ * Dialog renders content in a centered modal overlay.
  *
- * The component automatically handles focus management, escape key dismissal, and click-outside
- * behavior. Multiple dialogs can be stacked — each `show()` call returns an id you can pass to
- * `dismiss(id)` to close a specific dialog; calling `dismiss()` with no argument closes the
- * topmost overlay.
+ * Use it declaratively with `open` / `handleClose` when the dialog belongs to a component's
+ * state, or imperatively with `Dialog.show()` when it is a one-off triggered from anywhere.
+ * The imperative form requires `<GeckoUIProvider>` to wrap your app.
  *
- * Requires `<GeckoUIProvider>` to wrap your app so that context flows into overlay content.
+ * Clicking the backdrop or pressing Esc dismisses the dialog. Clicks inside the dialog never
+ * dismiss it, including popups rendered in a portal such as `Select` or `Menu`.
  *
  * @example
- * Basic dialog:
+ * Declarative:
  *
  * ```tsx
- * Dialog.show({
- *   content: ({ dismiss }) => (
- *     <div>
- *       <h3>Hello</h3>
- *       <Button onClick={dismiss}>Close</Button>
- *     </div>
- *   )
- * });
+ * const [open, setOpen] = useState(false);
+ *
+ * <Button onClick={() => setOpen(true)}>Open</Button>
+ * <Dialog open={open} handleClose={() => setOpen(false)}>
+ *   <h3>Hello</h3>
+ *   <Button onClick={() => setOpen(false)}>Close</Button>
+ * </Dialog>
  * ```
+ */
+function Dialog({
+  open = false,
+  handleClose,
+  className,
+  dismissOnEsc = true,
+  dismissOnOutsideClick = true,
+  children,
+  ...rest
+}: DialogProps) {
+  return (
+    <DialogSurface
+      open={open}
+      className={className}
+      dismissOnEsc={dismissOnEsc}
+      dismissOnOutsideClick={dismissOnOutsideClick}
+      onDismiss={handleClose}
+      dataAttributes={getDataAttributes(rest)}>
+      {children}
+    </DialogSurface>
+  );
+}
+
+/**
+ * Dialog.show opens a dialog imperatively, without managing React state.
+ *
+ * Each call pushes a new dialog onto the overlay stack and returns an id. Dialogs stack on
+ * top of each other and always render above drawers. Requires `<GeckoUIProvider>`.
  *
  * @example
- * Stacking two dialogs:
- *
  * ```tsx
  * const id = Dialog.show({
  *   content: ({ dismiss }) => (
@@ -51,28 +68,26 @@ const dismiss = (id?: string): void => {
  *   )
  * });
  *
- * // Close the first dialog specifically:
  * Dialog.dismiss(id);
- * ```
- *
- * @example
- * Loading state with external dismissal:
- *
- * ```tsx
- * Dialog.show({
- *   content: () => <LoadingSpinner text="Processing payment..." />,
- *   dismissOnEsc: false,
- *   dismissOnOutsideClick: false
- * });
- *
- * await processPayment();
- * Dialog.dismiss();
  * ```
  *
  * @note
  * For dialogs requiring user confirmation with standardized action buttons,
  * consider using the `ConfirmDialog` component instead.
  */
-const Dialog = { show, dismiss };
+Dialog.show = (options: DialogOptions): string => {
+  (document.activeElement as HTMLElement)?.blur();
+  return overlayStore.pushDialog(options);
+};
+
+/**
+ * Closes a dialog opened with `Dialog.show()`.
+ *
+ * Pass the id returned by `show()` to close that dialog, or call it with no argument to close
+ * the topmost dialog. It never closes a drawer — use `Drawer.dismiss()` for those.
+ */
+Dialog.dismiss = (id?: string): void => {
+  overlayStore.dismiss("dialog", id);
+};
 
 export default Dialog;

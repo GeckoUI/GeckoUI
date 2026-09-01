@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 
 import { useClickOutside, useEscListener } from "../../hooks";
 import { classNames } from "../../utils/classNames";
@@ -55,33 +55,43 @@ function Drawer({
   backdropClassName,
   className,
   children,
-  dismissOnEscape = true
+  dismissOnEscape = true,
+  style
 }: DrawerProps) {
-  const drawerRootRef = useRef(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
-  const handleDismiss = () => {
-    if (open) handleClose?.();
-  };
+  const handleCloseRef = useRef(handleClose);
+  handleCloseRef.current = handleClose;
 
-  useClickOutside(() => {
-    if (!allowClickOutside) return;
+  const handleDismiss = useCallback(() => {
+    handleCloseRef.current?.();
+  }, []);
+
+  const dismissOnClickOutside = useCallback(() => {
+    if (!allowClickOutside || !open) return;
     handleDismiss();
-  }, [drawerRootRef]);
+  }, [allowClickOutside, open, handleDismiss]);
 
-  useEscListener(dismissOnEscape ? handleDismiss : undefined);
+  useClickOutside(dismissOnClickOutside, [drawerRef]);
+
+  useEscListener(open && dismissOnEscape ? handleDismiss : undefined);
 
   return (
-    <div className="GeckoUIDrawer" ref={drawerRootRef} role="dialog">
+    <div className="GeckoUIDrawer" style={style}>
       <div
         data-state={open && !hideBackdrop ? "visible" : "hidden"}
         data-clickthrough={allowClickOutside || undefined}
         className={classNames("GeckoUIDrawer__backdrop", backdropClassName)}
+        onMouseDown={open ? handleDismiss : undefined}
         role="presentation"
       />
       <div
+        ref={drawerRef}
         data-placement={placement}
         data-state={open ? "open" : "closed"}
-        className={classNames("GeckoUIDrawer__drawer", className)}>
+        className={classNames("GeckoUIDrawer__drawer", className)}
+        role="dialog"
+        aria-modal={!allowClickOutside}>
         {children}
       </div>
     </div>
@@ -91,7 +101,10 @@ function Drawer({
 /**
  * Drawer.show provides an imperative API for displaying drawers without managing React state.
  * Each call pushes a new drawer onto the overlay stack and returns an id.
- * Call `Drawer.dismiss(id)` to close a specific drawer, or `Drawer.dismiss()` for the topmost.
+ * Call `Drawer.dismiss(id)` to close a specific drawer, or `Drawer.dismiss()` for the topmost
+ * drawer. It never closes a dialog — use `Dialog.dismiss()` for those.
+ *
+ * `handleClose` passed in options is still called when the drawer is dismissed.
  *
  * Requires `<GeckoUIProvider>` to wrap your app.
  *
@@ -116,11 +129,12 @@ function Drawer({
  * ```
  */
 Drawer.show = (node: ReactNode, options: Omit<DrawerProps, "open" | "children"> = {}): string => {
+  (document.activeElement as HTMLElement)?.blur();
   return overlayStore.pushDrawer(node, options);
 };
 
 Drawer.dismiss = (id?: string): void => {
-  overlayStore.dismiss(id);
+  overlayStore.dismiss("drawer", id);
 };
 
 export default Drawer;

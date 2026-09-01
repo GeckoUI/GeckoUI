@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 /** Extensible placement map - To allow module augmentation */
 export interface DrawerPlacementMap {
@@ -66,4 +66,10 @@ export interface DrawerProps {
    * Default is true
    * */
   dismissOnEscape?: boolean;
+
+  /**
+   * Inline styles for the drawer root.
+   * `GeckoUIProvider` uses it to stack drawers opened with `Drawer.show()`.
+   * */
+  style?: CSSProperties;
 }

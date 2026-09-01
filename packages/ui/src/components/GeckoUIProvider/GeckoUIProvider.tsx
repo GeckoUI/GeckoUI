@@ -2,13 +2,13 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "
 import { createPortal } from "react-dom";
 import { Toaster } from "sonner";
 
-import { useClickOutside, useEscListener } from "../../hooks";
-import { classNames } from "../../utils/classNames";
+import { getDataAttributes } from "../../utils";
+import { DialogSurface } from "../Dialog/DialogSurface";
 import { Drawer } from "../Drawer";
 import { DynamicComponentRenderer } from "../DynamicComponentRenderer";
 import type { GeckoUIProviderProps } from "./GeckoUIProvider.types";
 import type { DialogEntry, DrawerEntry, OverlayEntry } from "./overlay-store";
-import { overlayStore } from "./overlay-store";
+import { OVERLAY_ANIMATION_DURATION, getZIndex, overlayStore } from "./overlay-store";
 
 const emptySubscribe = () => () => {};
 const useIsMounted = () =>
@@ -18,11 +18,29 @@ const useIsMounted = () =>
     () => false
   );
 
-interface DialogEntryRendererProps extends DialogEntry {
-  isTop: boolean;
+function useOverlayEntry(id: string) {
+  const [open, setOpen] = useState(true);
+
+  const handleDismiss = useCallback(() => {
+    setOpen(false);
+    overlayStore.markClosing(id);
+  }, [id]);
+
+  const handleExited = useCallback(() => {
+    overlayStore.remove(id);
+  }, [id]);
+
+  useEffect(() => overlayStore.registerDismiss(id, handleDismiss), [id, handleDismiss]);
+
+  return { open, handleDismiss, handleExited };
 }
 
-function DialogEntryRenderer({ id, options, isTop }: DialogEntryRendererProps) {
+interface EntryRendererProps {
+  isTop: boolean;
+  zIndex: number;
+}
+
+function DialogEntryRenderer({ id, options, isTop, zIndex }: DialogEntry & EntryRendererProps) {
   const {
     content,
     className,
@@ -31,75 +49,75 @@ function DialogEntryRenderer({ id, options, isTop }: DialogEntryRendererProps) {
     ...rest
   } = options;
 
-  const ref = useRef<HTMLDivElement>(null);
-  const [animationState, setAnimationState] = useState<"entering" | "open" | "closing">("entering");
-
-  const handleDismiss = useCallback(() => {
-    setAnimationState("closing");
-    setTimeout(() => overlayStore.remove(id), 300);
-  }, [id]);
-
-  useEffect(() => {
-    const unregister = overlayStore.registerDismiss(id, handleDismiss);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setAnimationState("open");
-      });
-    });
-    return unregister;
-  }, [id, handleDismiss]);
-
-  useEscListener(dismissOnEsc && isTop ? handleDismiss : undefined);
-  useClickOutside(dismissOnOutsideClick && isTop ? handleDismiss : undefined, [ref]);
-
-  const dataAttributes = Object.keys(rest).reduce<Record<string, string>>((acc, key) => {
-    if (key.startsWith("data-")) {
-      acc[key] = rest[key as `data-${string}`];
-    }
-    return acc;
-  }, {});
+  const { open, handleDismiss, handleExited } = useOverlayEntry(id);
 
   return (
-    <div className="GeckoUIDialog" data-state={animationState} {...dataAttributes}>
-      <div className="GeckoUIDialog__backdrop">
-        <div ref={ref} className={classNames("GeckoUIDialog__dialog", className)}>
-          <DynamicComponentRenderer
-            component={content}
-            dismiss={() => overlayStore.dismiss(id)}
-            isTop={isTop}
-          />
-        </div>
-      </div>
-    </div>
+    <DialogSurface
+      open={open}
+      isTop={isTop}
+      className={className}
+      dismissOnEsc={dismissOnEsc}
+      dismissOnOutsideClick={dismissOnOutsideClick}
+      style={{ zIndex }}
+      dataAttributes={getDataAttributes(rest)}
+      onDismiss={handleDismiss}
+      onExited={handleExited}>
+      <DynamicComponentRenderer component={content} dismiss={handleDismiss} isTop={isTop} />
+    </DialogSurface>
   );
 }
 
-interface DrawerEntryRendererProps extends DrawerEntry {
-  isTop: boolean;
-}
+function DrawerEntryRenderer({
+  id,
+  node,
+  options,
+  isTop,
+  zIndex
+}: DrawerEntry & EntryRendererProps) {
+  const { open, handleDismiss, handleExited } = useOverlayEntry(id);
 
-function DrawerEntryRenderer({ id, node, options, isTop }: DrawerEntryRendererProps) {
-  const [open, setOpen] = useState(true);
+  const handleCloseRef = useRef(options.handleClose);
+  handleCloseRef.current = options.handleClose;
 
-  const handleDismiss = useCallback(() => {
-    setOpen(false);
-    setTimeout(() => overlayStore.remove(id), 300);
-  }, [id]);
+  const handleClose = useCallback(() => {
+    handleCloseRef.current?.();
+    handleDismiss();
+  }, [handleDismiss]);
 
   useEffect(() => {
-    return overlayStore.registerDismiss(id, handleDismiss);
-  }, [id, handleDismiss]);
+    if (open) return;
+
+    const timer = setTimeout(handleExited, OVERLAY_ANIMATION_DURATION);
+    return () => clearTimeout(timer);
+  }, [open, handleExited]);
 
   return (
     <Drawer
       {...options}
       open={open}
-      handleClose={handleDismiss}
+      style={{ ...options.style, zIndex }}
+      handleClose={handleClose}
       dismissOnEscape={options.dismissOnEscape !== false && isTop}
       allowClickOutside={!!(options.allowClickOutside && isTop)}>
       {node}
     </Drawer>
   );
+}
+
+function OverlayEntryRenderer({
+  entry,
+  isTop,
+  zIndex
+}: {
+  entry: OverlayEntry;
+  isTop: boolean;
+  zIndex: number;
+}) {
+  if (entry.type === "dialog") {
+    return <DialogEntryRenderer {...entry} isTop={isTop} zIndex={zIndex} />;
+  }
+
+  return <DrawerEntryRenderer {...entry} isTop={isTop} zIndex={zIndex} />;
 }
 
 /**
@@ -108,6 +126,9 @@ function DrawerEntryRenderer({ id, node, options, isTop }: DrawerEntryRendererPr
  * It owns the overlay stack for `Dialog.show()` / `Drawer.show()` and renders each
  * open overlay via `ReactDOM.createPortal` so that React context flows into overlay
  * content. It also renders the sonner `<Toaster>`.
+ *
+ * Mount exactly one provider. If more than one is mounted, only the first renders the
+ * overlay stack and the others log an error.
  *
  * @example
  * ```tsx
@@ -131,41 +152,55 @@ function DrawerEntryRenderer({ id, node, options, isTop }: DrawerEntryRendererPr
  */
 export function GeckoUIProvider({ children, toastOptions = {} }: GeckoUIProviderProps) {
   const mounted = useIsMounted();
+  const [hostId] = useState(() => overlayStore.createHostId());
+
+  useEffect(() => overlayStore.registerHost(hostId), [hostId]);
+
+  const activeHost = useSyncExternalStore(
+    overlayStore.subscribe,
+    overlayStore.getActiveHost,
+    () => null
+  );
   const entries = useSyncExternalStore<OverlayEntry[]>(
     overlayStore.subscribe,
     overlayStore.getSnapshot,
     () => []
   );
-  const topId = entries[entries.length - 1]?.id;
+
+  const isHost = activeHost === hostId;
+  const topId = overlayStore.getTopId();
   const { style, ...restToastOptions } = toastOptions;
 
   return (
     <>
       {children}
       {mounted &&
-        entries.map((entry) =>
+        isHost &&
+        entries.map((entry, index) =>
           createPortal(
-            entry.type === "dialog" ? (
-              <DialogEntryRenderer key={entry.id} {...entry} isTop={entry.id === topId} />
-            ) : (
-              <DrawerEntryRenderer key={entry.id} {...entry} isTop={entry.id === topId} />
-            ),
+            <OverlayEntryRenderer
+              entry={entry}
+              isTop={entry.id === topId}
+              zIndex={getZIndex(entry, index)}
+            />,
             document.body,
             entry.id
           )
         )}
-      <Toaster
-        position="bottom-right"
-        style={
-          {
-            "--normal-bg": "var(--color-surface-primary)",
-            "--normal-text": "var(--color-text-primary)",
-            "--normal-border": "var(--color-border-primary)",
-            ...style
-          } as React.CSSProperties
-        }
-        {...restToastOptions}
-      />
+      {isHost && (
+        <Toaster
+          position="bottom-right"
+          style={
+            {
+              "--normal-bg": "var(--color-surface-primary)",
+              "--normal-text": "var(--color-text-primary)",
+              "--normal-border": "var(--color-border-primary)",
+              ...style
+            } as React.CSSProperties
+          }
+          {...restToastOptions}
+        />
+      )}
     </>
   );
 }

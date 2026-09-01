@@ -19,7 +19,7 @@ function ConfirmDialogContent({
   onConfirm,
   onCancel,
   isTop = true
-}: ConfirmDialogContentProps & { isTop?: boolean }) {
+}: ConfirmDialogContentProps) {
   const [cancelLoading, setCancelLoading] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const { preventDefault, attachPreventDefault } = usePreventDefault();

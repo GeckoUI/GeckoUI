@@ -56,3 +56,42 @@ export interface DialogOptions {
   /** Data attributes to be added to the dialog */
   [key: `data-${string}`]: string;
 }
+
+export interface DialogProps {
+  /**
+   * Open/Close the dialog
+   * */
+  open: boolean;
+
+  /**
+   * Callback fired when the dialog asks to be closed (Esc key or backdrop click).
+   * */
+  handleClose?: () => void;
+
+  /**
+   * Content to be displayed inside the dialog.
+   * */
+  children?: ReactNode;
+
+  /**
+   * Additional class name for the dialog
+   * */
+  className?: string;
+
+  /**
+   * Dismiss the dialog on pressing the `Escape` key.
+   * Default is `true`.
+   * */
+  dismissOnEsc?: boolean;
+
+  /**
+   * Dismiss the dialog on clicking the backdrop.
+   * Clicks inside the dialog never dismiss it, including content rendered in a portal
+   * such as a `Select` or `Menu` popup.
+   * Default is `true`.
+   * */
+  dismissOnOutsideClick?: boolean;
+
+  /** Data attributes to be added to the dialog */
+  [key: `data-${string}`]: string;
+}
