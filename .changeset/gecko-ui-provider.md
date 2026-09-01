@@ -91,8 +91,9 @@ place and does not need `GeckoUIProvider`.
 - Clicking the backdrop closes a `<Drawer>` again when `allowClickOutside` is `false`. The
   backdrop click handler had been dropped, which left the default drawer closable only by Esc.
 - `Dialog.show()` / `Drawer.show()` log an error when no `<GeckoUIProvider>` is mounted, instead
-  of doing nothing. Mounting more than one provider also logs an error; only the first renders
-  the overlay stack and the `<Toaster>`.
+  of doing nothing. When more than one provider is mounted, the innermost one owns the overlay
+  stack and the `<Toaster>` and the others render nothing, with a warning so accidental
+  duplicates are easy to spot.
 - Overlays give up topmost status as soon as they start closing, so the overlay underneath
   responds to Esc immediately instead of after the 300ms exit animation.
 - `<Drawer>` accepts a `style` prop, and the drawer panel carries `role="dialog"`.

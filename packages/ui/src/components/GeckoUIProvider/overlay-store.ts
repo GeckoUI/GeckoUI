@@ -27,6 +27,8 @@ const BASE_Z_INDEX: Record<OverlayType, number> = {
   dialog: 2000
 };
 
+const EMPTY_ENTRIES: OverlayEntry[] = [];
+
 let idCounter = 0;
 let hostIdCounter = 0;
 let entries: OverlayEntry[] = [];
@@ -50,6 +52,20 @@ function warnWhenNoHost() {
   );
 }
 
+function warnWhenManyHosts() {
+  if (hosts.length < 2) return;
+
+  queueMicrotask(() => {
+    if (hosts.length < 2) return;
+
+    console.warn(
+      "[GeckoUI] More than one <GeckoUIProvider> is mounted. The innermost one owns the " +
+        "overlay stack and the <Toaster>; the others render nothing. Mount a single provider " +
+        "unless you nest one deliberately to give overlays access to a subtree's context."
+    );
+  });
+}
+
 function isOpen(entry: OverlayEntry) {
   return !closingIds.has(entry.id);
 }
@@ -70,6 +86,10 @@ export const overlayStore = {
     return entries;
   },
 
+  getServerSnapshot(): OverlayEntry[] {
+    return EMPTY_ENTRIES;
+  },
+
   getActiveHost(): number | null {
     return activeHost;
   },
@@ -78,17 +98,15 @@ export const overlayStore = {
     return ++hostIdCounter;
   },
 
+  /**
+   * Providers register from their effects, which React runs child-first, so the innermost
+   * provider registers first and owns the overlay stack.
+   */
   registerHost(hostId: number): () => void {
-    hosts = [...hosts, hostId];
+    if (!hosts.includes(hostId)) hosts = [...hosts, hostId];
     activeHost = hosts[0];
 
-    if (hosts.length > 1) {
-      console.error(
-        "[GeckoUI] More than one <GeckoUIProvider> is mounted. Overlays are rendered by the " +
-          "first one only. Mount a single provider at the root of your app."
-      );
-    }
-
+    warnWhenManyHosts();
     notify();
 
     return () => {

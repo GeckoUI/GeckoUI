@@ -11,12 +11,10 @@ import type { DialogEntry, DrawerEntry, OverlayEntry } from "./overlay-store";
 import { OVERLAY_ANIMATION_DURATION, getZIndex, overlayStore } from "./overlay-store";
 
 const emptySubscribe = () => () => {};
-const useIsMounted = () =>
-  useSyncExternalStore(
-    emptySubscribe,
-    () => true,
-    () => false
-  );
+const getNoHost = () => null;
+const getMounted = () => true;
+const getNotMounted = () => false;
+const useIsMounted = () => useSyncExternalStore(emptySubscribe, getMounted, getNotMounted);
 
 function useOverlayEntry(id: string) {
   const [open, setOpen] = useState(true);
@@ -129,8 +127,9 @@ function OverlayEntryRenderer({
  * open overlay via `ReactDOM.createPortal` so that React context flows into overlay
  * content. It also renders the sonner `<Toaster>`.
  *
- * Mount exactly one provider. If more than one is mounted, only the first renders the
- * overlay stack and the others log an error.
+ * Mount one provider. If you nest another one deeper — to give overlays access to a subtree's
+ * context — the innermost provider owns the overlay stack and the `<Toaster>`, and the outer
+ * ones render nothing but their children.
  *
  * @example
  * ```tsx
@@ -161,12 +160,12 @@ export function GeckoUIProvider({ children, toastOptions = {} }: GeckoUIProvider
   const activeHost = useSyncExternalStore(
     overlayStore.subscribe,
     overlayStore.getActiveHost,
-    () => null
+    getNoHost
   );
   const entries = useSyncExternalStore<OverlayEntry[]>(
     overlayStore.subscribe,
     overlayStore.getSnapshot,
-    () => []
+    overlayStore.getServerSnapshot
   );
 
   const isHost = activeHost === hostId;

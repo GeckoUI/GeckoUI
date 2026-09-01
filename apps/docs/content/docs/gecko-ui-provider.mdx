@@ -44,6 +44,23 @@ export default function RootLayout({ children }) {
 </AuthProvider>
 ```
 
+## Nesting providers
+
+Mount one provider at the root. If you nest another one deeper — for example on a page that has
+its own context you want overlays to read — the **innermost** provider owns the overlay stack and
+the `<Toaster>`, and the outer ones just render their children. A warning is logged so accidental
+duplicates are easy to spot.
+
+```tsx
+<GeckoUIProvider>            {/* root: renders nothing while the inner one is mounted */}
+  <PageUserContext.Provider value={user}>
+    <GeckoUIProvider>        {/* ← owns the stack, so overlays can read PageUserContext */}
+      <Page />
+    </GeckoUIProvider>
+  </PageUserContext.Provider>
+</GeckoUIProvider>
+```
+
 ## Props
 
 | Prop | Type | Default | Description |
