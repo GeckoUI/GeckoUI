@@ -21,7 +21,7 @@ const useIsMounted = () =>
 function useOverlayEntry(id: string) {
   const [open, setOpen] = useState(true);
 
-  const handleDismiss = useCallback(() => {
+  const close = useCallback(() => {
     setOpen(false);
     overlayStore.markClosing(id);
   }, [id]);
@@ -30,9 +30,7 @@ function useOverlayEntry(id: string) {
     overlayStore.remove(id);
   }, [id]);
 
-  useEffect(() => overlayStore.registerDismiss(id, handleDismiss), [id, handleDismiss]);
-
-  return { open, handleDismiss, handleExited };
+  return { open, close, handleExited };
 }
 
 interface EntryRendererProps {
@@ -49,7 +47,9 @@ function DialogEntryRenderer({ id, options, isTop, zIndex }: DialogEntry & Entry
     ...rest
   } = options;
 
-  const { open, handleDismiss, handleExited } = useOverlayEntry(id);
+  const { open, close, handleExited } = useOverlayEntry(id);
+
+  useEffect(() => overlayStore.registerDismiss(id, close), [id, close]);
 
   return (
     <DialogSurface
@@ -60,9 +60,9 @@ function DialogEntryRenderer({ id, options, isTop, zIndex }: DialogEntry & Entry
       dismissOnOutsideClick={dismissOnOutsideClick}
       style={{ zIndex }}
       dataAttributes={getDataAttributes(rest)}
-      onDismiss={handleDismiss}
+      onDismiss={close}
       onExited={handleExited}>
-      <DynamicComponentRenderer component={content} dismiss={handleDismiss} isTop={isTop} />
+      <DynamicComponentRenderer component={content} dismiss={close} isTop={isTop} />
     </DialogSurface>
   );
 }
@@ -74,15 +74,17 @@ function DrawerEntryRenderer({
   isTop,
   zIndex
 }: DrawerEntry & EntryRendererProps) {
-  const { open, handleDismiss, handleExited } = useOverlayEntry(id);
+  const { open, close, handleExited } = useOverlayEntry(id);
 
   const handleCloseRef = useRef(options.handleClose);
   handleCloseRef.current = options.handleClose;
 
   const handleClose = useCallback(() => {
     handleCloseRef.current?.();
-    handleDismiss();
-  }, [handleDismiss]);
+    close();
+  }, [close]);
+
+  useEffect(() => overlayStore.registerDismiss(id, handleClose), [id, handleClose]);
 
   useEffect(() => {
     if (open) return;

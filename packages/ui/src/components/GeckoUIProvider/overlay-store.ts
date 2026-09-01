@@ -46,7 +46,7 @@ function warnWhenNoHost() {
 
   console.error(
     "[GeckoUI] No <GeckoUIProvider> is mounted, so the overlay cannot be rendered. " +
-      "Wrap your app with <GeckoUIProvider> — see https://geckoui.dev/docs/gecko-ui-provider"
+      "Wrap your app with <GeckoUIProvider> to use Dialog.show() and Drawer.show()."
   );
 }
 
