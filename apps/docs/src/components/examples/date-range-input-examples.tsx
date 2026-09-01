@@ -59,11 +59,11 @@ export function DateFormatsExample() {
         />
       </div>
       <div>
-        <p className="text-sm text-gray-600 mb-2">YYYY/MM/DD</p>
+        <p className="text-sm text-gray-600 mb-2">YYYY-MM-DD</p>
         <DateRangeInput
           value={value3}
           onChange={(v) => setValue3(v ?? undefined)}
-          format="YYYY/MM/DD"
+          format="YYYY-MM-DD"
         />
       </div>
     </div>
@@ -78,19 +78,11 @@ export function NumberOfMonthsExample() {
     <div className="space-y-4">
       <div>
         <p className="text-sm text-gray-600 mb-2">Single month</p>
-        <DateRangeInput
-          value={value1}
-          onChange={(v) => setValue1(v ?? undefined)}
-          numberOfMonths={1}
-        />
+        <DateRangeInput value={value1} onChange={(v) => setValue1(v ?? undefined)} />
       </div>
       <div>
         <p className="text-sm text-gray-600 mb-2">Dual months (default)</p>
-        <DateRangeInput
-          value={value2}
-          onChange={(v) => setValue2(v ?? undefined)}
-          numberOfMonths={2}
-        />
+        <DateRangeInput value={value2} onChange={(v) => setValue2(v ?? undefined)} />
       </div>
     </div>
   );

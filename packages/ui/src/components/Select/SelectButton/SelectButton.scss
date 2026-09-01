@@ -28,9 +28,9 @@
   &__content {
     @apply static flex w-full flex-1 flex-wrap items-center gap-1 overflow-x-scroll;
 
-    scrollbar-width: none;
-    scrollbar-color: transparent transparent;
-    scrollbar-gutter: stable;
+    scrollbar-width: none !important;
+    scrollbar-color: transparent transparent !important;
+    scrollbar-gutter: stable !important;
 
     -webkit-scrollbar {
       width: 0px;

@@ -1,4 +1,4 @@
-import { Children, useId, useMemo } from "react";
+import { Children, useId, useMemo, useRef } from "react";
 
 import { usePreventDefault } from "../../../hooks";
 import { classNames } from "../../../utils/classNames";
@@ -36,6 +36,7 @@ function SelectButton({ prefix, suffix, className }: SelectButtonProps) {
   } = useSelect();
 
   const id = useId();
+  const pointerDownRef = useRef(false);
 
   const { hasValue, handleInputChange, handleKeyboardInteraction } = useSelectTrigger();
 
@@ -64,7 +65,21 @@ function SelectButton({ prefix, suffix, className }: SelectButtonProps) {
       className={classNames("GeckoUISelectButton", className)}
       data-state={disabled ? "disabled" : "enabled"}
       {...(!filterable && { "data-readonly": "" })}
-      onClick={() => {
+      onPointerDown={() => {
+        pointerDownRef.current = true;
+      }}
+      onClick={(e) => {
+        // Prevent a wrapping <label> from re-dispatching this click to the
+        // inner input, which would bubble back here and toggle the menu closed
+        e.preventDefault();
+
+        const isPointerClick = pointerDownRef.current;
+        pointerDownRef.current = false;
+
+        // Label-forwarded synthetic click (no pointerdown on this element);
+        // the input's focus has already opened the menu
+        if (!isPointerClick) return;
+
         if (open && !keyword) {
           closeMenu();
           return;

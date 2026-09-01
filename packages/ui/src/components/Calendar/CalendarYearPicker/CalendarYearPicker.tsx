@@ -4,10 +4,7 @@ import { CalendarHeader } from "../CalendarHeader";
 import type { CalendarYearPickerProps } from "./CalendarYearPicker.types";
 
 function CalendarYearPicker({ activeYear, onSelectYear, ...headerProps }: CalendarYearPickerProps) {
-  let start = parseInt((activeYear / 10).toFixed(0)) * 10;
-  if (activeYear + 1 === start) {
-    start -= 10;
-  }
+  const start = Math.floor(activeYear / 10) * 10;
 
   const [years, setYears] = useState<number[]>(() =>
     Array.from({ length: 12 }).map((_, index) => start - 1 + index)

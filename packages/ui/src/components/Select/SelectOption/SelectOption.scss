@@ -1,5 +1,5 @@
 .GeckoUISelectOption {
-  @apply flex cursor-pointer scroll-m-2 flex-row items-center justify-between gap-3 rounded py-2 pr-[16px] pl-[12px] text-left;
+  @apply flex min-w-0 cursor-pointer scroll-m-2 flex-row items-center justify-between gap-3 rounded py-2 pr-[16px] pl-[12px] text-left wrap-anywhere;
 
   &[data-focused] {
     @apply bg-surface-hover-strong;
@@ -10,6 +10,10 @@
   }
 
   &__check-icon {
-    @apply h-3.5 w-3.5;
+    @apply invisible h-3.5 w-3.5 shrink-0;
+  }
+
+  &[data-state="selected"] &__check-icon {
+    @apply visible;
   }
 }

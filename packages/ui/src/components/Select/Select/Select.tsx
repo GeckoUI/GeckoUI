@@ -1,4 +1,4 @@
-import { autoUpdate, flip, offset, useFloating } from "@floating-ui/react";
+import { autoUpdate, flip, offset, size, useFloating } from "@floating-ui/react";
 import type { RefObject } from "react";
 import { Children, useMemo, useRef, useState } from "react";
 
@@ -80,7 +80,15 @@ const Select: SelectOverload = <T,>(props: SelectProps<T>) => {
   const floating = useFloating({
     placement,
     strategy: floatingStrategy,
-    middleware: [flip({ padding: 6 }), offset({ mainAxis: 6 })],
+    middleware: [
+      flip({ padding: 6 }),
+      offset({ mainAxis: 6 }),
+      size({
+        apply({ rects, elements }) {
+          elements.floating.style.width = `${rects.reference.width}px`;
+        }
+      })
+    ],
     whileElementsMounted: autoUpdate,
     open,
     onOpenChange: setOpen
@@ -112,7 +120,7 @@ const Select: SelectOverload = <T,>(props: SelectProps<T>) => {
     if (disabled || open) return;
 
     const option = options.filter((e) => isEqual(e.value, value))?.[0] ?? options[0];
-    setFocusedOption({ ...option, focusType: "keyboard" });
+    setFocusedOption({ ...option, focusType: "initial" });
     setOpen(true);
     setKeyword("");
   }

@@ -204,7 +204,7 @@ const SelectOption = <T,>({ children, ...props }: SelectOptionProps<T>) => {
 
         scrollContainer.scrollTo({
           top: optionTop - containerHeight / 2 + optionHeight / 2,
-          behavior: "smooth"
+          behavior: focusedOption?.focusType === "initial" ? "auto" : "smooth"
         });
       }
     }
@@ -289,9 +289,7 @@ const SelectOption = <T,>({ children, ...props }: SelectOptionProps<T>) => {
       onClick={disabled ? undefined : handleOnClick}>
       {/* eslint-disable-next-line react-hooks/static-components */}
       <Content />
-      {!!selected && !hideCheckIcon && (
-        <div className="GeckoUI-icon__check GeckoUISelectOption__check-icon" />
-      )}
+      {!hideCheckIcon && <div className="GeckoUI-icon__check GeckoUISelectOption__check-icon" />}
     </div>
   );
 };

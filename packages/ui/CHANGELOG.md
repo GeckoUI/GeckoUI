@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.6.2]
+
+- Select: Menu positions to the selected option on open again (removed in 1.6.1), now as an instant jump without the smooth-scroll animation.
+
+## [1.6.1]
+
+- Select: Menu no longer auto-scrolls to the selected option on open.
+
+## [1.6.0]
+
+- Select: Menu width now matches the trigger with `floatingStrategy="fixed"`, and long labels wrap instead of overflowing.
+- Menu: Panel now has a default `max-h-[240px]` — override with `menuClassName`.
+- SelectOption: Check icon space is now always reserved, preventing layout shift on selection.
+- Select: Menu now opens correctly when the component is wrapped in a `<label>` element.
+- Checkbox: Rebuilt as a styled native input (removed inner button/label wrappers, and the `GeckoUICheckbox__button` / `GeckoUICheckbox__box` classes) — toggling now works when wrapped in a `<label>`.
+- Calendar: Year picker now shows the correct decade for years ending in 5-9 (previously rounded to the next decade).
+
 ## [1.5.0]
 
 ### Breaking Changes

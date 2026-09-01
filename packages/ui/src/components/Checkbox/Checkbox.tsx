@@ -41,44 +41,23 @@ import type { CheckboxProps } from "./Checkbox.types";
  * ```
  */
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ id, disabled, className, checked, partial, style, ...rest }, ref) => {
+  ({ id, disabled, className, checked, partial, ...rest }, ref) => {
     const _id = useId();
 
     const Icon = partial ? IndeterminateIcon : CheckIcon;
 
     return (
       <div className="GeckoUICheckbox group">
-        <button
-          aria-checked={checked}
-          className="GeckoUICheckbox__button"
+        <input
+          checked={checked}
+          className={classNames("GeckoUICheckbox__input", className)}
           disabled={disabled}
-          role="checkbox"
-          type="button"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              const el = e.currentTarget.querySelector("input");
-
-              if (!el) return;
-
-              el.click();
-            }
-          }}>
-          <label style={{ display: "contents" }} aria-label="checkbox-label" htmlFor={id ?? _id}>
-            <div className={classNames("GeckoUICheckbox__box", className)} style={{ margin: 0 }}>
-              <input
-                checked={checked}
-                className="GeckoUICheckbox__input"
-                disabled={disabled}
-                id={id ?? _id}
-                ref={ref}
-                style={{ display: "none", ...style }}
-                {...rest}
-                type="checkbox"
-              />
-            </div>
-          </label>
-          <Icon className="GeckoUICheckbox__icon" />
-        </button>
+          id={id ?? _id}
+          ref={ref}
+          {...rest}
+          type="checkbox"
+        />
+        <Icon className="GeckoUICheckbox__icon" />
       </div>
     );
   }

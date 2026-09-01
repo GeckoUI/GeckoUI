@@ -10,7 +10,7 @@
     @include scrollbar;
 
     scrollbar-gutter: stable overlay;
-    @apply flex flex-col gap-[1px] overflow-y-auto overscroll-contain p-2;
+    @apply flex flex-col gap-[1px] overflow-x-hidden overflow-y-auto overscroll-contain p-2;
   }
 
   &[data-with-search] {
