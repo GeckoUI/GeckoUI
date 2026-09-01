@@ -59,3 +59,44 @@ opened via `Dialog.show()` / `Drawer.show()` can read those contexts.
 - `ConfirmDialog` works unchanged — it wraps `Dialog`.
 - Toast (`sonner`) is now hosted inside `GeckoUIProvider` and works identically.
 - `GeckoUIPortalProps` is removed; pass toast options as `<GeckoUIProvider toastOptions={...}>`.
+
+## Dialog now works declaratively too
+
+`Dialog` is a component as well as an imperative API, matching `Drawer`:
+
+```tsx
+const [open, setOpen] = useState(false);
+
+<Dialog open={open} handleClose={() => setOpen(false)}>
+  <h2>Hello</h2>
+</Dialog>
+```
+
+`Dialog.show()` / `Dialog.dismiss()` keep working unchanged. The declarative form renders in
+place and does not need `GeckoUIProvider`.
+
+## Other behaviour changes
+
+- Dialogs always render above drawers (z-index `2000` vs `1000`). Stacked overlays get an
+  explicit per-entry z-index instead of relying on DOM insertion order, and the topmost overlay
+  — the one that owns Esc and click-outside — is picked by stacking order, not open order.
+- `Dialog.dismiss()` and `Drawer.dismiss()` with no argument now only close overlays of their
+  own type. Previously either one closed the topmost overlay, whatever it was.
+- Clicking inside a dialog no longer dismisses it. Dismissal is driven by the dialog's own
+  backdrop rather than a document-level click-outside listener, so popups portalled out of the
+  dialog (`Select`, `Menu`, date pickers) no longer close it. Drag-selecting text out past the
+  edge of the dialog no longer closes it either.
+- `Drawer.show(node, { handleClose })` calls your `handleClose` again. The provider used to
+  overwrite it, so it was silently dropped.
+- Clicking the backdrop closes a `<Drawer>` again when `allowClickOutside` is `false`. The
+  backdrop click handler had been dropped, which left the default drawer closable only by Esc.
+- `Dialog.show()` / `Drawer.show()` log an error when no `<GeckoUIProvider>` is mounted, instead
+  of doing nothing. Mounting more than one provider also logs an error; only the first renders
+  the overlay stack and the `<Toaster>`.
+- Overlays give up topmost status as soon as they start closing, so the overlay underneath
+  responds to Esc immediately instead of after the 300ms exit animation.
+- `<Drawer>` accepts a `style` prop, and the drawer panel carries `role="dialog"`.
+
+## Still not handled
+
+Overlays have no focus trap, no focus restore on close, and no body scroll lock.

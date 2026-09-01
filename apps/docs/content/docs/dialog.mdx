@@ -1,26 +1,67 @@
 ---
 title: Dialog
-description: Lightweight imperative modal component for centered overlay content
+description: Modal component for centered overlay content, usable declaratively or imperatively
 ---
 
 import { Dialog, Button } from '@geckoui/geckoui';
-import { BasicDialogExample, ImageLightboxExample, FormDialogExample, NoEscapeDialogExample } from '@/components/examples/dialog-examples';
+import { BasicDialogExample, ControlledDialogExample, ImageLightboxExample, FormDialogExample, NoEscapeDialogExample } from '@/components/examples/dialog-examples';
 
 # Dialog
 
-A lightweight, imperative modal component that renders content in a centered overlay. It serves as the foundational layer for more complex dialog patterns and automatically handles focus management, escape key dismissal, and click-outside behavior.
+A modal component that renders content in a centered overlay. It serves as the foundational layer for more complex dialog patterns and handles escape key dismissal and backdrop click behavior.
 
-Multiple dialogs can be stacked — each `show()` returns an id for targeted dismissal.
+There are two ways to use it:
+
+- **Declarative** — `<Dialog open handleClose={...}>`, when the dialog belongs to a component's state. Same shape as `Drawer`.
+- **Imperative** — `Dialog.show()`, for one-off dialogs triggered from anywhere. Multiple dialogs stack, and each `show()` returns an id for targeted dismissal.
+
+Dialogs always render above drawers.
 
 ## Setup
 
-Requires [`<GeckoUIProvider>`](/docs/gecko-ui-provider) to wrap your app.
+`Dialog.show()` requires [`<GeckoUIProvider>`](/docs/gecko-ui-provider) to wrap your app. The declarative `<Dialog>` renders in place and works without it.
 
 ```tsx
 import { Dialog } from '@geckoui/geckoui';
 ```
 
-## Basic Usage
+## Declarative Usage
+
+<Preview>
+  <ControlledDialogExample />
+</Preview>
+
+```tsx
+import { Dialog, Button } from '@geckoui/geckoui';
+
+function Example() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Open Dialog</Button>
+      <Dialog open={open} handleClose={() => setOpen(false)}>
+        <h2 className="text-xl font-semibold mb-4">Controlled Dialog</h2>
+        <Button onClick={() => setOpen(false)}>Close</Button>
+      </Dialog>
+    </>
+  );
+}
+```
+
+### Props
+
+| Prop | Type | Default | Description |
+|--------|------|---------|-------------|
+| `open` | `boolean` | `false` | Whether the dialog is visible |
+| `handleClose` | `() => void` | — | Called when the dialog asks to close (Esc or backdrop click) |
+| `children` | `ReactNode` | — | Dialog content |
+| `className` | `string` | — | CSS class for the dialog container |
+| `dismissOnEsc` | `boolean` | `true` | Dismiss dialog on Escape key press |
+| `dismissOnOutsideClick` | `boolean` | `true` | Dismiss dialog on backdrop click |
+| `data-*` | `string` | — | Data attributes for the dialog element |
+
+## Imperative Usage
 
 <Preview>
   <BasicDialogExample />
@@ -66,7 +107,7 @@ Opens a dialog and returns an `id` string you can pass to `dismiss(id)`.
 
 ### Dialog.dismiss(id?)
 
-Closes a dialog. Pass the `id` returned by `show()` to close a specific dialog, or call with no argument to close the topmost overlay.
+Closes a dialog. Pass the `id` returned by `show()` to close a specific dialog, or call with no argument to close the topmost dialog. It never closes a drawer — use `Drawer.dismiss()` for those.
 
 ```tsx
 const id = Dialog.show({ content: () => <p>Hello</p> });
@@ -74,9 +115,11 @@ const id = Dialog.show({ content: () => <p>Hello</p> });
 // Close this specific dialog:
 Dialog.dismiss(id);
 
-// Close whatever is on top:
+// Close whatever dialog is on top:
 Dialog.dismiss();
 ```
+
+**Note:** clicks inside the dialog never dismiss it. That includes content rendered in a portal, such as a `Select` or `Menu` popup — only a click on the backdrop itself closes the dialog.
 
 ## Examples
 
