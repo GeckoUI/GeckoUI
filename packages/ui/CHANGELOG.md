@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.6.4]
+
+- `isAsyncFn`: No longer calls the function it is checking. It now only reads `fn.constructor?.name === "AsyncFunction"`, so passing a normal function does not trigger a side effect.
+- SelectButton: Scrollbar-hiding styles (`scrollbar-width`, `scrollbar-color`, `scrollbar-gutter`) are now `!important` so consumer styles cannot override them by accident.
+
 ## [1.6.3]
 
 - Select: Menu width is now `min-width: trigger` — it grows to fit long option labels (capped to the viewport) instead of being fixed to the trigger width.
