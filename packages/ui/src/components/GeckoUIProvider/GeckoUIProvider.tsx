@@ -40,7 +40,7 @@ function DialogEntryRenderer({ id, options, isTop, zIndex }: DialogEntry & Entry
   const {
     content,
     className,
-    dismissOnEsc = true,
+    dismissOnEscape = true,
     dismissOnOutsideClick = true,
     ...rest
   } = options;
@@ -54,7 +54,7 @@ function DialogEntryRenderer({ id, options, isTop, zIndex }: DialogEntry & Entry
       open={open}
       isTop={isTop}
       className={className}
-      dismissOnEsc={dismissOnEsc}
+      dismissOnEscape={dismissOnEscape}
       dismissOnOutsideClick={dismissOnOutsideClick}
       style={{ zIndex }}
       dataAttributes={getDataAttributes(rest)}

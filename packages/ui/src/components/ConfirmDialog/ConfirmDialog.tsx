@@ -108,7 +108,7 @@ function ConfirmDialogContent({
 
 export const show = (options: ConfirmDialogOptions): string => {
   return Dialog.show({
-    dismissOnEsc: true,
+    dismissOnEscape: true,
     dismissOnOutsideClick: true,
     ...options,
     className: classNames("GeckoUIConfirmDialog__dialog", options.className),

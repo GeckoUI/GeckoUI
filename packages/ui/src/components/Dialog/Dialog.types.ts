@@ -45,7 +45,7 @@ export interface DialogOptions {
    * Dismiss the dialog on pressing the `Escape` key.
    * Default is `true`.
    * */
-  dismissOnEsc?: boolean;
+  dismissOnEscape?: boolean;
 
   /**
    * Dismiss the dialog on clicking outside the dialog.
@@ -82,7 +82,7 @@ export interface DialogProps {
    * Dismiss the dialog on pressing the `Escape` key.
    * Default is `true`.
    * */
-  dismissOnEsc?: boolean;
+  dismissOnEscape?: boolean;
 
   /**
    * Dismiss the dialog on clicking the backdrop.

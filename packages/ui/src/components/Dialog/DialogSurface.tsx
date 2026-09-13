@@ -11,7 +11,7 @@ export interface DialogSurfaceProps {
   open: boolean;
   isTop?: boolean;
   className?: string;
-  dismissOnEsc?: boolean;
+  dismissOnEscape?: boolean;
   dismissOnOutsideClick?: boolean;
   style?: CSSProperties;
   dataAttributes?: Record<string, string>;
@@ -28,7 +28,7 @@ export function DialogSurface({
   open,
   isTop = true,
   className,
-  dismissOnEsc = true,
+  dismissOnEscape = true,
   dismissOnOutsideClick = true,
   style,
   dataAttributes,
@@ -84,7 +84,7 @@ export function DialogSurface({
 
   const canDismiss = open && isTop && animationState !== "closing";
 
-  useEscListener(canDismiss && dismissOnEsc ? requestDismiss : undefined);
+  useEscListener(canDismiss && dismissOnEscape ? requestDismiss : undefined);
 
   const isOutside = (target: EventTarget | null) =>
     target === backdropRef.current || target === rootRef.current;

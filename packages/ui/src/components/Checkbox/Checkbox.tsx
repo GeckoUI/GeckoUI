@@ -8,7 +8,7 @@ import type { CheckboxProps } from "./Checkbox.types";
  * A customizable checkbox component with support for indeterminate state.
  *
  * Renders a checkbox with custom styling and icons. By default, displays a check icon
- * when checked. Use the `partial` prop to display an indeterminate icon, useful for
+ * when checked. Set `indeterminate` to show the indeterminate icon instead, useful for
  * "select all" scenarios where only some items are selected.
  *
  * @example
@@ -23,7 +23,7 @@ import type { CheckboxProps } from "./Checkbox.types";
  * // Indeterminate state
  * <Checkbox
  *   checked={someSelected}
- *   partial={someSelected && !allSelected}
+ *   indeterminate={someSelected && !allSelected}
  *   onChange={handleSelectAll}
  * />
  *
@@ -41,10 +41,10 @@ import type { CheckboxProps } from "./Checkbox.types";
  * ```
  */
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ id, disabled, className, checked, partial, ...rest }, ref) => {
+  ({ id, disabled, className, checked, indeterminate, ...rest }, ref) => {
     const _id = useId();
 
-    const Icon = partial ? IndeterminateIcon : CheckIcon;
+    const Icon = indeterminate ? IndeterminateIcon : CheckIcon;
 
     return (
       <div className="GeckoUICheckbox group">

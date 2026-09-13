@@ -38,7 +38,7 @@ export function CounterInputStepExample() {
 export function CounterInputEditableExample() {
   const [value, setValue] = useState(0);
 
-  return <CounterInput value={value} onChange={setValue} editable />;
+  return <CounterInput value={value} onChange={setValue} allowTyping />;
 }
 
 export function CounterInputDisabledExample() {

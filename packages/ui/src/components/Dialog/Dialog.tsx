@@ -30,7 +30,7 @@ function Dialog({
   open = false,
   onClose,
   className,
-  dismissOnEsc = true,
+  dismissOnEscape = true,
   dismissOnOutsideClick = true,
   children,
   ...rest
@@ -39,7 +39,7 @@ function Dialog({
     <DialogSurface
       open={open}
       className={className}
-      dismissOnEsc={dismissOnEsc}
+      dismissOnEscape={dismissOnEscape}
       dismissOnOutsideClick={dismissOnOutsideClick}
       onDismiss={onClose}
       dataAttributes={getDataAttributes(rest)}>

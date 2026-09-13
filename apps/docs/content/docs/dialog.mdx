@@ -57,7 +57,7 @@ function Example() {
 | `onClose` | `() => void` | — | Called when the dialog asks to close (Esc or backdrop click) |
 | `children` | `ReactNode` | — | Dialog content |
 | `className` | `string` | — | CSS class for the dialog container |
-| `dismissOnEsc` | `boolean` | `true` | Dismiss dialog on Escape key press |
+| `dismissOnEscape` | `boolean` | `true` | Dismiss dialog on Escape key press |
 | `dismissOnOutsideClick` | `boolean` | `true` | Dismiss dialog on backdrop click |
 | `data-*` | `string` | — | Data attributes for the dialog element |
 
@@ -99,7 +99,7 @@ Opens a dialog and returns an `id` string you can pass to `dismiss(id)`.
 |--------|------|---------|-------------|
 | `content` | `ReactNode \| FC<{ dismiss: () => void }>` | — | Content to display in the dialog |
 | `className` | `string` | — | CSS class for the dialog container |
-| `dismissOnEsc` | `boolean` | `true` | Dismiss dialog on Escape key press |
+| `dismissOnEscape` | `boolean` | `true` | Dismiss dialog on Escape key press |
 | `dismissOnOutsideClick` | `boolean` | `true` | Dismiss dialog on backdrop click |
 | `data-*` | `string` | — | Data attributes for the dialog element |
 
@@ -173,7 +173,7 @@ const openImageViewer = () => {
       </div>
     ),
     className: "bg-transparent shadow-none",
-    dismissOnEsc: true,
+    dismissOnEscape: true,
     dismissOnOutsideClick: true
   });
 };
@@ -206,7 +206,7 @@ const showUserForm = () => {
       </div>
     ),
     className: "max-w-2xl",
-    dismissOnEsc: false,
+    dismissOnEscape: false,
     dismissOnOutsideClick: false
   });
 };
@@ -227,7 +227,7 @@ Dialog.show({
       <Button onClick={dismiss}>I Understand</Button>
     </div>
   ),
-  dismissOnEsc: false,
+  dismissOnEscape: false,
   dismissOnOutsideClick: false
 });
 ```
@@ -242,7 +242,7 @@ Dialog.show({
       <p>Processing payment...</p>
     </div>
   ),
-  dismissOnEsc: false,
+  dismissOnEscape: false,
   dismissOnOutsideClick: false
 });
 
@@ -264,7 +264,7 @@ Blurs the active element when a dialog opens.
 
 ### Dismissal
 
-- **Escape Key**: Closes the topmost dialog by default (disable with `dismissOnEsc: false`)
+- **Escape Key**: Closes the topmost dialog by default (disable with `dismissOnEscape: false`)
 - **Backdrop Click**: Closes the topmost dialog by default (disable with `dismissOnOutsideClick: false`). Both the press and the release must land on the backdrop, so dragging to select text past the dialog edge does not close it.
 - **Programmatic**: `Dialog.dismiss(id?)` from anywhere
 

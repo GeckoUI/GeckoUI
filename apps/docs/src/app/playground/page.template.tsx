@@ -335,7 +335,7 @@ export default function Home() {
                       <label htmlFor="check1">Normal checkbox</label>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Checkbox id="check2" partial />
+                      <Checkbox id="check2" indeterminate />
                       <label htmlFor="check2">Partial (indeterminate) checkbox</label>
                     </div>
                     <div className="flex items-center gap-2">

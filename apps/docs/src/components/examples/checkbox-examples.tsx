@@ -35,7 +35,7 @@ export function CheckboxIndeterminateExample() {
       <label className="flex items-center gap-2">
         <Checkbox
           checked={someChecked}
-          partial={someChecked && !allChecked}
+          indeterminate={someChecked && !allChecked}
           onChange={handleSelectAll}
         />
         <span>Select All</span>

@@ -88,6 +88,15 @@ There is no alias — rename every usage:
 
 The same applies to the options passed to `Drawer.show(node, { onClose })`.
 
+## Prop renames for consistency
+
+| Component | Before | After |
+| --- | --- | --- |
+| `Drawer`, `Dialog` | `handleClose` | `onClose` |
+| `Dialog` | `dismissOnEsc` | `dismissOnEscape` (matches `Drawer`) |
+| `CounterInput` | `editable` | `allowTyping` (it sat next to `readOnly` and read like its opposite) |
+| `Checkbox`, `RHFCheckbox` | `partial` | `indeterminate` (the standard DOM name) |
+
 ## Other behaviour changes
 
 - Dialogs always render above drawers (z-index `2000` vs `1000`). Stacked overlays get an

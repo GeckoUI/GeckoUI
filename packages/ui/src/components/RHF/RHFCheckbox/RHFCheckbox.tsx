@@ -48,7 +48,7 @@ import type { RHFCheckboxProps } from "./RHFCheckbox.types";
  * <RHFCheckbox
  *   name="languages"
  *   value="js"
- *   partial={({ field }) => field.value.length !== 2}
+ *   indeterminate={({ field }) => field.value.length !== 2}
  *   label="JavaScript"
  * />
  *
@@ -73,7 +73,7 @@ const RHFCheckbox: FC<RHFCheckboxProps> = ({
   uncheckedValue,
   single,
   onChange,
-  partial,
+  indeterminate,
   onBlur,
   ...rest
 }) => {
@@ -129,7 +129,9 @@ const RHFCheckbox: FC<RHFCheckboxProps> = ({
                 field.onChange(v);
                 onChange?.(v);
               }}
-              partial={typeof partial === "function" ? partial(renderProps) : partial}
+              indeterminate={
+                typeof indeterminate === "function" ? indeterminate(renderProps) : indeterminate
+              }
               value={undefined}
             />
             <span className={classNames("GeckoUIRHFCheckbox__label", labelClassName)}>

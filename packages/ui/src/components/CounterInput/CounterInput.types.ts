@@ -33,7 +33,7 @@ export interface CounterInputProps
   readOnly?: boolean;
 
   /** Allow typing in input field (default: false) */
-  editable?: boolean;
+  allowTyping?: boolean;
 
   /** Class name for the input element */
   inputClassName?: string;

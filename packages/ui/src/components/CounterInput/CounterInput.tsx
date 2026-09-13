@@ -26,7 +26,7 @@ const CounterInput = forwardRef<HTMLInputElement, CounterInputProps>(
       buttonClassName,
       disabled,
       readOnly,
-      editable = false,
+      allowTyping = false,
       ...rest
     },
     ref
@@ -89,13 +89,13 @@ const CounterInput = forwardRef<HTMLInputElement, CounterInputProps>(
           type="text"
           inputMode="numeric"
           className={classNames("GeckoUICounterInput__input", inputClassName)}
-          value={editable ? inputValue : value}
+          value={allowTyping ? inputValue : value}
           onChange={handleInputChange}
           onBlur={handleBlur}
           disabled={disabled}
-          readOnly={readOnly || !editable}
+          readOnly={readOnly || !allowTyping}
           {...rest}
-          tabIndex={editable ? 0 : -1}
+          tabIndex={allowTyping ? 0 : -1}
         />
 
         <button

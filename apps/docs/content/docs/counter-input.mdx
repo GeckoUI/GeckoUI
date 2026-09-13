@@ -52,7 +52,7 @@ function Example() {
 | `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size variant |
 | `disabled` | `boolean` | `false` | Disable the entire component |
 | `readOnly` | `boolean` | `false` | Read-only mode - buttons and input are non-interactive |
-| `editable` | `boolean` | `false` | Allow typing in input field |
+| `allowTyping` | `boolean` | `false` | Allow typing in input field |
 | `inputClassName` | `string` | - | CSS class for the input element |
 | `buttonClassName` | `string` | - | CSS class for the buttons |
 | `className` | `string` | - | CSS class for the container |
@@ -95,14 +95,14 @@ Buttons are automatically disabled when reaching the min or max value.
 
 ### Editable Input
 
-When `editable` is true, users can type directly into the input field. Only numbers and minus sign are allowed.
+When `allowTyping` is true, users can type directly into the input field. Only numbers and minus sign are allowed.
 
 <Preview>
   <CounterInputEditableExample />
 </Preview>
 
 ```tsx
-<CounterInput value={value} onChange={setValue} editable />
+<CounterInput value={value} onChange={setValue} allowTyping />
 ```
 
 ### Disabled State

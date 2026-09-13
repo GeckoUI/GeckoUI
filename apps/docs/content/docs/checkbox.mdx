@@ -8,7 +8,7 @@ import { CheckboxBasicExample, CheckboxIndeterminateExample, CheckboxDisabledExa
 
 # Checkbox
 
-A checkbox component with custom styling and support for indeterminate (partial) state, useful for "select all" scenarios where only some items are selected.
+A checkbox component with custom styling and support for the indeterminate state, useful for "select all" scenarios where only some items are selected.
 
 ## Installation
 
@@ -42,7 +42,7 @@ function Example() {
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `checked` | `boolean` | - | Controlled checked state |
-| `partial` | `boolean` | `false` | Display indeterminate icon (for partial selection) |
+| `indeterminate` | `boolean` | `false` | Display the indeterminate icon (for partial selection) |
 | `disabled` | `boolean` | `false` | Disable the checkbox |
 | `className` | `string` | - | CSS class for the checkbox box |
 | `onChange` | `ChangeEventHandler` | - | Callback when checked state changes |
@@ -102,7 +102,7 @@ function SelectAll() {
       <label className="flex items-center gap-2">
         <Checkbox
           checked={someChecked || allChecked}
-          partial={someChecked && !allChecked}
+          indeterminate={someChecked && !allChecked}
           onChange={handleSelectAll}
         />
         <span>Select All</span>
@@ -179,8 +179,8 @@ The checkbox supports full keyboard navigation:
 
 ## Icons
 
-- **CheckIcon**: Displayed when `checked={true}` and `partial={false}`
-- **IndeterminateIcon**: Displayed when `partial={true}`
+- **CheckIcon**: Displayed when `checked={true}` and `indeterminate={false}`
+- **IndeterminateIcon**: Displayed when `indeterminate={true}`
 
 ## Related Components
 
