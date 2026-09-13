@@ -134,7 +134,7 @@ ConfirmDialog.dismiss(id);
 
 - If `onConfirm` or `onCancel` is an async function, the respective button shows a loading state until the promise resolves.
 - After the callback resolves, the dialog closes automatically unless `preventDefault()` was called.
-- Pressing Enter confirms (when no focusable element is focused).
+- Pressing Enter confirms (when no focusable element is focused), and only when the confirm dialog is the topmost overlay. Stacked dialogs below it ignore Enter.
 
 ## Related Components
 

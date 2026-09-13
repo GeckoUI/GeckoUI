@@ -98,9 +98,29 @@ const firstId = Dialog.show({
 // Close a specific dialog:
 Dialog.dismiss(firstId);
 
-// Close the topmost overlay:
+// Close the topmost dialog:
 Dialog.dismiss();
 ```
+
+`Dialog.dismiss()` and `Drawer.dismiss()` only close overlays of their own type. Calling `Dialog.dismiss()` never closes a drawer, and the other way round.
+
+### Stacking order
+
+- Drawers render at `z-index: 1000 + position` in the stack.
+- Dialogs render at `z-index: 2000 + position`.
+
+So a dialog always sits above a drawer, whichever one opened last, and the dialog is the one that captures Esc and click-outside. An overlay gives up topmost as soon as it starts closing, so the one underneath takes over right away instead of waiting for the 300ms exit animation.
+
+## Missing provider
+
+`Dialog.show()`, `Drawer.show()`, and `ConfirmDialog.show()` need a mounted provider. If none is mounted, nothing renders and an error is logged:
+
+```
+[GeckoUI] No <GeckoUIProvider> is mounted, so the overlay cannot be rendered.
+Wrap your app with <GeckoUIProvider> to use Dialog.show() and Drawer.show().
+```
+
+The declarative `<Dialog>` and `<Drawer>` components render in place and work without the provider.
 
 ## Context consumption
 
@@ -116,6 +136,10 @@ Dialog.show({
   }
 });
 ```
+
+## Limitations
+
+Overlays have no focus trap, do not restore focus to the trigger on close, and do not lock page scroll while open.
 
 ## Migration from GeckoUIPortal
 

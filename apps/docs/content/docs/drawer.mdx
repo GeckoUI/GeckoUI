@@ -65,6 +65,12 @@ function Example() {
 | `backdropClassName` | `string` | — | CSS class for backdrop |
 | `className` | `string` | — | CSS class for drawer panel |
 | `children` | `ReactNode` | — | Drawer content |
+| `style` | `CSSProperties` | — | Inline styles for the drawer root. `GeckoUIProvider` uses it to stack drawers opened with `Drawer.show()` |
+
+### Backdrop click
+
+- `allowClickOutside: false` (default) — the backdrop blocks clicks, and clicking it calls `handleClose`.
+- `allowClickOutside: true` — the backdrop becomes click-through, so clicking anywhere outside the panel calls `handleClose` and the click also reaches the page underneath.
 
 ## Examples
 
@@ -175,6 +181,8 @@ Drawer.show(<UserProfilePanel />, { placement: "right" });
 
 ## Styling
 
+The drawer root (`GeckoUIDrawer`) sits at `z-index: 1000`. Drawers opened with `Drawer.show()` get an explicit `1000 + position`. Dialogs start at `2000`, so they always render above drawers.
+
 **Backdrop** (`GeckoUIDrawer__backdrop`):
 - `data-state="visible" | "hidden"` — Backdrop visibility
 - `data-clickthrough` — Present when click-through is enabled
@@ -185,9 +193,11 @@ Drawer.show(<UserProfilePanel />, { placement: "right" });
 
 ## Accessibility
 
+- `role="dialog"` on the drawer panel, with `aria-modal` set when the backdrop is not click-through
 - Keyboard navigation with Escape key support
 - Click-outside detection
-- ARIA `role="dialog"` applied
+
+Not handled yet: there is no focus trap, focus is not restored to the trigger on close, and page scroll is not locked while a drawer is open.
 
 ## Related Components
 

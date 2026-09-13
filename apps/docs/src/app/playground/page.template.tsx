@@ -46,6 +46,30 @@ import { z } from "zod";
 
 const DemoUserContext = createContext<{ name: string } | null>(null);
 
+function DialogWithSelect({ dismiss }: { dismiss: () => void }) {
+  const [value, setValue] = useState<string>();
+
+  return (
+    <div className="space-y-4">
+      <h3 className="text-xl font-bold">Select Inside a Dialog</h3>
+      <p className="text-sm text-gray-600">
+        The Select menu renders in a portal outside the dialog element. Picking an option must not
+        close the dialog.
+      </p>
+      <Select value={value} onChange={setValue} placeholder="Choose a fruit">
+        <SelectOption value="apple" label="Apple" />
+        <SelectOption value="banana" label="Banana" />
+        <SelectOption value="orange" label="Orange" />
+      </Select>
+      <div className="flex gap-3 justify-end">
+        <Button variant="outlined" onClick={dismiss}>
+          Close
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
@@ -63,6 +87,7 @@ const formSchema = z.object({
 export default function Home() {
   const [isDark, setIsDark] = useState<boolean>(false);
 
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerPlacement, setDrawerPlacement] = useState<"left" | "right" | "top" | "bottom">(
     "right"
@@ -659,6 +684,51 @@ export default function Home() {
                 </div>
 
                 <div className="space-y-4">
+                  <h3 className="text-lg font-semibold ">Declarative Dialog</h3>
+                  <p className="text-sm text-gray-600">
+                    Dialog also works as a component, the same way Drawer does.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button variant="filled" onClick={() => setDialogOpen(true)}>
+                      Open Declarative Dialog
+                    </Button>
+                    <Dialog open={dialogOpen} handleClose={() => setDialogOpen(false)}>
+                      <div className="space-y-4">
+                        <h3 className="text-xl font-bold">Declarative Dialog</h3>
+                        <p>
+                          The parent owns the open state. Esc and a backdrop click call handleClose.
+                        </p>
+                        <div className="flex gap-3 justify-end">
+                          <Button variant="filled" onClick={() => setDialogOpen(false)}>
+                            Close
+                          </Button>
+                        </div>
+                      </div>
+                    </Dialog>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold ">Select Inside a Dialog</h3>
+                  <p className="text-sm text-gray-600">
+                    Clicking content inside the dialog never dismisses it, including menus rendered
+                    in a portal.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button
+                      variant="filled"
+                      onClick={() =>
+                        Dialog.show({
+                          content: ({ dismiss }) => <DialogWithSelect dismiss={dismiss} />,
+                          className: "max-w-md"
+                        })
+                      }>
+                      Open Dialog With Select
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
                   <h3 className="text-lg font-semibold ">Stacked Dialogs</h3>
                   <div className="flex gap-3">
                     <Button
@@ -702,6 +772,54 @@ export default function Home() {
                         })
                       }>
                       Open Stacked Dialogs
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold ">Dialog Over Drawer</h3>
+                  <p className="text-sm text-gray-600">
+                    Dialogs always render above drawers, whichever one opened last. Esc closes the
+                    dialog first.
+                  </p>
+                  <div className="flex gap-3">
+                    <Button
+                      variant="filled"
+                      onClick={() =>
+                        Drawer.show(
+                          <div className="p-6 space-y-4">
+                            <h3 className="text-xl font-bold">Drawer</h3>
+                            <p>Open a dialog from here and watch where it lands.</p>
+                            <div className="flex flex-col gap-3">
+                              <Button
+                                variant="filled"
+                                onClick={() =>
+                                  Dialog.show({
+                                    content: ({ dismiss }) => (
+                                      <div className="space-y-4">
+                                        <h3 className="text-xl font-bold">Dialog Above Drawer</h3>
+                                        <p>This dialog sits on top of the drawer behind it.</p>
+                                        <div className="flex gap-3 justify-end">
+                                          <Button variant="outlined" onClick={dismiss}>
+                                            Close Dialog
+                                          </Button>
+                                        </div>
+                                      </div>
+                                    ),
+                                    className: "max-w-sm"
+                                  })
+                                }>
+                                Open a Dialog on Top
+                              </Button>
+                              <Button variant="outlined" onClick={() => Drawer.dismiss()}>
+                                Close Drawer
+                              </Button>
+                            </div>
+                          </div>,
+                          { placement: "right" }
+                        )
+                      }>
+                      Open Drawer Then Dialog
                     </Button>
                   </div>
                 </div>
@@ -810,6 +928,48 @@ export default function Home() {
                         </Button>
                       </div>
                     </Drawer>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold ">Imperative Drawer</h3>
+                  <p className="text-sm text-gray-600">
+                    Drawer.show() returns an id. handleClose still runs when the drawer is dismissed
+                    by id.
+                  </p>
+                  <div className="flex flex-wrap gap-3">
+                    <Button
+                      variant="filled"
+                      onClick={() => {
+                        const id = Drawer.show(
+                          <div className="p-6 space-y-4">
+                            <h3 className="text-xl font-bold">Imperative Drawer</h3>
+                            <p>Backdrop click is blocked here because allowClickOutside is off.</p>
+                            <Button variant="filled" onClick={() => Drawer.dismiss(id)}>
+                              Close by Id
+                            </Button>
+                          </div>,
+                          {
+                            placement: "left",
+                            handleClose: () => toast.info("handleClose ran")
+                          }
+                        );
+                      }}>
+                      Open Imperative Drawer
+                    </Button>
+                    <Button
+                      variant="outlined"
+                      onClick={() =>
+                        Drawer.show(
+                          <div className="p-6 space-y-4">
+                            <h3 className="text-xl font-bold">Click Through Drawer</h3>
+                            <p>allowClickOutside is on, so clicking anywhere outside closes it.</p>
+                          </div>,
+                          { placement: "bottom", allowClickOutside: true }
+                        )
+                      }>
+                      Open Click Through Drawer
+                    </Button>
                   </div>
                 </div>
 

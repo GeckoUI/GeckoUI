@@ -254,29 +254,37 @@ Dialog.dismiss();
 
 ### Stacking
 
-Each `Dialog.show()` pushes onto a shared overlay stack. The topmost dialog captures Esc and click-outside events; lower dialogs ignore them until they become topmost.
+Each `Dialog.show()` pushes onto a shared overlay stack. The topmost dialog captures Esc and backdrop clicks; lower dialogs ignore them until they become topmost.
+
+Dialogs sit above drawers, so an open dialog is topmost even when a drawer opened after it. A dialog gives up topmost as soon as it starts closing, so the overlay underneath responds to Esc right away instead of waiting for the 300ms exit animation.
 
 ### Focus Management
 
-Automatically blurs the active element when a dialog opens.
+Blurs the active element when a dialog opens.
 
 ### Dismissal
 
 - **Escape Key**: Closes the topmost dialog by default (disable with `dismissOnEsc: false`)
-- **Click Outside**: Closes the topmost dialog by default (disable with `dismissOnOutsideClick: false`)
+- **Backdrop Click**: Closes the topmost dialog by default (disable with `dismissOnOutsideClick: false`). Both the press and the release must land on the backdrop, so dragging to select text past the dialog edge does not close it.
 - **Programmatic**: `Dialog.dismiss(id?)` from anywhere
+
+Clicks inside the dialog never dismiss it. That includes content rendered in a portal, such as a `Select` or `Menu` popup, which lives outside the dialog element in the DOM.
 
 ## Styling
 
-- `GeckoUIDialog` — Main container (`data-state="entering" | "open" | "closing"`)
+- `GeckoUIDialog` — Main container (`data-state="entering" | "open" | "closing"`), `z-index: 2000`
 - `GeckoUIDialog__backdrop` — Background overlay
 - `GeckoUIDialog__dialog` — Dialog content wrapper
 
+Stacked dialogs get an explicit `z-index` of `2000 + position`, so they never depend on DOM order. Drawers start at `1000`, which is why dialogs always win.
+
 ## Accessibility
 
+- `role="dialog"` and `aria-modal="true"` on the dialog panel
 - Escape key support
-- Click-outside detection
-- Focus management
+- Backdrop click detection
+
+Not handled yet: there is no focus trap, focus is not restored to the trigger on close, and page scroll is not locked while a dialog is open.
 
 ## Related Components
 
