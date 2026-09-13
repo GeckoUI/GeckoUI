@@ -3,6 +3,8 @@ import { source } from "@/lib/source";
 import type { Node, Root } from "fumadocs-core/page-tree";
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 
+import { VersionSelect } from "@/components/version-select";
+
 const llmSection: Node[] = [
   { type: "separator", name: "LLM" },
   { type: "page", name: "Docs List", url: "/llms.txt", external: true },
@@ -16,7 +18,7 @@ export default function Layout({ children }: LayoutProps<"/docs">) {
   };
 
   return (
-    <DocsLayout tree={tree} {...baseOptions()}>
+    <DocsLayout tree={tree} sidebar={{ banner: <VersionSelect /> }} {...baseOptions()}>
       {children}
     </DocsLayout>
   );
