@@ -84,8 +84,13 @@ const Select: SelectOverload = <T,>(props: SelectProps<T>) => {
       flip({ padding: 6 }),
       offset({ mainAxis: 6 }),
       size({
-        apply({ rects, elements }) {
-          elements.floating.style.width = `${rects.reference.width}px`;
+        padding: 6,
+        apply({ rects, availableWidth, elements }) {
+          Object.assign(elements.floating.style, {
+            width: "max-content",
+            minWidth: `${rects.reference.width}px`,
+            maxWidth: `${availableWidth}px`
+          });
         }
       })
     ],
