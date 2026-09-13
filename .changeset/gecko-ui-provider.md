@@ -119,6 +119,10 @@ The same applies to the options passed to `Drawer.show(node, { onClose })`.
 - Overlays give up topmost status as soon as they start closing, so the overlay underneath
   responds to Esc immediately instead of after the 300ms exit animation.
 - `<Drawer>` accepts a `style` prop, and the drawer panel carries `role="dialog"`.
+- `useClickOutside` (exported) keeps one stable listener instead of re-subscribing on every
+  render. It now reads the latest handler and refs at event time, so passing an inline handler
+  or a freshly built refs array no longer detaches and reattaches the listener. Behaviour for
+  callers is unchanged; only the subscription churn is gone.
 
 ## Still not handled
 
