@@ -67,13 +67,26 @@ opened via `Dialog.show()` / `Drawer.show()` can read those contexts.
 ```tsx
 const [open, setOpen] = useState(false);
 
-<Dialog open={open} handleClose={() => setOpen(false)}>
+<Dialog open={open} onClose={() => setOpen(false)}>
   <h2>Hello</h2>
 </Dialog>
 ```
 
 `Dialog.show()` / `Dialog.dismiss()` keep working unchanged. The declarative form renders in
 place and does not need `GeckoUIProvider`.
+
+## `handleClose` is renamed to `onClose`
+
+`Drawer`'s `handleClose` prop is now `onClose`, matching React convention and the rest of the
+library (`onChange`, `onSubmit`, `onConfirm`). The new declarative `Dialog` uses `onClose` too.
+There is no alias — rename every usage:
+
+```diff
+-<Drawer open={open} handleClose={() => setOpen(false)} />
++<Drawer open={open} onClose={() => setOpen(false)} />
+```
+
+The same applies to the options passed to `Drawer.show(node, { onClose })`.
 
 ## Other behaviour changes
 
@@ -86,8 +99,8 @@ place and does not need `GeckoUIProvider`.
   backdrop rather than a document-level click-outside listener, so popups portalled out of the
   dialog (`Select`, `Menu`, date pickers) no longer close it. Drag-selecting text out past the
   edge of the dialog no longer closes it either.
-- `Drawer.show(node, { handleClose })` calls your `handleClose` again. The provider used to
-  overwrite it, so it was silently dropped.
+- `Drawer.show(node, { onClose })` calls your `onClose` again. The provider used to overwrite
+  it, so it was silently dropped.
 - Clicking the backdrop closes a `<Drawer>` again when `allowClickOutside` is `false`. The
   backdrop click handler had been dropped, which left the default drawer closable only by Esc.
 - `Dialog.show()` / `Drawer.show()` log an error when no `<GeckoUIProvider>` is mounted, instead

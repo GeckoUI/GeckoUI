@@ -692,11 +692,11 @@ export default function Home() {
                     <Button variant="filled" onClick={() => setDialogOpen(true)}>
                       Open Declarative Dialog
                     </Button>
-                    <Dialog open={dialogOpen} handleClose={() => setDialogOpen(false)}>
+                    <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
                       <div className="space-y-4">
                         <h3 className="text-xl font-bold">Declarative Dialog</h3>
                         <p>
-                          The parent owns the open state. Esc and a backdrop click call handleClose.
+                          The parent owns the open state. Esc and a backdrop click call onClose.
                         </p>
                         <div className="flex gap-3 justify-end">
                           <Button variant="filled" onClick={() => setDialogOpen(false)}>
@@ -918,7 +918,7 @@ export default function Home() {
 
                     <Drawer
                       open={drawerOpen}
-                      handleClose={() => setDrawerOpen(false)}
+                      onClose={() => setDrawerOpen(false)}
                       placement={drawerPlacement}>
                       <div className="p-6 space-y-4">
                         <h3 className="text-xl font-bold">Drawer Content</h3>
@@ -934,8 +934,8 @@ export default function Home() {
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold ">Imperative Drawer</h3>
                   <p className="text-sm text-gray-600">
-                    Drawer.show() returns an id. handleClose still runs when the drawer is dismissed
-                    by id.
+                    Drawer.show() returns an id. onClose still runs when the drawer is dismissed by
+                    id.
                   </p>
                   <div className="flex flex-wrap gap-3">
                     <Button
@@ -951,7 +951,7 @@ export default function Home() {
                           </div>,
                           {
                             placement: "left",
-                            handleClose: () => toast.info("handleClose ran")
+                            onClose: () => toast.info("onClose ran")
                           }
                         );
                       }}>

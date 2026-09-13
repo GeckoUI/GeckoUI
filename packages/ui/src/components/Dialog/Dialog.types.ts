@@ -66,7 +66,7 @@ export interface DialogProps {
   /**
    * Callback fired when the dialog asks to be closed (Esc key or backdrop click).
    * */
-  handleClose?: () => void;
+  onClose?: () => void;
 
   /**
    * Content to be displayed inside the dialog.

@@ -17,7 +17,7 @@ export interface DrawerProps {
   /**
    * Allow clicking outside of drawer to close
    * If true, you can click through backdrop to close the drawer
-   * If you pass `handleClose` prop, you can use it to close the drawer
+   * If you pass `onClose` prop, you can use it to close the drawer
    * Use it with caution, it may cause bad UX in some cases
    * Eg. let's say you have an `a` tag that points to another page,
    * if you click on that element, it will close the drawer and navigate to the new page
@@ -28,14 +28,15 @@ export interface DrawerProps {
   allowClickOutside?: boolean;
 
   /**
-   * Callback fired when click on outside of drawer
+   * Callback fired when the drawer asks to be closed (Esc key, backdrop click, or a
+   * click outside when `allowClickOutside` is set).
    * */
-  handleClose?: () => void;
+  onClose?: () => void;
 
   /**
    * Backdrop show/hide If true,
    * This is just a visual effect just setting opacity to 0
-   * So, you can still click the backdrop to close the drawer if you pass `handleClose` prop to close the drawer
+   * So, you can still click the backdrop to close the drawer if you pass `onClose` prop to close the drawer
    * */
   hideBackdrop?: boolean;
 

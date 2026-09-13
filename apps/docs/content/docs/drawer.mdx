@@ -38,7 +38,7 @@ function Example() {
       <Button onClick={() => setOpen(true)}>Open Drawer</Button>
       <Drawer
         open={open}
-        handleClose={() => setOpen(false)}
+        onClose={() => setOpen(false)}
         placement="right"
         allowClickOutside
         className="w-80 p-6"
@@ -57,7 +57,7 @@ function Example() {
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
 | `open` | `boolean` | `false` | Control drawer visibility |
-| `handleClose` | `() => void` | — | Callback when drawer should close |
+| `onClose` | `() => void` | — | Callback when drawer should close |
 | `placement` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'right'` | Edge from which drawer slides |
 | `allowClickOutside` | `boolean` | `false` | Make the backdrop click-through, so clicking anywhere outside the drawer closes it |
 | `dismissOnEscape` | `boolean` | `true` | Close drawer on Escape key press |
@@ -69,8 +69,8 @@ function Example() {
 
 ### Backdrop click
 
-- `allowClickOutside: false` (default) — the backdrop blocks clicks, and clicking it calls `handleClose`.
-- `allowClickOutside: true` — the backdrop becomes click-through, so clicking anywhere outside the panel calls `handleClose` and the click also reaches the page underneath.
+- `allowClickOutside: false` (default) — the backdrop blocks clicks, and clicking it calls `onClose`.
+- `allowClickOutside: true` — the backdrop becomes click-through, so clicking anywhere outside the panel calls `onClose` and the click also reaches the page underneath.
 
 ## Examples
 
@@ -83,7 +83,7 @@ function Example() {
 ```tsx
 const [menuOpen, setMenuOpen] = useState(false);
 
-<Drawer open={menuOpen} handleClose={() => setMenuOpen(false)} placement="left" allowClickOutside className="w-80">
+<Drawer open={menuOpen} onClose={() => setMenuOpen(false)} placement="left" allowClickOutside className="w-80">
   <nav className="p-6">
     <h2 className="text-lg font-semibold mb-4">Navigation</h2>
     <ul className="space-y-2">
@@ -101,7 +101,7 @@ const [menuOpen, setMenuOpen] = useState(false);
 </Preview>
 
 ```tsx
-<Drawer open={filtersOpen} handleClose={() => setFiltersOpen(false)} placement="right" allowClickOutside backdropClassName="bg-black/60" className="w-96 p-6">
+<Drawer open={filtersOpen} onClose={() => setFiltersOpen(false)} placement="right" allowClickOutside backdropClassName="bg-black/60" className="w-96 p-6">
   <h2 className="text-xl font-semibold mb-4">Filters</h2>
   {/* filter controls */}
 </Drawer>
@@ -114,7 +114,7 @@ const [menuOpen, setMenuOpen] = useState(false);
 </Preview>
 
 ```tsx
-<Drawer open={isOpen} handleClose={() => setOpen(false)} placement="bottom" allowClickOutside backdropClassName="bg-black/40" className="h-64 rounded-t-2xl">
+<Drawer open={isOpen} onClose={() => setOpen(false)} placement="bottom" allowClickOutside backdropClassName="bg-black/40" className="h-64 rounded-t-2xl">
   <div className="p-6">
     <h3 className="text-lg font-semibold mb-4">Quick Actions</h3>
   </div>
@@ -128,7 +128,7 @@ const [menuOpen, setMenuOpen] = useState(false);
 </Preview>
 
 ```tsx
-<Drawer open={settingsVisible} handleClose={() => setSettingsVisible(false)} placement="right" hideBackdrop allowClickOutside={false} className="w-[600px] border-l">
+<Drawer open={settingsVisible} onClose={() => setSettingsVisible(false)} placement="right" hideBackdrop allowClickOutside={false} className="w-[600px] border-l">
   <div className="p-6">Settings panel</div>
 </Drawer>
 ```
@@ -137,7 +137,7 @@ const [menuOpen, setMenuOpen] = useState(false);
 
 `Drawer.show()` pushes a new drawer onto the overlay stack and returns an `id`. Call `Drawer.dismiss(id)` to close a specific drawer, or `Drawer.dismiss()` for the topmost drawer. It never closes a dialog — use `Dialog.dismiss()` for those.
 
-A `handleClose` passed in the options is still called when the drawer is dismissed, so you can use it for cleanup or tracking.
+A `onClose` passed in the options is still called when the drawer is dismissed, so you can use it for cleanup or tracking.
 
 ```tsx
 const id = Drawer.show(

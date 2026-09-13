@@ -104,7 +104,7 @@ export function ControlledDialogExample() {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open Dialog</Button>
-      <Dialog open={open} handleClose={() => setOpen(false)}>
+      <Dialog open={open} onClose={() => setOpen(false)}>
         <h2 className="text-xl font-semibold mb-4">Controlled Dialog</h2>
         <p className="text-gray-600 mb-6">
           The parent component owns the open state, the same way it does for Drawer.

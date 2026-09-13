@@ -74,11 +74,11 @@ function DrawerEntryRenderer({
 }: DrawerEntry & EntryRendererProps) {
   const { open, close, handleExited } = useOverlayEntry(id);
 
-  const handleCloseRef = useRef(options.handleClose);
-  handleCloseRef.current = options.handleClose;
+  const onCloseRef = useRef(options.onClose);
+  onCloseRef.current = options.onClose;
 
   const handleClose = useCallback(() => {
-    handleCloseRef.current?.();
+    onCloseRef.current?.();
     close();
   }, [close]);
 
@@ -96,7 +96,7 @@ function DrawerEntryRenderer({
       {...options}
       open={open}
       style={{ ...options.style, zIndex }}
-      handleClose={handleClose}
+      onClose={handleClose}
       dismissOnEscape={options.dismissOnEscape !== false && isTop}
       allowClickOutside={!!(options.allowClickOutside && isTop)}>
       {node}

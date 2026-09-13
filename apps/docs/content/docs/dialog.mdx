@@ -12,7 +12,7 @@ A modal component that renders content in a centered overlay. It serves as the f
 
 There are two ways to use it:
 
-- **Declarative** — `<Dialog open handleClose={...}>`, when the dialog belongs to a component's state. Same shape as `Drawer`.
+- **Declarative** — `<Dialog open onClose={...}>`, when the dialog belongs to a component's state. Same shape as `Drawer`.
 - **Imperative** — `Dialog.show()`, for one-off dialogs triggered from anywhere. Multiple dialogs stack, and each `show()` returns an id for targeted dismissal.
 
 Dialogs always render above drawers.
@@ -40,7 +40,7 @@ function Example() {
   return (
     <>
       <Button onClick={() => setOpen(true)}>Open Dialog</Button>
-      <Dialog open={open} handleClose={() => setOpen(false)}>
+      <Dialog open={open} onClose={() => setOpen(false)}>
         <h2 className="text-xl font-semibold mb-4">Controlled Dialog</h2>
         <Button onClick={() => setOpen(false)}>Close</Button>
       </Dialog>
@@ -54,7 +54,7 @@ function Example() {
 | Prop | Type | Default | Description |
 |--------|------|---------|-------------|
 | `open` | `boolean` | `false` | Whether the dialog is visible |
-| `handleClose` | `() => void` | — | Called when the dialog asks to close (Esc or backdrop click) |
+| `onClose` | `() => void` | — | Called when the dialog asks to close (Esc or backdrop click) |
 | `children` | `ReactNode` | — | Dialog content |
 | `className` | `string` | — | CSS class for the dialog container |
 | `dismissOnEsc` | `boolean` | `true` | Dismiss dialog on Escape key press |

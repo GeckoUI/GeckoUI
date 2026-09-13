@@ -21,7 +21,7 @@ import type { DrawerProps } from "./Drawer.types";
  * const [open, setOpen] = useState(false);
  *
  * <Button onClick={() => setOpen(true)}>Open</Button>
- * <Drawer open={open} handleClose={() => setOpen(false)} placement="right" allowClickOutside>
+ * <Drawer open={open} onClose={() => setOpen(false)} placement="right" allowClickOutside>
  *   <div className="p-6">Content here</div>
  * </Drawer>
  * ```
@@ -34,7 +34,7 @@ import type { DrawerProps } from "./Drawer.types";
  *
  * <Drawer
  *   open={menuOpen}
- *   handleClose={() => setMenuOpen(false)}
+ *   onClose={() => setMenuOpen(false)}
  *   placement="left"
  *   allowClickOutside
  *   dismissOnEscape
@@ -49,7 +49,7 @@ import type { DrawerProps } from "./Drawer.types";
 function Drawer({
   open = false,
   allowClickOutside,
-  handleClose,
+  onClose,
   hideBackdrop = false,
   placement = "right",
   backdropClassName,
@@ -60,11 +60,11 @@ function Drawer({
 }: DrawerProps) {
   const drawerRef = useRef<HTMLDivElement>(null);
 
-  const handleCloseRef = useRef(handleClose);
-  handleCloseRef.current = handleClose;
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   const handleDismiss = useCallback(() => {
-    handleCloseRef.current?.();
+    onCloseRef.current?.();
   }, []);
 
   const dismissOnClickOutside = useCallback(() => {
@@ -104,7 +104,7 @@ function Drawer({
  * Call `Drawer.dismiss(id)` to close a specific drawer, or `Drawer.dismiss()` for the topmost
  * drawer. It never closes a dialog — use `Dialog.dismiss()` for those.
  *
- * `handleClose` passed in options is still called when the drawer is dismissed.
+ * `onClose` passed in options is still called when the drawer is dismissed.
  *
  * Requires `<GeckoUIProvider>` to wrap your app.
  *

@@ -6,7 +6,7 @@ import { DialogSurface } from "./DialogSurface";
 /**
  * Dialog renders content in a centered modal overlay.
  *
- * Use it declaratively with `open` / `handleClose` when the dialog belongs to a component's
+ * Use it declaratively with `open` / `onClose` when the dialog belongs to a component's
  * state, or imperatively with `Dialog.show()` when it is a one-off triggered from anywhere.
  * The imperative form requires `<GeckoUIProvider>` to wrap your app.
  *
@@ -20,7 +20,7 @@ import { DialogSurface } from "./DialogSurface";
  * const [open, setOpen] = useState(false);
  *
  * <Button onClick={() => setOpen(true)}>Open</Button>
- * <Dialog open={open} handleClose={() => setOpen(false)}>
+ * <Dialog open={open} onClose={() => setOpen(false)}>
  *   <h3>Hello</h3>
  *   <Button onClick={() => setOpen(false)}>Close</Button>
  * </Dialog>
@@ -28,7 +28,7 @@ import { DialogSurface } from "./DialogSurface";
  */
 function Dialog({
   open = false,
-  handleClose,
+  onClose,
   className,
   dismissOnEsc = true,
   dismissOnOutsideClick = true,
@@ -41,7 +41,7 @@ function Dialog({
       className={className}
       dismissOnEsc={dismissOnEsc}
       dismissOnOutsideClick={dismissOnOutsideClick}
-      onDismiss={handleClose}
+      onDismiss={onClose}
       dataAttributes={getDataAttributes(rest)}>
       {children}
     </DialogSurface>
